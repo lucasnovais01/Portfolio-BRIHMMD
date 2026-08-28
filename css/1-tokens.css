@@ -1,0 +1,59 @@
+/* Design tokens: única fonte da verdade para cores, gradientes, tipografia e espaçamento */
+:root {
+  /* Tipografia */
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  --fs-title: clamp(2.25rem, 4vw + 1rem, 4rem);
+  --fs-display: clamp(1.85rem, 3.6vw + 0.6rem, 3.25rem);
+  --fs-subtitle: clamp(1.15rem, 1vw + 1rem, 1.5rem);
+  --fs-heading: clamp(1.6rem, 1.5vw + 1rem, 2.25rem);
+  --fs-paragraph: 1.05rem;
+  --fs-small: 0.875rem;
+  --fs-sidebar-name: 1.1rem;
+
+  --lh-tight: 1.15;
+  --lh-body: 1.7;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  /* Cores */
+  --color-bg: #0a0e17;
+  --color-bg-elevated: #10151f;
+  --color-surface: rgba(255, 255, 255, 0.04);
+  --color-surface-hover: rgba(255, 255, 255, 0.07);
+  --color-border: rgba(255, 255, 255, 0.09);
+  --color-text: #e9edf5;
+  --color-text-muted: #9aa4bb;
+
+  --color-primary: #7c5cff;
+  --color-secondary: #22d3ee;
+  --color-accent: #ff5fa2;
+
+  --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--color-accent) 0%, var(--color-primary) 100%);
+  --gradient-text: linear-gradient(135deg, #ffffff 0%, #b9c2ff 100%);
+  --gradient-bg-glow: radial-gradient(circle at 20% 20%, rgba(124, 92, 255, 0.25), transparent 45%),
+    radial-gradient(circle at 80% 0%, rgba(34, 211, 238, 0.18), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(255, 95, 162, 0.14), transparent 45%);
+
+  /* Espaçamento e forma */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.75rem;
+  --space-lg: 3rem;
+  --space-xl: 6rem;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+
+  --shadow-card: 0 20px 40px -20px rgba(0, 0, 0, 0.6);
+  --transition-base: 0.25s ease;
+
+  --container-width: 1180px;
+  --sidebar-width: 360px;
+  --header-height: 72px;
+}

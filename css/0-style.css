@@ -1,0 +1,7 @@
+/* Ponto de entrada: apenas agrega os módulos numerados abaixo para o index.html */
+@import "./1-tokens.css";
+@import "./2-reset.css";
+@import "./3-layout.css";
+@import "./4-components.css";
+@import "./5-animations.css";
+@import "./6-responsive.css";

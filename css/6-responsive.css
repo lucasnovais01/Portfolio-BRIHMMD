@@ -1,0 +1,44 @@
+/* Ajustes para telas menores */
+@media (max-width: 860px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    max-height: none;
+    overflow-y: visible;
+    align-items: center;
+    text-align: center;
+  }
+
+  .sidebar-badges,
+  .sidebar-actions {
+    justify-content: center;
+  }
+
+  .site-footer .container {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav-links {
+    display: none;
+  }
+
+  .project-card {
+    padding: var(--space-md);
+  }
+
+  .article-card {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .intro-name,
+  .sidebar-name {
+    white-space: normal;
+  }
+}
