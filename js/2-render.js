@@ -9,7 +9,7 @@ const BRAND_ICON_PATHS = {
 function brandIcon(name) {
   const d = BRAND_ICON_PATHS[name];
   if (!d) return "";
-  return `<svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}" /></svg>`;
+  return `<svg class="contact-icon contact-icon--${name}" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}" /></svg>`;
 }
 
 function sectionHead(el, { eyebrow, heading }) {
@@ -162,7 +162,9 @@ function renderSkills({ skills }) {
       <div class="card">
         <h3>${category.name}</h3>
         <div class="grid--tags">
-          ${category.items.map((item) => `<span class="tag">${item}</span>`).join("")}
+          ${category.items
+            .map((item) => `<a class="tag" href="${item.href}" target="_blank" rel="noopener">${item.label}</a>`)
+            .join("")}
         </div>
       </div>`
     )
@@ -187,13 +189,16 @@ function renderContact({ contact }) {
   if (!body) return;
 
   body.innerHTML = contact.items
-    .map(
-      (item) => `
+    .map((item) => {
+      const value = item.href
+        ? `<a href="${item.href}" target="_blank" rel="noopener">${item.value}</a>`
+        : `<strong>${item.value}</strong>`;
+      return `
       <div class="contact-item">
         <span class="contact-item__label">${brandIcon(item.icon)}${item.label}</span>
-        <a href="${item.href}" target="_blank" rel="noopener">${item.value}</a>
-      </div>`
-    )
+        ${value}
+      </div>`;
+    })
     .join("");
 }
 
@@ -214,8 +219,8 @@ export function renderAll(data) {
   renderIntro(data);
   renderSidebar(data);
   renderTextSection("about", data);
-  renderProject(data);
   renderArticle(data);
+  renderProject(data);
   renderSkills(data);
   renderInterests(data);
   renderContact(data);

@@ -58,18 +58,18 @@ export const PORTFOLIO_DATA = {
     heading: "Projeto em destaque",
     name: "CrowdAcadêmico",
     summary:
-      "Plataforma de crowdfunding voltada especificamente para pesquisa científica brasileira. Conecta pesquisadores que precisam de financiamento a apoiadores dispostos a contribuir, com um sistema de reputação que dá credibilidade aos pesquisadores com base no histórico de campanhas, atualizações e engajamento acadêmico.",
+      "Plataforma de crowdfunding voltada especificamente para pesquisa científica brasileira. Conecta pesquisadores que precisam de financiamento a apoiadores dispostos a contribuir, com um sistema de reputação que dá credibilidade aos pesquisadores com base no histórico na plataforma, atualizações e engajamento acadêmico.",
     stack: ["PostgreSQL", "NestJS", "React", "Vite", "PL/pgSQL"],
     highlights: [
       {
-        title: "39 tabelas normalizadas",
+        title: "42 tabelas normalizadas",
         description:
           "Banco de dados desenhado à mão, cobrindo o núcleo do sistema (usuários, campanhas, contribuições) e subsistemas completos de RBAC, moderação de conteúdo e recompensas.",
       },
       {
         title: "Motor de reputação",
         description:
-          "Score do pesquisador calculado a partir de 4 dimensões: perfil acadêmico, histórico de campanhas, engajamento em atualizações e reputação.",
+          "Score do pesquisador calculado a partir de 4 dimensões: perfil acadêmico, histórico na plataforma, engajamento em atualizações e reputação da comunidade (baseada no histórico de denúncias).",
       },
       {
         title: "Autenticação própria",
@@ -86,15 +86,20 @@ export const PORTFOLIO_DATA = {
         description:
           "Triggers e funções em PL/pgSQL garantem integridade que uma constraint simples não cobre: limite de campanhas simultâneas por pesquisador, congelamento de regras financeiras após aprovação e recálculo de score em tempo real.",
       },
+      {
+        title: "Equipe",
+        description:
+          "Trabalho de Conclusão de Curso desenvolvido em dupla com a aluna Alexia Eduarda Celice Ferreira (Matrícula: BI3032272), sob orientação do Prof. Dr. Rogério Pinto Alexandre.",
+      },
     ],
   },
 
   article: {
     eyebrow: "Trabalhos Desenvolvidos",
     heading: "Artigo científico",
-    title: "Sistema de tutoria com inteligência artificial",
-    description: "Artigo científico sobre o uso de inteligência artificial em sistemas de tutoria educacional.",
-    href: null,
+    title: "Sistema de Tutoria Inteligente (STI) e Agentes Conversacionais na Educação",
+    description: "Artigo científico sobre o uso de inteligência artificial na Educação para personalizar o aprendizado e dar feedback em tempo real aos alunos.",
+    href: "https://drive.google.com/file/d/1ukJRUhwa6_i1PajEJlR639xAFosxTYuq/view?usp=sharing",
     pendingLabel: "Link em breve",
   },
 
@@ -102,10 +107,43 @@ export const PORTFOLIO_DATA = {
     eyebrow: "Caixa de ferramentas",
     heading: "Skills",
     categories: [
-      { name: "Backend", items: ["Node.js", "NestJS", "Autenticação & Segurança", "PL/pgSQL"] },
-      { name: "Frontend", items: ["React", "Vite", "JavaScript", "HTML5 & CSS3"] },
-      { name: "Banco de dados", items: ["PostgreSQL", "Modelagem de dados", "Row Level Security"] },
-      { name: "Ferramentas", items: ["Git & GitHub", "VS Code"] },
+      {
+        name: "Backend",
+        items: [
+          { label: "Node.js", href: "https://developer.mozilla.org/pt-BR/docs/Glossary/Node.js" },
+          { label: "NestJS", href: "https://docs.nestjs.com/" },
+          { label: "Autenticação & Segurança", href: "https://developer.mozilla.org/pt-BR/docs/Web/Security" },
+          { label: "PL/pgSQL", href: "https://www.postgresql.org/docs/current/plpgsql.html" },
+        ],
+      },
+      {
+        name: "Frontend",
+        items: [
+          { label: "React", href: "https://developer.mozilla.org/pt-BR/docs/Learn_web_development/Core/Frameworks_libraries/React_getting_started" },
+          { label: "Vite", href: "https://vite.dev/" },
+          { label: "JavaScript", href: "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript" },
+          { label: "HTML5", href: "https://developer.mozilla.org/pt-BR/docs/Web/HTML" },
+          { label: "CSS3", href: "https://developer.mozilla.org/pt-BR/docs/Web/CSS" },
+        ],
+      },
+      {
+        name: "Banco de dados",
+        items: [
+          { label: "PostgreSQL", href: "https://www.postgresql.org/docs/" },
+          { label: "MySQL", href: "https://dev.mysql.com/doc/" },
+          { label: "Oracle", href: "https://docs.oracle.com/en/database/oracle/oracle-database/" },
+          { label: "Modelagem de dados", href: "https://pt.wikipedia.org/wiki/Modelagem_de_dados" },
+          { label: "Row Level Security", href: "https://www.postgresql.org/docs/current/ddl-rowsecurity.html" },
+        ],
+      },
+      {
+        name: "Ferramentas",
+        items: [
+          { label: "Git", href: "https://git-scm.com/book/pt-br/v2" },
+          { label: "GitHub", href: "https://docs.github.com/pt" },
+          { label: "VS Code", href: "https://code.visualstudio.com/docs" },
+        ],
+      },
     ],
   },
 
@@ -113,10 +151,10 @@ export const PORTFOLIO_DATA = {
     eyebrow: "Fora do código",
     heading: "Interesses",
     items: [
-      { icon: "🎮", label: "Jogos" },
       { icon: "📚", label: "Livros" },
       { icon: "🎬", label: "Filmes" },
-      { icon: "🎌", label: "Animes & Mangás" },
+      { icon: "🎵", label: "Música" },
+      { icon: "♟️", label: "Xadrez" },
     ],
   },
 
@@ -124,8 +162,8 @@ export const PORTFOLIO_DATA = {
     eyebrow: "Vamos conversar",
     heading: "Contato",
     items: [
-      { label: "E-mail", value: "novais.oliveira@aluno.ifsp.edu.br", href: "mailto:novais.oliveira@aluno.ifsp.edu.br" },
-      { label: "Telefone", value: "(18) 99153-4544", href: "tel:+5518991534544", icon: "whatsapp" },
+      { label: "E-mail", value: "novais.oliveira@aluno.ifsp.edu.br" },
+      { label: "Telefone", value: "(18) 99153-4544", icon: "whatsapp" },
       { label: "GitHub", value: "github.com/lucasnovais01", href: "https://github.com/lucasnovais01", icon: "github" },
     ],
   },
