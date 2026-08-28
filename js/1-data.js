@@ -175,5 +175,38 @@ export const PORTFOLIO_DATA = {
       href: "https://bri.ifsp.edu.br/",
       logo: { src: "./assets/img/ifsp-logo.svg", alt: "Logo do IFSP" },
     },
+    cta: { label: "Como este site foi feito", href: "./tecnologias.html" },
+  },
+
+  makingOf: {
+    eyebrow: "Bastidores",
+    heading: "Como este site foi feito",
+    intro:
+      "Este portfólio é um site estático, sem frameworks pesados, pensado para carregar rápido e ser fácil de manter. Aqui está o que foi usado para construir e publicar ele.",
+    categories: [
+      {
+        name: "Front-end",
+        items: [
+          { label: "HTML5", description: "Estrutura semântica de uma página única." },
+          { label: "CSS3", description: "Grid e Flexbox para o layout, com variáveis (custom properties) fazendo o papel de constantes de cor, fonte e espaçamento." },
+          { label: "JavaScript (ES Modules)", description: "Sem framework: o conteúdo fica separado em módulos e é renderizado dinamicamente no navegador a partir de um único arquivo de dados." },
+        ],
+      },
+      {
+        name: "Design",
+        items: [
+          { label: "Google Fonts", description: "Space Grotesk nos títulos e Inter no texto corrido." },
+          { label: "SVG inline", description: "Ícones de marca (Simple Icons, licença CC0) embutidos direto no código, sem depender de imagens externas." },
+        ],
+      },
+      {
+        name: "Ferramentas e publicação",
+        items: [
+          { label: "Git & GitHub", description: "Versionamento e hospedagem do código-fonte." },
+          { label: "GitHub Pages", description: "Publicação do site, gratuita e direto do repositório." },
+          { label: "Assistência de IA", description: "Contei com ferramentas de IA generativa, como o Claude e outras integradas ao editor de código, para ajudar a escrever e organizar o código a partir do conteúdo e das decisões que eu defini." },
+        ],
+      },
+    ],
   },
 };

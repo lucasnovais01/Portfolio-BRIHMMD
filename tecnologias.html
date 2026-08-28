@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfólio Reflexivo</title>
-  <meta name="description" content="Portfólio reflexivo" />
+  <title>Como este site foi feito</title>
+  <meta name="description" content="Tecnologias usadas para construir este portfólio" />
 
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c5cff'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Ctext x='32' y='43' font-family='Arial' font-weight='700' font-size='28' fill='white' text-anchor='middle'%3ELN%3C/text%3E%3C/svg%3E" />
 
@@ -15,8 +15,6 @@
   <link rel="stylesheet" href="./css/0-style.css" />
 </head>
 <body>
-  <span id="inicio" aria-hidden="true"></span>
-
   <header class="site-header" id="site-header">
     <div class="container">
       <a href="#inicio" class="brand" id="nav-brand"></a>
@@ -31,45 +29,16 @@
     </div>
   </header>
 
-  <div class="page">
-    <aside class="sidebar" id="sidebar" data-reveal></aside>
+  <main class="container">
+    <section id="voltar">
+      <a class="btn btn--primary" href="./index.html">← Voltar ao portfólio</a>
+    </section>
 
-    <main class="content">
-      <div class="intro" id="intro" data-reveal></div>
-
-      <section id="sobre">
-        <div class="section-head" id="about-head" data-reveal></div>
-        <div class="prose" id="about-body" data-reveal></div>
-      </section>
-
-      <section id="artigo">
-        <div class="section-head" id="article-head" data-reveal></div>
-        <div class="card article-card" id="article-body" data-reveal></div>
-      </section>
-
-      <section id="projeto">
-        <div class="section-head" id="project-head" data-reveal></div>
-        <div class="project-card" id="project-body" data-reveal></div>
-      </section>
-
-      <section id="skills">
-        <div class="section-head" id="skills-head" data-reveal></div>
-        <div class="grid grid--cards" id="skills-body" data-reveal></div>
-      </section>
-
-      <section id="interesses">
-        <div class="section-head" id="interests-head" data-reveal></div>
-        <div class="grid--tags" id="interests-body" data-reveal></div>
-      </section>
-
-      <section id="contato">
-        <div class="section-head" id="contact-head" data-reveal></div>
-        <div class="contact-card" id="contact-body" data-reveal></div>
-      </section>
-    </main>
-  </div>
-
-  <nav class="dot-nav" id="dot-nav" aria-label="Navegação rápida entre seções"></nav>
+    <section id="tecnologias">
+      <div class="section-head" id="makingof-head" data-reveal></div>
+      <div class="grid grid--cards" id="makingof-body" data-reveal></div>
+    </section>
+  </main>
 
   <footer class="site-footer" id="site-footer">
     <div class="container">

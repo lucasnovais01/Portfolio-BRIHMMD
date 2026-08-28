@@ -61,6 +61,11 @@
   padding-block: var(--space-lg);
 }
 
+/* Navegação rápida entre seções: só aparece no mobile (ver 6-responsive.css) */
+.dot-nav {
+  display: none;
+}
+
 section {
   padding-block: var(--space-xl);
 }

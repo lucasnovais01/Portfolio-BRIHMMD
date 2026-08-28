@@ -12,6 +12,12 @@ function brandIcon(name) {
   return `<svg class="contact-icon contact-icon--${name}" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}" /></svg>`;
 }
 
+// A sidebar só existe na página inicial: usamos isso para saber se os links
+// de âncora (#sobre, #projeto...) precisam apontar de volta pra index.html
+function homePrefix() {
+  return document.getElementById("sidebar") ? "" : "./index.html";
+}
+
 function sectionHead(el, { eyebrow, heading }) {
   if (!el) return;
   el.innerHTML = `
@@ -20,19 +26,26 @@ function sectionHead(el, { eyebrow, heading }) {
   `;
 }
 
-function renderMeta({ meta }) {
-  document.title = meta.title;
-  document.querySelector('meta[name="description"]')?.setAttribute("content", meta.description);
+function renderMeta({ meta, makingOf }) {
+  const onMakingOfPage = document.getElementById("makingof-head") !== null;
+  document.title = onMakingOfPage ? `${makingOf.heading} - ${meta.title}` : meta.title;
+  document
+    .querySelector('meta[name="description"]')
+    ?.setAttribute("content", onMakingOfPage ? makingOf.intro : meta.description);
 }
 
 function renderNav({ nav }) {
+  const prefix = homePrefix();
+
   const brand = document.getElementById("nav-brand");
   if (brand) {
     brand.textContent = nav.brand.label;
-    brand.setAttribute("href", nav.brand.href);
+    brand.setAttribute("href", `${prefix}${nav.brand.href}`);
   }
 
-  const baseLinksHTML = nav.links.map((link) => `<li><a href="${link.href}">${link.label}</a></li>`).join("");
+  const baseLinksHTML = nav.links
+    .map((link) => `<li><a href="${prefix}${link.href}">${link.label}</a></li>`)
+    .join("");
 
   const dropdownLinksHTML = nav.projectsMenu.links
     .map((link) => `<li><a href="${link.href}" target="_blank" rel="noopener">${link.label}</a></li>`)
@@ -203,19 +216,60 @@ function renderContact({ contact }) {
 }
 
 function renderFooter({ footer }) {
-  const el = document.getElementById("footer-org");
+  const org = document.getElementById("footer-org");
+  if (org) {
+    org.setAttribute("href", footer.org.href);
+    org.innerHTML = `
+      <span class="footer-logo"><img src="${footer.org.logo.src}" alt="${footer.org.logo.alt}" /></span>
+      <span>${footer.org.name}</span>
+    `;
+  }
+
+  const cta = document.getElementById("footer-cta");
+  if (cta) {
+    cta.setAttribute("href", footer.cta.href);
+    cta.textContent = footer.cta.label;
+  }
+}
+
+function renderMakingOf({ makingOf }) {
+  const head = document.getElementById("makingof-head");
+  if (head) {
+    head.innerHTML = `
+      <span class="eyebrow">${makingOf.eyebrow}</span>
+      <h2>${makingOf.heading}</h2>
+      <p>${makingOf.intro}</p>
+    `;
+  }
+
+  const body = document.getElementById("makingof-body");
+  if (!body) return;
+
+  body.innerHTML = makingOf.categories
+    .map(
+      (category) => `
+      <div class="card">
+        <h3>${category.name}</h3>
+        ${category.items.map((item) => `<p><strong>${item.label}:</strong> ${item.description}</p>`).join("")}
+      </div>`
+    )
+    .join("");
+}
+
+function renderDotNav({ nav }) {
+  const el = document.getElementById("dot-nav");
   if (!el) return;
 
-  el.setAttribute("href", footer.org.href);
-  el.innerHTML = `
-    <span class="footer-logo"><img src="${footer.org.logo.src}" alt="${footer.org.logo.alt}" /></span>
-    <span>${footer.org.name}</span>
-  `;
+  const prefix = homePrefix();
+  el.innerHTML = nav.links
+    .map((link) => `<a href="${prefix}${link.href}" aria-label="${link.label}"></a>`)
+    .join("");
 }
 
 export function renderAll(data) {
   renderMeta(data);
   renderNav(data);
+  renderDotNav(data);
   renderIntro(data);
   renderSidebar(data);
   renderTextSection("about", data);
@@ -225,4 +279,5 @@ export function renderAll(data) {
   renderInterests(data);
   renderContact(data);
   renderFooter(data);
+  renderMakingOf(data);
 }
