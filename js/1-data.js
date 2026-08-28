@@ -208,5 +208,96 @@ export const PORTFOLIO_DATA = {
         ],
       },
     ],
+    tutorialEyebrow: "Na prática",
+    tutorialHeading: "Técnicas usadas (com código de verdade)",
+    tutorialIntro:
+      "É um site simples de olhar, mas por baixo usa algumas técnicas que valem a pena explicar caso você queira montar algo parecido. Os trechos abaixo são exatamente o código deste portfólio, só que resumidos.",
+    steps: [
+      {
+        title: "Tokens de design em vez de valores soltos",
+        description:
+          "Cor, fonte e espaçamento não ficam espalhados pelo CSS. Tudo é uma variável (custom property) declarada uma única vez no :root. Pra mudar a paleta do site inteiro, troco um valor aqui em vez de caçar cada cor usada.",
+        files: [
+          {
+            path: "css/1-tokens.css",
+            code: ":root {\n  --font-display: \"Space Grotesk\", system-ui, sans-serif;\n  --font-body: \"Inter\", system-ui, sans-serif;\n\n  --color-primary: #7c5cff;\n  --color-secondary: #22d3ee;\n  --color-bg: #0a0e17;\n\n  --space-sm: 1rem;\n  --space-md: 1.75rem;\n  --radius-md: 16px;\n}",
+          },
+        ],
+      },
+      {
+        title: "Layout de duas colunas só com CSS Grid",
+        description:
+          "A coluna lateral fixa e o conteúdo que rola por baixo saem de uma única regra de grid-template-columns, sem float nem position: absolute. O position: sticky faz a coluna acompanhar a rolagem da página.",
+        files: [
+          {
+            path: "css/3-layout.css",
+            code: ".page {\n  display: grid;\n  grid-template-columns: var(--sidebar-width) 1fr;\n  gap: var(--space-lg);\n  align-items: start;\n}\n\n.sidebar {\n  position: sticky;\n  top: calc(var(--header-height) + var(--space-sm));\n}",
+          },
+        ],
+      },
+      {
+        title: "Conteúdo separado do HTML",
+        description:
+          "Nenhum texto fica escrito direto no HTML. Cada seção existe como um objeto de dados; uma função lê esse objeto e monta o HTML na hora, no navegador. Pra editar qualquer texto do site, eu mexo só no arquivo de dados, nunca no HTML.",
+        files: [
+          {
+            path: "js/1-data.js",
+            code: "skills: {\n  categories: [\n    {\n      name: \"Frontend\",\n      items: [\n        { label: \"React\", href: \"https://react.dev/\" },\n      ],\n    },\n  ],\n},",
+          },
+          {
+            path: "js/2-render.js",
+            code: "function renderSkills({ skills }) {\n  const body = document.getElementById(\"skills-body\");\n  body.innerHTML = skills.categories\n    .map(\n      (category) => `\n      <div class=\"card\">\n        <h3>${category.name}</h3>\n        ${category.items\n          .map((item) => `<a class=\"tag\" href=\"${item.href}\">${item.label}</a>`)\n          .join(\"\")}\n      </div>`\n    )\n    .join(\"\");\n}",
+          },
+        ],
+      },
+      {
+        title: "Animações de entrada sem travar a rolagem",
+        description:
+          "Em vez de recalcular a posição de cada elemento a todo scroll (caro pro navegador), uso o IntersectionObserver: o próprio navegador avisa quando um elemento entra na tela, e só aí eu adiciono a classe que dispara a animação.",
+        files: [
+          {
+            path: "js/3-animations.js",
+            code: "export function initAnimations() {\n  const revealTargets = document.querySelectorAll(\"[data-reveal]\");\n\n  const observer = new IntersectionObserver((entries) => {\n    entries.forEach((entry) => {\n      if (entry.isIntersecting) {\n        entry.target.classList.add(\"is-visible\");\n        observer.unobserve(entry.target);\n      }\n    });\n  }, { threshold: 0.15 });\n\n  revealTargets.forEach((target) => observer.observe(target));\n}",
+          },
+        ],
+      },
+      {
+        title: "Menu mobile acessível",
+        description:
+          "O botão hambúrguer não é só visual: ele atualiza aria-expanded pra leitores de tela e o menu fecha sozinho ao clicar fora dele, num link, ou apertando Esc.",
+        files: [
+          {
+            path: "js/4-nav.js",
+            code: "toggle.addEventListener(\"click\", (event) => {\n  event.stopPropagation();\n  const isOpen = header.classList.toggle(\"nav-open\");\n  toggle.setAttribute(\"aria-expanded\", String(isOpen));\n});\n\ndocument.addEventListener(\"click\", (event) => {\n  if (!header.contains(event.target)) close();\n});\n\ndocument.addEventListener(\"keydown\", (event) => {\n  if (event.key === \"Escape\") close();\n});",
+          },
+        ],
+      },
+      {
+        title: "Letra capitular só com CSS",
+        description:
+          "O \"P\" grande no início da página não é imagem nem fonte especial: é o pseudo-elemento ::first-letter, que estiliza só o primeiro caractere de um texto.",
+        files: [
+          {
+            path: "css/4-components.css",
+            code: ".intro-title::first-letter {\n  font-size: 2.4em;\n  font-weight: var(--fw-bold);\n  background: var(--gradient-primary);\n  -webkit-background-clip: text;\n  background-clip: text;\n  color: transparent;\n}",
+          },
+        ],
+      },
+      {
+        title: "Arquivos numerados, um ponto de entrada só",
+        description:
+          "Cada pasta (css/ e js/) tem um arquivo 0 cuja única função é importar os outros, numerados na ordem que fizer sentido carregar. O HTML referencia só esse arquivo 0 de cada pasta, e a ordem de carregamento fica explícita no nome de cada um.",
+        files: [
+          {
+            path: "css/0-style.css",
+            code: "@import \"./1-tokens.css\";\n@import \"./2-reset.css\";\n@import \"./3-layout.css\";\n@import \"./4-components.css\";\n@import \"./5-animations.css\";\n@import \"./6-responsive.css\";",
+          },
+          {
+            path: "js/0-script.js",
+            code: "import { PORTFOLIO_DATA } from \"./1-data.js\";\nimport { renderAll } from \"./2-render.js\";\nimport { initAnimations } from \"./3-animations.js\";\nimport { initNav } from \"./4-nav.js\";\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  renderAll(PORTFOLIO_DATA);\n  initAnimations();\n  initNav();\n});",
+          },
+        ],
+      },
+    ],
   },
 };

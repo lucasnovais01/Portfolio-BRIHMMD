@@ -12,6 +12,11 @@ function brandIcon(name) {
   return `<svg class="contact-icon contact-icon--${name}" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}" /></svg>`;
 }
 
+// Escapa código antes de jogar dentro de <pre><code>, senão tags e templates do próprio JS quebram o HTML
+function escapeHtml(str) {
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
 // A sidebar só existe na página inicial: usamos isso para saber se os links
 // de âncora (#sobre, #projeto...) precisam apontar de volta pra index.html
 function homePrefix() {
@@ -252,6 +257,37 @@ function renderMakingOf({ makingOf }) {
         <h3>${category.name}</h3>
         ${category.items.map((item) => `<p><strong>${item.label}:</strong> ${item.description}</p>`).join("")}
       </div>`
+    )
+    .join("");
+
+  const tutorialHead = document.getElementById("tutorial-head");
+  if (tutorialHead) {
+    tutorialHead.innerHTML = `
+      <span class="eyebrow">${makingOf.tutorialEyebrow}</span>
+      <h2>${makingOf.tutorialHeading}</h2>
+      <p>${makingOf.tutorialIntro}</p>
+    `;
+  }
+
+  const tutorialBody = document.getElementById("tutorial-body");
+  if (!tutorialBody) return;
+
+  tutorialBody.innerHTML = makingOf.steps
+    .map(
+      (step) => `
+      <article class="tutorial-step" data-reveal>
+        <h3>${step.title}</h3>
+        <p>${step.description}</p>
+        ${step.files
+          .map(
+            (file) => `
+          <div class="code-block">
+            <span class="code-block__file">${file.path}</span>
+            <pre><code>${escapeHtml(file.code)}</code></pre>
+          </div>`
+          )
+          .join("")}
+      </article>`
     )
     .join("");
 }
