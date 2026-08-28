@@ -225,6 +225,12 @@
   color: transparent;
 }
 
+/* Blocos de texto corrido: recuo na primeira linha de cada parágrafo, como no Word */
+.prose p {
+  text-indent: 2em;
+}
+
+
 /* Badges / tags */
 .badge {
   display: inline-flex;

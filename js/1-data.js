@@ -35,7 +35,7 @@ export const PORTFOLIO_DATA = {
     badges: [
       "34 anos",
       "Funcionário público",
-      "Cursando Tecnologia em Sistemas para Internet no Instituto Federal de São Paulo - Campus Birigui\nMatrícula: BI303268X",
+      "Cursando Tecnologia em Sistemas para Internet no Instituto Federal de São Paulo\nIFSP - Campus Birigui\nMatrícula: BI303268X",
     ],
     actions: [
       { label: "Ver projeto de TCC", href: "#projeto", variant: "primary" },
@@ -47,9 +47,9 @@ export const PORTFOLIO_DATA = {
     eyebrow: "Quem sou eu",
     heading: "Sobre mim",
     paragraphs: [
-      "Tenho 34 anos e sou aluno do curso de Tecnologia em Sistemas para Internet no IFSP Campus Birigui. Sou funcionário público e já possuo outra formação técnica em Administração pela Etec Centro  Paula Souza. Voltei a estudar por escolha pessoal, para aprofundar conhecimentos técnicos em uma área que genuinamente me interessa: programação.",
+      "Tenho 34 anos e sou aluno do curso de Tecnologia em Sistemas para Internet no IFSP Campus Birigui. Sou funcionário público e já possuo outra formação técnica em Administração pela Etec Centro  Paula Souza. Voltei a estudar por escolha pessoal, para aprofundar conhecimentos técnicos em uma área que genuinamente me interessa: A programação.",
       "Essa maturidade profissional e pessoal influencia diretamente a forma como vivencio o curso. Trago uma régua de comparação construída a partir de outras experiências formativas e profissionais, o que me permite observar com mais clareza tanto os pontos fortes quanto as fragilidades do processo educacional, não com a intenção de julgar, mas de refletir criticamente, como este próprio instrumento de portfólio propõe.",
-      "Sou programador full-stack. Fora do código, gosto de jogos, livros, filmes e cultura pop.",
+      "Estou me formando como programador full-stack. Fora do código, encontro equilíbrio em jogos, livros, filmes e na cultura pop em geral. São interesses que me acompanham há anos e que, de certa forma, também influenciam a forma como penso e resolvo problemas.",
     ],
   },
 
@@ -74,7 +74,7 @@ export const PORTFOLIO_DATA = {
       {
         title: "Autenticação própria",
         description:
-          "O projeto começou com Supabase Auth, mas migrei para uma autenticação construída do zero no NestJS. Decisão deliberada para reduzir dependência de terceiros e manter portabilidade do banco.",
+          "O projeto começou com Supabase Auth, mas migramos para uma autenticação construída do zero no NestJS. Decisão deliberada para reduzir dependência de terceiros e manter portabilidade do banco.",
       },
       {
         title: "Defesa em profundidade",
@@ -153,8 +153,9 @@ export const PORTFOLIO_DATA = {
     items: [
       { icon: "📚", label: "Livros" },
       { icon: "🎬", label: "Filmes" },
+      { icon: "🎮", label: "Jogos" },
       { icon: "🎵", label: "Música" },
-      { icon: "♟️", label: "Xadrez" },
+      { icon: "✨", label: "Cultura Pop" },
     ],
   },
 
