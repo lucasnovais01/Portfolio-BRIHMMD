@@ -116,7 +116,20 @@ function renderTextSection(sectionKey, data) {
   const head = document.getElementById(`${sectionKey}-head`);
   const body = document.getElementById(`${sectionKey}-body`);
 
-  sectionHead(head, section);
+  // Seção recolhível: o título vira um botão que abre/fecha o texto (o painel fica no index.html)
+  if (head && section.collapsible) {
+    head.innerHTML = `
+      <span class="eyebrow">${section.eyebrow}</span>
+      <h2>
+        <button class="section-toggle" type="button" aria-expanded="false" aria-controls="${sectionKey}-panel">
+          ${section.heading}
+        </button>
+      </h2>
+    `;
+  } else {
+    sectionHead(head, section);
+  }
+
   if (body) {
     body.innerHTML = section.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("");
   }
@@ -297,8 +310,104 @@ function renderDotNav({ nav }) {
   if (!el) return;
 
   const prefix = homePrefix();
-  el.innerHTML = nav.links
-    .map((link) => `<a href="${prefix}${link.href}" aria-label="${link.label}"></a>`)
+  el.innerHTML = nav.quickLinks
+    .map(
+      (link) =>
+        `<a href="${prefix}${link.href}" aria-label="${link.label}"><span class="dot-nav__label">${link.label}</span></a>`
+    )
+    .join("");
+}
+
+// Extrai o ID e o tempo inicial (&t=1s) de links watch?v=..., youtu.be/... ou /embed/...
+function parseYouTube(url) {
+  const parsed = new URL(url);
+  const id = parsed.hostname.includes("youtu.be")
+    ? parsed.pathname.slice(1)
+    : parsed.searchParams.get("v") ?? parsed.pathname.split("/").pop();
+  const start = parseInt(parsed.searchParams.get("t") ?? parsed.searchParams.get("start") ?? "0", 10) || 0;
+  return { id, start };
+}
+
+// Capa com a thumbnail do próprio YouTube + botão de play. O player (iframe) só é criado
+// no clique (ver js/5-media.js): a página não carrega o YouTube até alguém querer assistir
+function youtubePlayer(item) {
+  const { id, start } = parseYouTube(item.youtube);
+  return `
+    <div class="video" data-video-id="${id}" data-video-start="${start}" data-video-title="${item.title}">
+      <button class="video__cover" type="button" aria-label="Reproduzir: ${item.title}">
+        <img class="video__thumb" src="https://i.ytimg.com/vi/${id}/maxresdefault.jpg" alt="" loading="lazy" />
+        <span class="video__title">${item.title}</span>
+        <span class="video__play" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+        </span>
+      </button>
+    </div>`;
+}
+
+// Mídia de cada item: player na própria página quando há youtube/src, senão botão de link.
+// preload="none" evita baixar o áudio antes de o visitante dar play
+function mediaItem(item) {
+  const player = item.youtube
+    ? youtubePlayer(item)
+    : item.src
+      ? `<audio controls preload="none" src="${item.src}"></audio>`
+      : "";
+  const link = item.href
+    ? `<a class="btn btn--ghost" href="${item.href}" target="_blank" rel="noopener">Abrir</a>`
+    : "";
+
+  return `
+    <div class="card media-item">
+      ${player}
+      <h3>${item.title}</h3>
+      ${item.description ? `<p>${item.description}</p>` : ""}
+      ${link}
+    </div>`;
+}
+
+// Um único vídeo ocupa a aba inteira (o espaço já é 16:9); vários itens viram uma grade de cards
+function panelContent(items) {
+  if (!items.length) return "";
+  if (items.length === 1 && items[0].youtube) return youtubePlayer(items[0]);
+  return `<div class="grid grid--cards tab-panel__grid">${items.map(mediaItem).join("")}</div>`;
+}
+
+// Abas: cada categoria tem um botão e um painel; só o painel selecionado fica visível
+// (a troca é feita por initTabs em js/4-nav.js). A primeira aba começa selecionada
+function renderMultimedia({ multimedia }) {
+  const head = document.getElementById("multimedia-head");
+  if (head) {
+    head.innerHTML = `
+      <span class="eyebrow">${multimedia.eyebrow}</span>
+      <h2>${multimedia.heading}</h2>
+      <p>${multimedia.intro}</p>
+    `;
+  }
+
+  const tabs = document.getElementById("multimedia-tabs");
+  if (tabs) {
+    tabs.innerHTML = multimedia.categories
+      .map(
+        (category, index) => `
+        <button class="tag tab" type="button" role="tab" id="tab-${category.id}"
+          aria-controls="panel-${category.id}" aria-selected="${index === 0}" tabindex="${index === 0 ? 0 : -1}">
+          ${category.name}
+        </button>`
+      )
+      .join("");
+  }
+
+  const panels = document.getElementById("multimedia-panels");
+  if (!panels) return;
+
+  panels.innerHTML = multimedia.categories
+    .map(
+      (category, index) => `
+      <div class="tab-panel" role="tabpanel" id="panel-${category.id}" aria-labelledby="tab-${category.id}"
+        tabindex="0" ${index === 0 ? "" : "hidden"}>
+        ${panelContent(category.items)}
+      </div>`
+    )
     .join("");
 }
 
@@ -309,6 +418,7 @@ export function renderAll(data) {
   renderIntro(data);
   renderSidebar(data);
   renderTextSection("about", data);
+  renderMultimedia(data);
   renderArticle(data);
   renderProject(data);
   renderSkills(data);

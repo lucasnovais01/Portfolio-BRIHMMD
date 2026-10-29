@@ -18,8 +18,19 @@ export const PORTFOLIO_DATA = {
     },
     links: [
       { label: "Sobre", href: "#sobre" },
+      { label: "Trabalhos", href: "#multimidia" },
       { label: "TCC", href: "#projeto" },
       { label: "Skills", href: "#skills" },
+      { label: "Contato", href: "#contato" },
+    ],
+    // Bolinhas de navegação rápida (lateral direita): mais detalhadas que o menu do topo
+    quickLinks: [
+      { label: "Sobre", href: "#sobre" },
+      { label: "Hipermídia e Multimídia", href: "#multimidia" },
+      { label: "Artigo científico", href: "#artigo" },
+      { label: "TCC", href: "#projeto" },
+      { label: "Skills", href: "#skills" },
+      { label: "Interesses", href: "#interesses" },
       { label: "Contato", href: "#contato" },
     ],
   },
@@ -46,6 +57,8 @@ export const PORTFOLIO_DATA = {
   about: {
     eyebrow: "Quem sou eu",
     heading: "Sobre mim",
+    // O texto começa recolhido: aparece ao clicar no card (ver initCollapsibles em js/4-nav.js)
+    collapsible: true,
     paragraphs: [
       "Tenho 34 anos e sou aluno do curso de Tecnologia em Sistemas para Internet no IFSP Campus Birigui. Sou funcionário público e já possuo outra formação técnica em Administração pela Etec Centro  Paula Souza. Voltei a estudar por escolha pessoal, para aprofundar conhecimentos técnicos em uma área que genuinamente me interessa: A programação.",
       "Essa maturidade profissional e pessoal influencia diretamente a forma como vivencio o curso. Trago uma régua de comparação construída a partir de outras experiências formativas e profissionais, o que me permite observar com mais clareza tanto os pontos fortes quanto as fragilidades do processo educacional, não com a intenção de julgar, mas de refletir criticamente, como este próprio instrumento de portfólio propõe.",
@@ -91,6 +104,33 @@ export const PORTFOLIO_DATA = {
         description:
           "Trabalho de Conclusão de Curso desenvolvido em dupla com a aluna Alexia Eduarda Celice Ferreira (Matrícula: BI3032272), sob orientação do Prof. Dr. Rogério Pinto Alexandre.",
       },
+    ],
+  },
+
+  // Trabalhos da disciplina BRIHMMD, exibidos em abas: só a aba selecionada aparece,
+  // sempre no mesmo espaço (a primeira começa aberta). Campos de cada item: title, description e
+  // - YouTube: "youtube" com o link normal do vídeo (watch?v=..., youtu.be/...): mostra a thumbnail
+  //   e toca dentro do site ao clicar. Com um único item, o vídeo ocupa a aba inteira
+  // - áudio: "src" (ex.: ./assets/audio/arquivo.mp3) toca na página; ou "href" para link externo
+  // - jogo:  "href" com o link jogável (itch.io, GitHub Pages...)
+  multimedia: {
+    eyebrow: "Trabalhos Desenvolvidos",
+    heading: "Hipermídia E Multimídia (BRIHMMD)",
+    intro: "Provas e trabalhos",
+    categories: [
+      {
+        id: "audio",
+        name: "Áudio",
+        items: [
+          {
+            title: "Trabalho áudio 1 - BRIHMMD - IFSP Campus Birigui",
+            youtube: "https://www.youtube.com/watch?v=1yj_0FQEiC8&t=1s",
+          },
+        ],
+      },
+      { id: "video-ifsp", name: "Vídeo: IFSP", items: [] },
+      { id: "video-tema-livre", name: "Vídeo: Tema Livre", items: [] },
+      { id: "jogos", name: "Jogos", items: [] },
     ],
   },
 

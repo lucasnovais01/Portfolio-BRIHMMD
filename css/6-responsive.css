@@ -55,6 +55,10 @@
     padding: 0.75rem var(--space-xs);
   }
 
+  .nav-links a::after {
+    display: none;
+  }
+
   .nav-dropdown-btn {
     width: 100%;
     justify-content: space-between;
@@ -102,27 +106,20 @@
   }
 
   .dot-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    position: fixed;
-    top: 50%;
-    right: 12px;
-    transform: translateY(-50%);
-    z-index: 40;
+    right: 4px;
   }
+}
 
-  .dot-nav a {
-    display: block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--color-border);
-    transition: background var(--transition-base), transform var(--transition-base);
+/* No desktop o menu do topo já destaca a seção atual: as bolinhas ficam só para telas menores */
+@media (min-width: 861px) {
+  .dot-nav {
+    display: none;
   }
+}
 
-  .dot-nav a.is-active {
-    background: var(--gradient-primary);
-    transform: scale(1.3);
+/* Em telas de toque não existe hover: os rótulos das bolinhas ficam escondidos */
+@media (hover: none) {
+  .dot-nav__label {
+    display: none;
   }
 }

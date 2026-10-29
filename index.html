@@ -38,8 +38,22 @@
       <div class="intro" id="intro" data-reveal></div>
 
       <section id="sobre">
-        <div class="section-head" id="about-head" data-reveal></div>
-        <div class="prose" id="about-body" data-reveal></div>
+        <div class="card toggle-card" data-reveal>
+          <div class="section-head section-head--toggle" id="about-head"></div>
+          <div class="collapse" id="about-panel">
+            <div class="collapse__inner">
+              <div class="prose" id="about-body"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="multimidia">
+        <div class="section-head" id="multimedia-head" data-reveal></div>
+        <div data-reveal>
+          <div class="tabs" id="multimedia-tabs" role="tablist" aria-label="Provas e trabalhos"></div>
+          <div class="card tab-panels" id="multimedia-panels"></div>
+        </div>
       </section>
 
       <section id="artigo">

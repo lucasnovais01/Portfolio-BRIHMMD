@@ -3,9 +3,11 @@ import { PORTFOLIO_DATA } from "./1-data.js";
 import { renderAll } from "./2-render.js";
 import { initAnimations } from "./3-animations.js";
 import { initNav } from "./4-nav.js";
+import { initMedia } from "./5-media.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   renderAll(PORTFOLIO_DATA);
   initAnimations();
   initNav();
+  initMedia();
 });

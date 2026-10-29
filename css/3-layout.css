@@ -61,9 +61,68 @@
   padding-block: var(--space-lg);
 }
 
-/* Navegação rápida entre seções: só aparece no mobile (ver 6-responsive.css) */
+/* Navegação rápida entre seções: bolinhas fixas na lateral direita (rótulo aparece no hover) */
 .dot-nav {
-  display: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: fixed;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  z-index: 40;
+}
+
+/* O link tem 22px para facilitar o toque; a bolinha visível é o ::before */
+.dot-nav a {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+}
+
+.dot-nav a::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-border);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: background var(--transition-base), transform var(--transition-base);
+}
+
+.dot-nav a:hover::before {
+  background: var(--color-text-muted);
+}
+
+.dot-nav a.is-active::before {
+  background: var(--gradient-primary);
+  border-color: transparent;
+  transform: scale(1.3);
+}
+
+.dot-nav__label {
+  position: absolute;
+  right: calc(100% + 6px);
+  top: 50%;
+  transform: translate(6px, -50%);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  color: var(--color-text);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base), transform var(--transition-base);
+}
+
+.dot-nav a:hover .dot-nav__label,
+.dot-nav a:focus-visible .dot-nav__label {
+  opacity: 1;
+  transform: translate(0, -50%);
 }
 
 section {
@@ -71,6 +130,15 @@ section {
 }
 
 section:first-of-type {
+  padding-top: var(--space-lg);
+}
+
+/* "Sobre mim" é só um card recolhido: aproxima a seção Multimídia logo abaixo */
+#sobre {
+  padding-bottom: 0;
+}
+
+#multimidia {
   padding-top: var(--space-lg);
 }
 

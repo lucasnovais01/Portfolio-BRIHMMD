@@ -27,6 +27,32 @@
   color: var(--color-text);
 }
 
+/* Seção atual (ver initScrollSpy em js/4-nav.js): texto claro + sublinhado em gradiente */
+.nav-links a {
+  position: relative;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gradient-primary);
+  transform: scaleX(0);
+  transition: transform var(--transition-base);
+}
+
+.nav-links a.is-active {
+  color: var(--color-text);
+}
+
+.nav-links a.is-active::after {
+  transform: scaleX(1);
+}
+
 /* Botão hambúrguer: fica oculto no desktop, só aparece no breakpoint mobile */
 .nav-toggle {
   display: none;
@@ -391,6 +417,208 @@ a.tag:hover {
   line-height: 1.6;
   color: var(--color-text);
   white-space: pre;
+}
+
+/* Card recolhível ("Sobre mim"): título + texto na mesma bolha, largura total da coluna */
+.toggle-card {
+  cursor: pointer;
+}
+
+/* Card grande: sem o "pulo" do .card:hover, só a borda e o fundo reagem */
+.toggle-card:hover {
+  transform: none;
+}
+
+.toggle-card .section-head {
+  max-width: none;
+  margin-bottom: 0;
+}
+
+.toggle-card .collapse__inner > .prose {
+  padding-top: var(--space-md);
+}
+
+/* Mantém o tamanho de leitura do texto (o .card p reduz a fonte) */
+.toggle-card .prose p {
+  font-size: var(--fs-paragraph);
+}
+
+.section-toggle {
+  text-align: left;
+  letter-spacing: inherit;
+}
+
+.section-toggle:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* Truque do grid 0fr → 1fr: anima a altura sem precisar saber o tamanho do texto */
+.collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.45s ease, opacity 0.45s ease;
+}
+
+.collapse.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.collapse__inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Provas e trabalhos (BRIHMMD): abas + um único espaço de tamanho fixo para o conteúdo */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-sm);
+}
+
+.tab {
+  color: var(--color-text-muted);
+}
+
+.tab:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+.tab[aria-selected="true"] {
+  background: var(--gradient-primary);
+  border-color: transparent;
+  color: #fff;
+}
+
+.tab:focus-visible,
+.tab-panel:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 3px;
+}
+
+/* O espaço é sempre o mesmo (16:9), tenha a aba conteúdo ou não; se sobrar conteúdo, rola por dentro */
+/* Sem padding: um vídeo sozinho ocupa o espaço inteiro; a grade de vários itens tem o próprio */
+.tab-panels {
+  aspect-ratio: 16 / 9;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.tab-panels:hover {
+  transform: none;
+}
+
+.tab-panel {
+  height: 100%;
+}
+
+.tab-panel[hidden] {
+  display: none;
+}
+
+.tab-panel__grid {
+  padding: var(--space-md);
+}
+
+/* Vídeo do YouTube: capa com a thumbnail + play; ao clicar, o iframe entra no mesmo lugar */
+.video {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.video__cover,
+.video__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.video__cover {
+  display: block;
+  overflow: hidden;
+  text-align: left;
+}
+
+.video__cover[hidden] {
+  display: none;
+}
+
+.video__thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.video__cover:hover .video__thumb {
+  transform: scale(1.03);
+  filter: brightness(0.85);
+}
+
+/* Faixa escura no topo para o título ficar legível sobre qualquer thumbnail */
+.video__title {
+  position: absolute;
+  inset: 0 0 auto;
+  padding: var(--space-sm) var(--space-md) var(--space-lg);
+  background: linear-gradient(rgba(0, 0, 0, 0.75), transparent);
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  color: #fff;
+}
+
+.video__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  box-shadow: 0 10px 30px -8px rgba(124, 92, 255, 0.8);
+  transform: translate(-50%, -50%);
+  transition: transform var(--transition-base);
+}
+
+.video__play svg {
+  width: 32px;
+  height: 32px;
+  margin-left: 4px;
+  fill: #fff;
+}
+
+.video__cover:hover .video__play {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.video__cover:focus-visible {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: -3px;
+}
+
+.media-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.media-item .btn {
+  align-self: flex-start;
+}
+
+.media-item audio {
+  width: 100%;
 }
 
 /* Artigo científico */

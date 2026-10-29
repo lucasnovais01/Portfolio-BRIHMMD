@@ -24,4 +24,8 @@
     transform: none;
     transition: none;
   }
+
+  .collapse {
+    transition: none;
+  }
 }
