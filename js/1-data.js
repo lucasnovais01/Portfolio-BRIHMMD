@@ -125,11 +125,110 @@ export const PORTFOLIO_DATA = {
           {
             title: "Trabalho áudio 1 - BRIHMMD - IFSP Campus Birigui",
             youtube: "https://www.youtube.com/watch?v=1yj_0FQEiC8&t=1s",
+            // Descrição exibida embaixo do vídeo (ver renderDescription em js/2-render.js).
+            // Todos os campos são opcionais; links https://... viram clicáveis automaticamente
+            description: {
+              heading: "Discord",
+              reference:
+                "DISCORD Inc. Discord: sua vaga para conversar e passar o tempo. São Francisco, c2026. Disponível em: https://discord.com/. Acesso em: 17 set. 2026.",
+              fields: [
+                {
+                  label: "Público-alvo",
+                  text: "Qualquer pessoa, de todas idades que queira se comunicar pela internet. O Discord é mais popular com a geração mais jovem, de 15 a 35 anos.",
+                },
+                { label: "Objetivo", text: "Mostrar as funcionalidades e vantagens perante a concorrência." },
+              ],
+              // "start" e "end" no formato m:ss. Clicar no tempo toca o vídeo a partir dali
+              timelineTitle: "Roteiro (começo a falar nos 07 segundos do clipe)",
+              timeline: [
+                {
+                  start: "0:00",
+                  end: "0:07",
+                  label: "Bloco 01 - Introdução",
+                  text: "0 até 6 segundos, sons de notificação do Discord. Logo em seguida, no 0:06, começa a tocar Retro - Wayne Jones.mp3 no fundo, e a música vai seguir até 0:59.",
+                },
+                {
+                  start: "0:07",
+                  end: "0:19",
+                  label: "Bloco 02",
+                  quote: "Você quer conversar com alguém pela internet? E não quer sofrer para isto? No Discord, você pode conversar diretamente com as pessoas, não é obrigatório criar conta e é possível utilizar diretamente do browser de qualquer lugar.",
+                },
+                {
+                  start: "0:19",
+                  end: "0:25",
+                  label: "Bloco 03",
+                  quote: "Sem burocracia, sem lentidão ou quedas. A melhor ferramenta de comunicação na internet e de graça.",
+                },
+                {
+                  start: "0:25",
+                  end: "0:31",
+                  label: "Bloco 04",
+                  quote: "Não perca seu tempo e paciência com a burocracia do Google Meet, Skype, Teamspeak.",
+                },
+                {
+                  start: "0:31",
+                  end: "0:38",
+                  label: "Bloco 05",
+                  quote: "Aqui, você pode até mesmo entrar ou criar um servidor, encontra as pessoas que quer, e quando vc quiser.",
+                },
+                {
+                  start: "0:38",
+                  end: "0:50",
+                  label: "Bloco 06",
+                  quote: "Sem anúncios, e multiplataforma, compatível com computador, tablet e celular. Com cancelamento de ruído automático e otimizado para todo tipo de conexão.",
+                },
+                {
+                  start: "0:50",
+                  end: "0:57",
+                  label: "Bloco 07",
+                  quote: "Texto, voz, imagens, vídeo e compartilhamento de tela, tudo no mesmo lugar.",
+                },
+              ],
+              sections: [
+                {
+                  title: "Efeitos e músicas utilizadas",
+                  paragraphs: [
+                    "Utilizei os efeitos do próprio Discord: começo com a ligação, o som de notificação de entrando na sala, e no final o som de notificação de saindo da sala.",
+                  ],
+                },
+                {
+                  title: "Produção",
+                  paragraphs: [
+                    "O áudio foi gravado utilizando a ferramenta de gravação do Windows mesmo. Tentei editar com o Audacity, mas não ficou bom. Depois tentei utilizar o site Auphonic, e também não ficou bom, e o Auphonic coloca propaganda no final do seu áudio e aumenta muito o volume.",
+                    "Quem mais me ajudou a controlar os ruídos foi o https://podcast.adobe.com/, ferramenta gratuita, e depois utilizei o CapCut para juntar música, frases e notificações em uma coisa só. Controlando o som individualmente de cada um, e colocando efeitos, como por exemplo o fadeout na música no final. Controle de som e equalizando a música para ela terminar com aquele toque dos 55 segundos.",
+                  ],
+                },
+              ],
+              credits: [
+                { label: "Professor", value: "Renato Correia de Barros" },
+                { label: "Disciplina", value: "Hipermídia e Multimídia" },
+                { label: "Aluno", value: "Lucas Novais de Oliveira" },
+                { label: "Matrícula", value: "BI303268X" },
+              ],
+            },
           },
         ],
       },
-      { id: "video-ifsp", name: "Vídeo: IFSP", items: [] },
-      { id: "video-tema-livre", name: "Vídeo: Tema Livre", items: [] },
+      {
+        id: "video-ifsp",
+        name: "Vídeo: IFSP",
+        items: [
+          {
+            title: "Trabalho vídeo IFSP - BRIHMMD - IFSP Campus Birigui",
+            youtube: "https://www.youtube.com/watch?v=YL1yWVcCnt8",
+          },
+        ],
+      },
+      {
+        id: "video-tema-livre",
+        name: "Vídeo: Tema Livre",
+        items: [
+          {
+            title: "Entre Páginas & Pixels",
+            youtube: "https://www.youtube.com/watch?v=y8txYWmMFXo",
+          },
+        ],
+      },
       { id: "jogos", name: "Jogos", items: [] },
     ],
   },

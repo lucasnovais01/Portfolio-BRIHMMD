@@ -501,11 +501,10 @@ a.tag:hover {
   outline-offset: 3px;
 }
 
-/* O espaço é sempre o mesmo (16:9), tenha a aba conteúdo ou não; se sobrar conteúdo, rola por dentro */
-/* Sem padding: um vídeo sozinho ocupa o espaço inteiro; a grade de vários itens tem o próprio */
+/* Toda aba tem o mesmo tamanho, com ou sem conteúdo: mídia 16:9 em cima + descrição de altura
+   fixa embaixo. Se sobrar conteúdo, cada área rola por dentro. Sem padding: o vídeo encosta nas bordas */
 .tab-panels {
-  aspect-ratio: 16 / 9;
-  overflow-y: auto;
+  overflow: hidden;
   padding: 0;
 }
 
@@ -513,23 +512,127 @@ a.tag:hover {
   transform: none;
 }
 
-.tab-panel {
-  height: 100%;
-}
-
 .tab-panel[hidden] {
   display: none;
+}
+
+.tab-panel__media {
+  aspect-ratio: 16 / 9;
+  overflow-y: auto;
 }
 
 .tab-panel__grid {
   padding: var(--space-md);
 }
 
+/* ===== DESCRIÇÃO EMBAIXO DO VÍDEO =====
+   Altura fixa (igual em todas as abas); o texto rola dentro dela */
+.tab-panel__description {
+  height: 22rem;
+  overflow-y: auto;
+  padding: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.tab-panel__description p {
+  font-size: var(--fs-small);
+  margin-bottom: var(--space-xs);
+}
+
+.tab-panel__description h4 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--color-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.tab-panel__description a {
+  color: var(--color-secondary);
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.description__heading {
+  margin-bottom: var(--space-xs);
+}
+
+.description__reference {
+  font-style: italic;
+  opacity: 0.85;
+}
+
+.description__block {
+  margin-top: var(--space-md);
+}
+
+/* Roteiro: tempo clicável à esquerda (toca o vídeo dali) + bloco e frase à direita */
+.timeline {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.timeline__item {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: var(--space-sm);
+  align-items: start;
+}
+
+.timeline__time {
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-secondary);
+  transition: border-color var(--transition-base), background var(--transition-base);
+}
+
+.timeline__time:hover {
+  border-color: var(--color-primary);
+  background: var(--color-surface-hover);
+}
+
+.timeline__item strong {
+  font-size: var(--fs-small);
+}
+
+.timeline__item blockquote {
+  margin-top: 0.25rem;
+  padding-left: var(--space-sm);
+  border-left: 2px solid var(--color-primary);
+  font-size: var(--fs-small);
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+/* Créditos em 2 colunas: Professor | Disciplina em cima, Aluno | Matrícula embaixo */
+.description__credits {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--fs-small);
+}
+
+.description__credits dt {
+  color: var(--color-text-muted);
+  opacity: 0.8;
+}
+
+.description__credits dd {
+  font-weight: var(--fw-medium);
+}
+
 /* Vídeo do YouTube: capa com a thumbnail + play; ao clicar, o iframe entra no mesmo lugar */
 .video {
   position: relative;
   width: 100%;
-  height: 100%;
   aspect-ratio: 16 / 9;
   background: #000;
 }
@@ -565,41 +668,96 @@ a.tag:hover {
   filter: brightness(0.85);
 }
 
-/* Faixa escura no topo para o título ficar legível sobre qualquer thumbnail */
-.video__title {
+/* ===== TÍTULO DA THUMBNAIL DO VÍDEO =====
+   Texto branco no topo da capa do YouTube (o texto vem de "title" em js/1-data.js).
+   Sem faixa escura: a sombra no texto garante a leitura sobre qualquer imagem */
+.video__thumbnail-title {
   position: absolute;
   inset: 0 0 auto;
-  padding: var(--space-sm) var(--space-md) var(--space-lg);
-  background: linear-gradient(rgba(0, 0, 0, 0.75), transparent);
+  padding: var(--space-sm) var(--space-md);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.6);
   font-family: var(--font-display);
   font-weight: var(--fw-medium);
   color: #fff;
 }
 
+/* ===== BOTÃO PLAY: BASE (comum a todos os estilos) =====
+   Só posiciona o botão no centro da thumbnail. A aparência vem de um dos estilos abaixo:
+   troque a classe em js/2-render.js (função youtubePlayer) para mudar de estilo */
 .video__play {
   position: absolute;
   top: 50%;
   left: 50%;
   display: grid;
   place-items: center;
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: var(--gradient-primary);
-  box-shadow: 0 10px 30px -8px rgba(124, 92, 255, 0.8);
   transform: translate(-50%, -50%);
-  transition: transform var(--transition-base);
+  transition: transform var(--transition-base), background var(--transition-base);
 }
 
 .video__play svg {
-  width: 32px;
-  height: 32px;
-  margin-left: 4px;
   fill: #fff;
 }
 
 .video__cover:hover .video__play {
   transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* ===== BOTÃO PLAY: ESTILO DO SITE (desativado) =====
+   Círculo com o gradiente roxo → ciano do portfólio. Para usar: tire este bloco do
+   comentário e troque a classe para "video__play--site" em js/2-render.js
+.video__play--site {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  box-shadow: 0 10px 30px -8px rgba(124, 92, 255, 0.8);
+}
+
+.video__play--site svg {
+  width: 32px;
+  height: 32px;
+  margin-left: 4px;
+}
+*/
+
+/* ===== BOTÃO PLAY: ESTILO YOUTUBE (em uso) =====
+   Retângulo arredondado vermelho com triângulo branco, como o player do YouTube */
+.video__play--youtube {
+  width: 68px;
+  height: 48px;
+  border-radius: 14px;
+  background: #ff0000;
+  box-shadow: 0 6px 20px -6px rgba(0, 0, 0, 0.6);
+}
+
+.video__play--youtube svg {
+  width: 26px;
+  height: 26px;
+  margin-left: 2px;
+}
+
+.video__cover:hover .video__play--youtube {
+  background: #cc0000;
+}
+
+/* ===== BOTÃO PLAY: MISTURA =====
+   Formato retangular do YouTube + gradiente roxo → ciano do site */
+.video__play--mistura {
+  width: 68px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--gradient-primary);
+  box-shadow: 0 6px 20px -6px rgba(124, 92, 255, 0.8);
+}
+
+.video__play--mistura svg {
+  width: 26px;
+  height: 26px;
+  margin-left: 2px;
+}
+
+.video__cover:hover .video__play--mistura {
+  box-shadow: 0 8px 28px -4px rgba(34, 211, 238, 0.7);
 }
 
 .video__cover:focus-visible {

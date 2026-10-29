@@ -336,8 +336,8 @@ function youtubePlayer(item) {
     <div class="video" data-video-id="${id}" data-video-start="${start}" data-video-title="${item.title}">
       <button class="video__cover" type="button" aria-label="Reproduzir: ${item.title}">
         <img class="video__thumb" src="https://i.ytimg.com/vi/${id}/maxresdefault.jpg" alt="" loading="lazy" />
-        <span class="video__title">${item.title}</span>
-        <span class="video__play" aria-hidden="true">
+        <span class="video__thumbnail-title">${item.title}</span>
+        <span class="video__play video__play--youtube" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
         </span>
       </button>
@@ -360,16 +360,93 @@ function mediaItem(item) {
     <div class="card media-item">
       ${player}
       <h3>${item.title}</h3>
-      ${item.description ? `<p>${item.description}</p>` : ""}
+      ${typeof item.description === "string" ? `<p>${item.description}</p>` : ""}
       ${link}
     </div>`;
 }
 
-// Um único vídeo ocupa a aba inteira (o espaço já é 16:9); vários itens viram uma grade de cards
+// Transforma links https://... do texto em <a> (o ponto final da frase fica fora do link)
+function linkify(text) {
+  return text.replace(
+    /https?:\/\/[^\s]+?(?=[.,;:]?(\s|$))/g,
+    (url) => `<a href="${url}" target="_blank" rel="noopener">${url}</a>`
+  );
+}
+
+// "0:07" → 7 segundos (usado pelos botões de tempo do roteiro)
+function toSeconds(time) {
+  return time.split(":").reduce((total, part) => total * 60 + Number(part), 0);
+}
+
+// Descrição embaixo do vídeo: título, referência, campos, roteiro com tempos, seções e créditos
+function renderDescription(description) {
+  if (!description) return "";
+  if (typeof description === "string") return `<p>${linkify(description)}</p>`;
+
+  const { heading, reference, fields = [], timelineTitle, timeline = [], sections = [], credits = [] } = description;
+
+  const timelineHTML = timeline.length
+    ? `
+      <div class="description__block">
+        ${timelineTitle ? `<h4>${timelineTitle}</h4>` : ""}
+        <ol class="timeline">
+          ${timeline
+            .map(
+              (step) => `
+            <li class="timeline__item">
+              <button class="timeline__time" type="button" data-seek="${toSeconds(step.start)}"
+                aria-label="Tocar a partir de ${step.start}">${step.start}${step.end ? ` - ${step.end}` : ""}</button>
+              <div>
+                <strong>${step.label}</strong>
+                ${step.quote ? `<blockquote>${step.quote}</blockquote>` : ""}
+                ${step.text ? `<p>${step.text}</p>` : ""}
+              </div>
+            </li>`
+            )
+            .join("")}
+        </ol>
+      </div>`
+    : "";
+
+  return `
+    ${heading ? `<h3 class="description__heading">${heading}</h3>` : ""}
+    ${reference ? `<p class="description__reference">${linkify(reference)}</p>` : ""}
+    ${fields.map((field) => `<p><strong>${field.label}:</strong> ${linkify(field.text)}</p>`).join("")}
+    ${timelineHTML}
+    ${sections
+      .map(
+        (section) => `
+      <div class="description__block">
+        <h4>${section.title}</h4>
+        ${section.paragraphs.map((paragraph) => `<p>${linkify(paragraph)}</p>`).join("")}
+      </div>`
+      )
+      .join("")}
+    ${
+      credits.length
+        ? `<dl class="description__credits">
+            ${credits.map((credit) => `<div><dt>${credit.label}</dt><dd>${credit.value}</dd></div>`).join("")}
+          </dl>`
+        : ""
+    }
+  `;
+}
+
+// Toda aba tem as mesmas duas áreas de tamanho fixo: mídia (16:9) em cima e descrição embaixo.
+// Um único vídeo ocupa a área de mídia inteira e a descrição dele vai embaixo;
+// vários itens viram uma grade de cards (cada um com a própria descrição curta)
 function panelContent(items) {
-  if (!items.length) return "";
-  if (items.length === 1 && items[0].youtube) return youtubePlayer(items[0]);
-  return `<div class="grid grid--cards tab-panel__grid">${items.map(mediaItem).join("")}</div>`;
+  const single = items.length === 1 && items[0].youtube ? items[0] : null;
+  const media = single
+    ? youtubePlayer(single)
+    : items.length
+      ? `<div class="grid grid--cards tab-panel__grid">${items.map(mediaItem).join("")}</div>`
+      : "";
+
+  return `
+    <div class="tab-panel__media">${media}</div>
+    <div class="tab-panel__description">${single ? renderDescription(single.description) : ""}</div>
+  `;
 }
 
 // Abas: cada categoria tem um botão e um painel; só o painel selecionado fica visível
