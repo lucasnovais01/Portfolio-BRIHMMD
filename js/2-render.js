@@ -1,15 +1,18 @@
+import { youtubeThumbnail } from "./5-media.js";
+
 // Renderiza o conteúdo de js/1-data.js dentro dos containers definidos no index.html
 
-// Ícones de marca (Simple Icons, licença CC0) usados no bloco de contato
+// Ícones usados nos contatos: marcas (Simple Icons, licença CC0) e envelope (Material Icons, licença Apache 2.0)
 const BRAND_ICON_PATHS = {
   whatsapp: "M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z",
   github: "M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12",
+  email: "M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z",
 };
 
 function brandIcon(name) {
   const d = BRAND_ICON_PATHS[name];
   if (!d) return "";
-  return `<svg class="contact-icon contact-icon--${name}" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}" /></svg>`;
+  return `<svg class="contato-icone contato-icone-${name}" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}" /></svg>`;
 }
 
 // Escapa código antes de jogar dentro de <pre><code>, senão tags e templates do próprio JS quebram o HTML
@@ -20,19 +23,21 @@ function escapeHtml(str) {
 // A sidebar só existe na página inicial: usamos isso para saber se os links
 // de âncora (#sobre, #projeto...) precisam apontar de volta pra index.html
 function homePrefix() {
-  return document.getElementById("sidebar") ? "" : "./index.html";
+  return document.getElementById("lateral") ? "" : "./index.html";
 }
 
-function sectionHead(el, { eyebrow, heading }) {
+// Título de seção: sobretítulo pequeno + título grande (+ parágrafo de introdução, se houver)
+function sectionHead(el, { eyebrow, heading, intro }) {
   if (!el) return;
   el.innerHTML = `
-    <span class="eyebrow">${eyebrow}</span>
+    <span class="sobretitulo">${eyebrow}</span>
     <h2>${heading}</h2>
+    ${intro ? `<p>${intro}</p>` : ""}
   `;
 }
 
 function renderMeta({ meta, makingOf }) {
-  const onMakingOfPage = document.getElementById("makingof-head") !== null;
+  const onMakingOfPage = document.getElementById("bastidores-titulo") !== null;
   document.title = onMakingOfPage ? `${makingOf.heading} - ${meta.title}` : meta.title;
   document
     .querySelector('meta[name="description"]')
@@ -42,7 +47,7 @@ function renderMeta({ meta, makingOf }) {
 function renderNav({ nav }) {
   const prefix = homePrefix();
 
-  const brand = document.getElementById("nav-brand");
+  const brand = document.getElementById("menu-marca");
   if (brand) {
     brand.textContent = nav.brand.label;
     brand.setAttribute("href", `${prefix}${nav.brand.href}`);
@@ -57,95 +62,107 @@ function renderNav({ nav }) {
     .join("");
 
   const dropdownHTML = `
-    <li class="nav-dropdown" id="nav-projects">
-      <button class="nav-dropdown-btn" id="nav-projects-btn" type="button" aria-expanded="false">
+    <li class="menu-projetos" id="menu-projetos">
+      <button class="menu-projetos-botao" id="menu-projetos-botao" type="button" aria-expanded="false">
         ${nav.projectsMenu.label}
-        <svg class="nav-dropdown-icon" viewBox="0 0 12 8" aria-hidden="true">
+        <svg class="menu-projetos-seta" viewBox="0 0 12 8" aria-hidden="true">
           <path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
-      <ul class="nav-dropdown-menu" id="nav-projects-menu">${dropdownLinksHTML}</ul>
+      <ul class="menu-projetos-lista" id="menu-projetos-lista">${dropdownLinksHTML}</ul>
     </li>
   `;
 
-  const navLinks = document.getElementById("nav-links");
+  document.getElementById("menu-hamburguer")?.setAttribute("aria-label", nav.menuButtonLabel);
+
+  const navLinks = document.getElementById("menu-links");
   if (navLinks) navLinks.innerHTML = dropdownHTML + baseLinksHTML;
 
-  const footerLinks = document.getElementById("footer-links");
+  const footerLinks = document.getElementById("rodape-links");
   if (footerLinks) footerLinks.innerHTML = baseLinksHTML;
 }
 
 function renderIntro({ sidebar }) {
-  const el = document.getElementById("intro");
+  const el = document.getElementById("abertura");
   if (!el) return;
 
   el.innerHTML = `
-    <p class="intro-title">${sidebar.eyebrow}</p>
-    <h1 class="intro-name">${sidebar.name}</h1>
+    <p class="abertura-titulo">${sidebar.eyebrow}</p>
+    <h1 class="abertura-nome texto-gradiente">${sidebar.name}</h1>
   `;
 }
 
-function renderSidebar({ sidebar }) {
-  const el = document.getElementById("sidebar");
+function renderSidebar({ sidebar, contact }) {
+  const el = document.getElementById("lateral");
   if (!el) return;
 
-  const badges = sidebar.badges.map((badge) => `<span class="badge">${badge}</span>`).join("");
+  // Contatos vêm da seção "Contato" do js/1-data.js (mudou lá, muda aqui também)
+  const contacts = contact.items
+    .map((item) => {
+      const content = `${brandIcon(item.sidebarIcon ?? item.icon)}<span>${item.value}</span>`;
+      return item.href
+        ? `<a class="selo lateral-contato" href="${item.href}" target="_blank" rel="noopener">${content}</a>`
+        : `<span class="selo lateral-contato">${content}</span>`;
+    })
+    .join("");
+  const badges = sidebar.badges.map((badge) => `<span class="selo">${badge}</span>`).join("");
   const actions = sidebar.actions
     .map(
       (action) =>
-        `<a class="btn btn--${action.variant}" href="${action.href}">${action.label}</a>`
+        `<a class="botao botao-${action.variant}" href="${action.href}">${action.label}</a>`
     )
     .join("");
 
   el.innerHTML = `
-    <div class="sidebar-photo-wrap">
-      <img class="sidebar-photo" src="${sidebar.photo.src}" alt="${sidebar.photo.alt}" />
+    <div class="lateral-foto-moldura">
+      <img class="lateral-foto" src="${sidebar.photo.src}" alt="${sidebar.photo.alt}" />
     </div>
-    <div class="sidebar-body">
-      <span class="sidebar-eyebrow">${sidebar.eyebrow}</span>
-      <p class="sidebar-name">${sidebar.name}</p>
-      <p class="sidebar-tagline">${sidebar.tagline}</p>
-      <div class="sidebar-badges">${badges}</div>
-      <div class="sidebar-actions">${actions}</div>
+    <div class="lateral-corpo">
+      <span class="lateral-sobretitulo">${sidebar.eyebrow}</span>
+      <p class="lateral-nome texto-gradiente">${sidebar.name}</p>
+      <p class="lateral-frase">${sidebar.tagline}</p>
+      <div class="lateral-selos">${contacts}${badges}</div>
+      <div class="lateral-botoes">${actions}</div>
     </div>
   `;
 }
 
-function renderTextSection(sectionKey, data) {
-  const section = data[sectionKey];
-  const head = document.getElementById(`${sectionKey}-head`);
-  const body = document.getElementById(`${sectionKey}-body`);
-
-  // Seção recolhível: o título vira um botão que abre/fecha o texto (o painel fica no index.html)
-  if (head && section.collapsible) {
+// "Sobre mim": o título é um botão que abre/fecha o texto (o painel #sobre-painel fica no index.html)
+function renderAbout({ about }) {
+  const head = document.getElementById("sobre-titulo");
+  if (head) {
     head.innerHTML = `
-      <span class="eyebrow">${section.eyebrow}</span>
+      <span class="sobretitulo">${about.eyebrow}</span>
       <h2>
-        <button class="section-toggle" type="button" aria-expanded="false" aria-controls="${sectionKey}-panel">
-          ${section.heading}
+        <button class="card-recolhivel-botao" type="button" aria-expanded="false" aria-controls="sobre-painel">
+          ${about.heading}
         </button>
       </h2>
     `;
-  } else {
-    sectionHead(head, section);
+
+    // Textos do tooltip (classe com-dica): um para o card fechado, outro para o aberto
+    const card = head.closest(".card-recolhivel");
+    card?.setAttribute("data-dica", about.tooltip.closed);
+    card?.setAttribute("data-dica-aberto", about.tooltip.open);
   }
 
+  const body = document.getElementById("sobre-texto");
   if (body) {
-    body.innerHTML = section.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("");
+    body.innerHTML = about.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("");
   }
 }
 
 function renderProject({ project }) {
-  sectionHead(document.getElementById("project-head"), project);
+  sectionHead(document.getElementById("projeto-titulo"), project);
 
-  const body = document.getElementById("project-body");
+  const body = document.getElementById("projeto-card");
   if (!body) return;
 
-  const stack = project.stack.map((item) => `<span class="tag">${item}</span>`).join("");
+  const stack = project.stack.map((item) => `<span class="etiqueta">${item}</span>`).join("");
   const highlights = project.highlights
     .map(
       (item) => `
-      <div class="card">
+      <div class="card card-flutua">
         <h3>${item.title}</h3>
         <p>${item.description}</p>
       </div>`
@@ -153,24 +170,24 @@ function renderProject({ project }) {
     .join("");
 
   body.innerHTML = `
-    <div class="project-card__header">
-      <h3 class="project-card__name">${project.name}</h3>
-      <div class="grid--tags">${stack}</div>
+    <div class="card-projeto-topo">
+      <h3 class="card-projeto-nome texto-gradiente">${project.name}</h3>
+      <div class="lista-etiquetas lista-etiquetas-cheia">${stack}</div>
     </div>
-    <p class="project-card__summary">${project.summary}</p>
-    <div class="grid grid--cards">${highlights}</div>
+    <p class="card-projeto-resumo">${project.summary}</p>
+    <div class="grade-cards">${highlights}</div>
   `;
 }
 
 function renderArticle({ article }) {
-  sectionHead(document.getElementById("article-head"), article);
+  sectionHead(document.getElementById("artigo-titulo"), article);
 
-  const body = document.getElementById("article-body");
+  const body = document.getElementById("artigo-card");
   if (!body) return;
 
   const link = article.href
-    ? `<a class="btn btn--primary" href="${article.href}" target="_blank" rel="noopener">Ler artigo</a>`
-    : `<span class="badge">${article.pendingLabel}</span>`;
+    ? `<a class="botao botao-principal" href="${article.href}" target="_blank" rel="noopener">${article.linkLabel}</a>`
+    : `<span class="selo">${article.pendingLabel}</span>`;
 
   body.innerHTML = `
     <div>
@@ -182,19 +199,19 @@ function renderArticle({ article }) {
 }
 
 function renderSkills({ skills }) {
-  sectionHead(document.getElementById("skills-head"), skills);
+  sectionHead(document.getElementById("skills-titulo"), skills);
 
-  const body = document.getElementById("skills-body");
+  const body = document.getElementById("skills-cards");
   if (!body) return;
 
   body.innerHTML = skills.categories
     .map(
       (category) => `
-      <div class="card">
+      <div class="card card-flutua">
         <h3>${category.name}</h3>
-        <div class="grid--tags">
+        <div class="lista-etiquetas lista-etiquetas-cheia">
           ${category.items
-            .map((item) => `<a class="tag" href="${item.href}" target="_blank" rel="noopener">${item.label}</a>`)
+            .map((item) => `<a class="etiqueta" href="${item.href}" target="_blank" rel="noopener">${item.label}</a>`)
             .join("")}
         </div>
       </div>`
@@ -203,20 +220,20 @@ function renderSkills({ skills }) {
 }
 
 function renderInterests({ interests }) {
-  sectionHead(document.getElementById("interests-head"), interests);
+  sectionHead(document.getElementById("interesses-titulo"), interests);
 
-  const body = document.getElementById("interests-body");
+  const body = document.getElementById("interesses-etiquetas");
   if (!body) return;
 
   body.innerHTML = interests.items
-    .map((item) => `<span class="tag">${item.icon} ${item.label}</span>`)
+    .map((item) => `<span class="etiqueta">${item.icon} ${item.label}</span>`)
     .join("");
 }
 
 function renderContact({ contact }) {
-  sectionHead(document.getElementById("contact-head"), contact);
+  sectionHead(document.getElementById("contato-titulo"), contact);
 
-  const body = document.getElementById("contact-body");
+  const body = document.getElementById("contato-itens");
   if (!body) return;
 
   body.innerHTML = contact.items
@@ -225,8 +242,8 @@ function renderContact({ contact }) {
         ? `<a href="${item.href}" target="_blank" rel="noopener">${item.value}</a>`
         : `<strong>${item.value}</strong>`;
       return `
-      <div class="contact-item">
-        <span class="contact-item__label">${brandIcon(item.icon)}${item.label}</span>
+      <div class="contato">
+        <span class="contato-rotulo">${brandIcon(item.icon)}${item.label}</span>
         ${value}
       </div>`;
     })
@@ -234,68 +251,62 @@ function renderContact({ contact }) {
 }
 
 function renderFooter({ footer }) {
-  const org = document.getElementById("footer-org");
+  const org = document.getElementById("rodape-instituicao");
   if (org) {
     org.setAttribute("href", footer.org.href);
     org.innerHTML = `
-      <span class="footer-logo"><img src="${footer.org.logo.src}" alt="${footer.org.logo.alt}" /></span>
+      <span class="rodape-logo"><img src="${footer.org.logo.src}" alt="${footer.org.logo.alt}" /></span>
       <span>${footer.org.name}</span>
     `;
   }
 
-  const cta = document.getElementById("footer-cta");
+  const cta = document.getElementById("rodape-botao");
   if (cta) {
     cta.setAttribute("href", footer.cta.href);
+    cta.setAttribute("data-dica", footer.cta.tooltip);
     cta.textContent = footer.cta.label;
   }
 }
 
 function renderMakingOf({ makingOf }) {
-  const head = document.getElementById("makingof-head");
-  if (head) {
-    head.innerHTML = `
-      <span class="eyebrow">${makingOf.eyebrow}</span>
-      <h2>${makingOf.heading}</h2>
-      <p>${makingOf.intro}</p>
-    `;
-  }
+  const back = document.getElementById("voltar-botao");
+  if (back) back.textContent = makingOf.backLabel;
 
-  const body = document.getElementById("makingof-body");
+  sectionHead(document.getElementById("bastidores-titulo"), makingOf);
+
+  const body = document.getElementById("bastidores-cards");
   if (!body) return;
 
   body.innerHTML = makingOf.categories
     .map(
       (category) => `
-      <div class="card">
+      <div class="card card-flutua">
         <h3>${category.name}</h3>
         ${category.items.map((item) => `<p><strong>${item.label}:</strong> ${item.description}</p>`).join("")}
       </div>`
     )
     .join("");
 
-  const tutorialHead = document.getElementById("tutorial-head");
-  if (tutorialHead) {
-    tutorialHead.innerHTML = `
-      <span class="eyebrow">${makingOf.tutorialEyebrow}</span>
-      <h2>${makingOf.tutorialHeading}</h2>
-      <p>${makingOf.tutorialIntro}</p>
-    `;
-  }
+  sectionHead(document.getElementById("tutorial-titulo"), {
+    eyebrow: makingOf.tutorialEyebrow,
+    heading: makingOf.tutorialHeading,
+    intro: makingOf.tutorialIntro,
+  });
 
-  const tutorialBody = document.getElementById("tutorial-body");
+  const tutorialBody = document.getElementById("tutorial-passos");
   if (!tutorialBody) return;
 
   tutorialBody.innerHTML = makingOf.steps
     .map(
       (step) => `
-      <article class="tutorial-step" data-reveal>
+      <article class="passo-tutorial" data-reveal>
         <h3>${step.title}</h3>
         <p>${step.description}</p>
         ${step.files
           .map(
             (file) => `
-          <div class="code-block">
-            <span class="code-block__file">${file.path}</span>
+          <div class="bloco-codigo">
+            <span class="bloco-codigo-arquivo">${file.path}</span>
             <pre><code>${escapeHtml(file.code)}</code></pre>
           </div>`
           )
@@ -306,14 +317,15 @@ function renderMakingOf({ makingOf }) {
 }
 
 function renderDotNav({ nav }) {
-  const el = document.getElementById("dot-nav");
+  const el = document.getElementById("bolinhas");
   if (!el) return;
 
+  el.setAttribute("aria-label", nav.quickLinksLabel);
   const prefix = homePrefix();
   el.innerHTML = nav.quickLinks
     .map(
       (link) =>
-        `<a href="${prefix}${link.href}" aria-label="${link.label}"><span class="dot-nav__label">${link.label}</span></a>`
+        `<a href="${prefix}${link.href}" aria-label="${link.label}"><span class="bolinha-rotulo">${link.label}</span></a>`
     )
     .join("");
 }
@@ -330,14 +342,14 @@ function parseYouTube(url) {
 
 // Capa com a thumbnail do próprio YouTube + botão de play. O player (iframe) só é criado
 // no clique (ver js/5-media.js): a página não carrega o YouTube até alguém querer assistir
-function youtubePlayer(item) {
+function youtubePlayer(item, labels) {
   const { id, start } = parseYouTube(item.youtube);
   return `
     <div class="video" data-video-id="${id}" data-video-start="${start}" data-video-title="${item.title}">
-      <button class="video__cover" type="button" aria-label="Reproduzir: ${item.title}">
-        <img class="video__thumb" src="https://i.ytimg.com/vi/${id}/maxresdefault.jpg" alt="" loading="lazy" />
-        <span class="video__thumbnail-title">${item.title}</span>
-        <span class="video__play video__play--youtube" aria-hidden="true">
+      <button class="video-capa" type="button" aria-label="${labels.playLabel}: ${item.title}">
+        <img class="video-thumbnail" src="${youtubeThumbnail(id)}" alt="" loading="lazy" />
+        <span class="video-thumbnail-titulo">${item.title}</span>
+        <span class="botao-play botao-play-youtube" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
         </span>
       </button>
@@ -346,18 +358,18 @@ function youtubePlayer(item) {
 
 // Mídia de cada item: player na própria página quando há youtube/src, senão botão de link.
 // preload="none" evita baixar o áudio antes de o visitante dar play
-function mediaItem(item) {
+function mediaItem(item, labels) {
   const player = item.youtube
-    ? youtubePlayer(item)
+    ? youtubePlayer(item, labels)
     : item.src
       ? `<audio controls preload="none" src="${item.src}"></audio>`
       : "";
   const link = item.href
-    ? `<a class="btn btn--ghost" href="${item.href}" target="_blank" rel="noopener">Abrir</a>`
+    ? `<a class="botao botao-contorno" href="${item.href}" target="_blank" rel="noopener">${labels.openLabel}</a>`
     : "";
 
   return `
-    <div class="card media-item">
+    <div class="card card-flutua item-midia">
       ${player}
       <h3>${item.title}</h3>
       ${typeof item.description === "string" ? `<p>${item.description}</p>` : ""}
@@ -379,7 +391,7 @@ function toSeconds(time) {
 }
 
 // Descrição embaixo do vídeo: título, referência, campos, roteiro com tempos, seções e créditos
-function renderDescription(description) {
+function renderDescription(description, labels) {
   if (!description) return "";
   if (typeof description === "string") return `<p>${linkify(description)}</p>`;
 
@@ -387,15 +399,15 @@ function renderDescription(description) {
 
   const timelineHTML = timeline.length
     ? `
-      <div class="description__block">
+      <div class="descricao-bloco">
         ${timelineTitle ? `<h4>${timelineTitle}</h4>` : ""}
-        <ol class="timeline">
+        <ol class="roteiro">
           ${timeline
             .map(
               (step) => `
-            <li class="timeline__item">
-              <button class="timeline__time" type="button" data-seek="${toSeconds(step.start)}"
-                aria-label="Tocar a partir de ${step.start}">${step.start}${step.end ? ` - ${step.end}` : ""}</button>
+            <li class="roteiro-item">
+              <button class="roteiro-tempo" type="button" data-seek="${toSeconds(step.start)}"
+                aria-label="${labels.seekLabel} ${step.start}">${step.start}${step.end ? ` - ${step.end}` : ""}</button>
               <div>
                 <strong>${step.label}</strong>
                 ${step.quote ? `<blockquote>${step.quote}</blockquote>` : ""}
@@ -409,14 +421,14 @@ function renderDescription(description) {
     : "";
 
   return `
-    ${heading ? `<h3 class="description__heading">${heading}</h3>` : ""}
-    ${reference ? `<p class="description__reference">${linkify(reference)}</p>` : ""}
+    ${heading ? `<h3>${heading}</h3>` : ""}
+    ${reference ? `<p class="descricao-referencia">${linkify(reference)}</p>` : ""}
     ${fields.map((field) => `<p><strong>${field.label}:</strong> ${linkify(field.text)}</p>`).join("")}
     ${timelineHTML}
     ${sections
       .map(
         (section) => `
-      <div class="description__block">
+      <div class="descricao-bloco">
         <h4>${section.title}</h4>
         ${section.paragraphs.map((paragraph) => `<p>${linkify(paragraph)}</p>`).join("")}
       </div>`
@@ -424,7 +436,7 @@ function renderDescription(description) {
       .join("")}
     ${
       credits.length
-        ? `<dl class="description__credits">
+        ? `<dl class="descricao-creditos">
             ${credits.map((credit) => `<div><dt>${credit.label}</dt><dd>${credit.value}</dd></div>`).join("")}
           </dl>`
         : ""
@@ -435,54 +447,56 @@ function renderDescription(description) {
 // Toda aba tem as mesmas duas áreas de tamanho fixo: mídia (16:9) em cima e descrição embaixo.
 // Um único vídeo ocupa a área de mídia inteira e a descrição dele vai embaixo;
 // vários itens viram uma grade de cards (cada um com a própria descrição curta)
-function panelContent(items) {
+// labels = textos da seção (multimedia no js/1-data.js): botões, "Ler mais" e textos para leitor de tela
+function panelContent(items, labels) {
   const single = items.length === 1 && items[0].youtube ? items[0] : null;
   const media = single
-    ? youtubePlayer(single)
+    ? youtubePlayer(single, labels)
     : items.length
-      ? `<div class="grid grid--cards tab-panel__grid">${items.map(mediaItem).join("")}</div>`
+      ? `<div class="grade-cards aba-grade">${items.map((item) => mediaItem(item, labels)).join("")}</div>`
       : "";
 
+  const hasDescription = Boolean(single?.description);
+  const readMoreButton = hasDescription
+    ? `<button class="botao botao-contorno aba-ler-mais" type="button" aria-expanded="false"
+        data-texto-fechado="${labels.readMore.closed}" data-texto-aberto="${labels.readMore.open}">${labels.readMore.closed}</button>`
+    : "";
+
   return `
-    <div class="tab-panel__media">${media}</div>
-    <div class="tab-panel__description">${single ? renderDescription(single.description) : ""}</div>
+    <div class="aba-midia">${media}</div>
+    <div class="aba-descricao">${hasDescription ? renderDescription(single.description, labels) : ""}</div>
+    ${readMoreButton}
   `;
 }
 
 // Abas: cada categoria tem um botão e um painel; só o painel selecionado fica visível
 // (a troca é feita por initTabs em js/4-nav.js). A primeira aba começa selecionada
 function renderMultimedia({ multimedia }) {
-  const head = document.getElementById("multimedia-head");
-  if (head) {
-    head.innerHTML = `
-      <span class="eyebrow">${multimedia.eyebrow}</span>
-      <h2>${multimedia.heading}</h2>
-      <p>${multimedia.intro}</p>
-    `;
-  }
+  sectionHead(document.getElementById("trabalhos-titulo"), multimedia);
 
-  const tabs = document.getElementById("multimedia-tabs");
+  const tabs = document.getElementById("trabalhos-abas");
   if (tabs) {
+    tabs.setAttribute("aria-label", multimedia.intro);
     tabs.innerHTML = multimedia.categories
       .map(
         (category, index) => `
-        <button class="tag tab" type="button" role="tab" id="tab-${category.id}"
-          aria-controls="panel-${category.id}" aria-selected="${index === 0}" tabindex="${index === 0 ? 0 : -1}">
+        <button class="etiqueta aba" type="button" role="tab" id="aba-${category.id}"
+          aria-controls="painel-${category.id}" aria-selected="${index === 0}" tabindex="${index === 0 ? 0 : -1}">
           ${category.name}
         </button>`
       )
       .join("");
   }
 
-  const panels = document.getElementById("multimedia-panels");
+  const panels = document.getElementById("trabalhos-conteudo");
   if (!panels) return;
 
   panels.innerHTML = multimedia.categories
     .map(
       (category, index) => `
-      <div class="tab-panel" role="tabpanel" id="panel-${category.id}" aria-labelledby="tab-${category.id}"
+      <div class="aba-painel" role="tabpanel" id="painel-${category.id}" aria-labelledby="aba-${category.id}"
         tabindex="0" ${index === 0 ? "" : "hidden"}>
-        ${panelContent(category.items)}
+        ${panelContent(category.items, multimedia)}
       </div>`
     )
     .join("");
@@ -494,7 +508,7 @@ export function renderAll(data) {
   renderDotNav(data);
   renderIntro(data);
   renderSidebar(data);
-  renderTextSection("about", data);
+  renderAbout(data);
   renderMultimedia(data);
   renderArticle(data);
   renderProject(data);

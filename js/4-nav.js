@@ -2,18 +2,18 @@ import { stopVideos } from "./5-media.js";
 
 // Comportamento do menu dropdown "Projetos" no cabeçalho
 function initProjectsDropdown() {
-  const dropdown = document.getElementById("nav-projects");
-  const button = document.getElementById("nav-projects-btn");
+  const dropdown = document.getElementById("menu-projetos");
+  const button = document.getElementById("menu-projetos-botao");
   if (!dropdown || !button) return;
 
   const close = () => {
-    dropdown.classList.remove("is-open");
+    dropdown.classList.remove("aberto");
     button.setAttribute("aria-expanded", "false");
   };
 
   button.addEventListener("click", (event) => {
     event.stopPropagation();
-    const isOpen = dropdown.classList.toggle("is-open");
+    const isOpen = dropdown.classList.toggle("aberto");
     button.setAttribute("aria-expanded", String(isOpen));
   });
 
@@ -28,19 +28,19 @@ function initProjectsDropdown() {
 
 // Botão hambúrguer: abre/fecha o menu completo no mobile
 function initMobileMenu() {
-  const header = document.getElementById("site-header");
-  const toggle = document.getElementById("nav-toggle");
-  const navLinks = document.getElementById("nav-links");
+  const header = document.getElementById("cabecalho");
+  const toggle = document.getElementById("menu-hamburguer");
+  const navLinks = document.getElementById("menu-links");
   if (!header || !toggle || !navLinks) return;
 
   const close = () => {
-    header.classList.remove("nav-open");
+    header.classList.remove("menu-aberto");
     toggle.setAttribute("aria-expanded", "false");
   };
 
   toggle.addEventListener("click", (event) => {
     event.stopPropagation();
-    const isOpen = header.classList.toggle("nav-open");
+    const isOpen = header.classList.toggle("menu-aberto");
     toggle.setAttribute("aria-expanded", String(isOpen));
   });
 
@@ -70,7 +70,7 @@ function initScrollSpy(links) {
     const line = window.innerHeight * 0.4;
     const passed = targets.filter((target) => target.section.getBoundingClientRect().top <= line);
     const active = atBottom ? targets[targets.length - 1] : passed[passed.length - 1];
-    targets.forEach((target) => target.link.classList.toggle("is-active", target === active));
+    targets.forEach((target) => target.link.classList.toggle("ativo", target === active));
   };
 
   let ticking = false;
@@ -91,14 +91,14 @@ function initSectionHighlight() {
   const anchorLinks = (selector) =>
     Array.from(document.querySelectorAll(selector)).filter((link) => link.getAttribute("href").startsWith("#"));
 
-  initScrollSpy(anchorLinks("#dot-nav a"));
-  initScrollSpy(anchorLinks("#nav-links > li > a"));
+  initScrollSpy(anchorLinks("#bolinhas a"));
+  initScrollSpy(anchorLinks("#menu-links > li > a"));
 }
 
 // Seções recolhíveis ("Sobre mim"): clicar em qualquer parte do card abre/fecha o texto
 function initCollapsibles() {
-  document.querySelectorAll(".section-toggle").forEach((button) => {
-    const card = button.closest(".toggle-card");
+  document.querySelectorAll(".card-recolhivel-botao").forEach((button) => {
+    const card = button.closest(".card-recolhivel");
     const panel = document.getElementById(button.getAttribute("aria-controls"));
     if (!card || !panel) return;
 
@@ -108,9 +108,24 @@ function initCollapsibles() {
 
       const isOpen = button.getAttribute("aria-expanded") !== "true";
       button.setAttribute("aria-expanded", String(isOpen));
-      card.classList.toggle("is-open", isOpen);
-      panel.classList.toggle("is-open", isOpen);
+      card.classList.toggle("aberto", isOpen); // para o brilho do card (ver LUZES QUE CONVIDAM AO CLIQUE em 4-componentes.css)
+      panel.classList.toggle("aberto", isOpen);
     });
+  });
+}
+
+// Tooltip que acompanha o mouse (classe "com-dica", ver 4-componentes.css): passa a posição
+// do mouse dentro do elemento para o CSS (--dica-x / --dica-y). Sem mouse (teclado), fica no canto
+function initTooltips() {
+  document.querySelectorAll(".com-dica").forEach((el) => {
+    el.addEventListener("mousemove", (event) => {
+      const rect = el.getBoundingClientRect();
+      el.style.setProperty("--dica-x", `${event.clientX - rect.left}px`);
+      el.style.setProperty("--dica-y", `${event.clientY - rect.top}px`);
+      el.classList.add("dica-no-mouse");
+    });
+
+    el.addEventListener("mouseleave", () => el.classList.remove("dica-no-mouse"));
   });
 }
 
@@ -146,8 +161,27 @@ function initTabs() {
   });
 }
 
+// "Ler mais" da descrição do vídeo (só aparece no celular, ver 7-responsivo.css): abre e fecha
+// a descrição. Ao recolher, rola a tela de volta para o começo da descrição
+function initReadMore() {
+  document.querySelectorAll(".aba-ler-mais").forEach((button) => {
+    const description = button.previousElementSibling;
+    if (!description) return;
+
+    button.addEventListener("click", () => {
+      const isOpen = button.getAttribute("aria-expanded") !== "true";
+      button.setAttribute("aria-expanded", String(isOpen));
+      button.textContent = isOpen ? button.dataset.textoAberto : button.dataset.textoFechado;
+      description.classList.toggle("expandida", isOpen);
+      if (!isOpen) description.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+  });
+}
+
 export function initNav() {
   initTabs();
+  initReadMore();
+  initTooltips();
   initCollapsibles();
   initProjectsDropdown();
   initMobileMenu();

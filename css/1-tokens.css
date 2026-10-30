@@ -1,59 +1,89 @@
-/* Design tokens: única fonte da verdade para cores, gradientes, tipografia e espaçamento */
+/* =====================================================================
+   TOKENS (variáveis): única fonte da verdade para o visual do site.
+   Mudou aqui, muda no site inteiro. Use sempre var(--nome) nos outros arquivos.
+   ===================================================================== */
 :root {
-  /* Tipografia */
-  --font-display: "Space Grotesk", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
+  /* ===== FONTES ===== */
+  --fonte-titulo: "Space Grotesk", system-ui, sans-serif;
+  --fonte-texto: "Inter", system-ui, sans-serif;
 
-  --fs-title: clamp(2.25rem, 4vw + 1rem, 4rem);
-  --fs-display: clamp(1.85rem, 3.6vw + 0.6rem, 3.25rem);
-  --fs-subtitle: clamp(1.15rem, 1vw + 1rem, 1.5rem);
-  --fs-heading: clamp(1.6rem, 1.5vw + 1rem, 2.25rem);
-  --fs-paragraph: 1.05rem;
-  --fs-small: 0.875rem;
-  --fs-sidebar-name: 1.1rem;
+  /* ===== TAMANHO DOS TEXTOS =====
+     clamp(mínimo, ideal, máximo): o tamanho cresce com a largura da tela, dentro dos limites */
+  --texto-nome-grande: clamp(29.6px, 3.6vw + 9.6px, 52px); /* nome no topo da página */
+  --texto-h2: clamp(25.6px, 1.5vw + 16px, 36px);           /* títulos das seções */
+  --texto-h3: clamp(18.4px, 1vw + 16px, 24px);             /* títulos dos cards */
+  --texto-normal: 16.8px;
+  --texto-pequeno: 14px;
+  --texto-destaque: 17.6px;  /* "Início" no menu e nome na coluna da foto */
+  --texto-medio: 16px;       /* subtítulos da descrição do vídeo e contatos */
+  --texto-mini: 12.8px;      /* tooltip, nome das bolinhas, tempos do roteiro */
+  --texto-codigo: 13.6px;    /* blocos de código dos Bastidores */
 
-  --lh-tight: 1.15;
-  --lh-body: 1.7;
+  --altura-linha-titulo: 1.15;
+  --altura-linha-texto: 1.7;
 
-  --fw-regular: 400;
-  --fw-medium: 500;
-  --fw-bold: 700;
+  --peso-medio: 500;
+  --peso-negrito: 700;
 
-  /* Cores */
-  --color-bg: #0a0e17;
-  --color-bg-elevated: #10151f;
-  --color-surface: rgba(255, 255, 255, 0.04);
-  --color-surface-hover: rgba(255, 255, 255, 0.07);
-  --color-border: rgba(255, 255, 255, 0.09);
-  --color-text: #e9edf5;
-  --color-text-muted: #dbdbdb;
+  /* ===== CORES =====
+     As cores transparentes são feitas a partir das principais com color-mix:
+     color-mix(in srgb, var(--cor-roxo) 40%, transparent) = o roxo com 40% de opacidade.
+     Assim, trocar uma cor principal atualiza todas as versões dela */
+  --cor-fundo: #0a0e17;
+  --cor-fundo-elevado: #10151f;                  /* menus, card do projeto, blocos de código */
+  --cor-superficie: color-mix(in srgb, var(--cor-branco) 4%, transparent);   /* fundo dos cards */
+  --cor-superficie-hover: color-mix(in srgb, var(--cor-branco) 7%, transparent);
+  --cor-borda: color-mix(in srgb, var(--cor-branco) 9%, transparent);
+  --cor-texto: #e9edf5;
+  --cor-texto-suave: #dbdbdb;
 
-  --color-primary: #7c5cff;
-  --color-secondary: #22d3ee;
-  --color-accent: #ff5fa2;
+  --cor-roxo: #7c5cff;
+  --cor-ciano: #22d3ee;
+  --cor-rosa: #ff5fa2;
+  --cor-lilas: #b9c2ff;                           /* fim do gradiente dos nomes (branco → lilás) */
 
-  --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  --gradient-accent: linear-gradient(135deg, var(--color-accent) 0%, var(--color-primary) 100%);
-  --gradient-text: linear-gradient(135deg, #ffffff 0%, #b9c2ff 100%);
-  --gradient-bg-glow: radial-gradient(circle at 20% 20%, rgba(124, 92, 255, 0.25), transparent 45%),
-    radial-gradient(circle at 80% 0%, rgba(34, 211, 238, 0.18), transparent 40%),
-    radial-gradient(circle at 50% 100%, rgba(255, 95, 162, 0.14), transparent 45%);
+  --cor-branco: #ffffff;
+  --cor-preto: #000000;
+  --cor-texto-escuro: #050810;                    /* texto em cima do gradiente (botão principal) */
+  --cor-cabecalho: color-mix(in srgb, var(--cor-fundo) 70%, transparent);         /* fundo do cabeçalho, meio transparente */
+  --cor-roxo-borda: color-mix(in srgb, var(--cor-roxo) 40%, transparent);      /* borda dos cards no hover */
+  --cor-roxo-borda-forte: color-mix(in srgb, var(--cor-roxo) 45%, transparent); /* borda dos contatos no hover */
+  --cor-bolinha-borda: color-mix(in srgb, var(--cor-branco) 18%, transparent); /* contorno das bolinhas de navegação */
 
-  /* Espaçamento e forma */
-  --space-xs: 0.5rem;
-  --space-sm: 1rem;
-  --space-md: 1.75rem;
-  --space-lg: 3rem;
-  --space-xl: 6rem;
+  /* Cores de marcas */
+  --cor-youtube: #ff0000;
+  --cor-youtube-hover: #cc0000;
+  --cor-whatsapp: #25d366;
 
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 28px;
+  /* ===== GRADIENTES ===== */
+  --gradiente-principal: linear-gradient(135deg, var(--cor-roxo) 0%, var(--cor-ciano) 100%);
+  --gradiente-rosa: linear-gradient(135deg, var(--cor-rosa) 0%, var(--cor-roxo) 100%);
+  --gradiente-texto: linear-gradient(135deg, var(--cor-branco) 0%, var(--cor-lilas) 100%);
+  --gradiente-fundo: radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--cor-roxo) 25%, transparent), transparent 45%),
+    radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--cor-ciano) 18%, transparent), transparent 40%),
+    radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--cor-rosa) 14%, transparent), transparent 45%);
 
-  --shadow-card: 0 20px 40px -20px rgba(0, 0, 0, 0.6);
-  --transition-base: 0.25s ease;
+  /* ===== ESPAÇOS (como tamanho de roupa: PP, P, M, G, GG) ===== */
+  --espaco-pp: 8px;
+  --espaco-p: 16px;
+  --espaco-m: 28px;
+  --espaco-g: 48px;
+  --espaco-gg: 96px;
 
-  --container-width: 1180px;
-  --sidebar-width: 360px;
-  --header-height: 72px;
+  /* ===== CANTOS ARREDONDADOS ===== */
+  --arredondado-p: 8px;
+  --arredondado-m: 16px;
+  --arredondado-g: 28px;
+  --arredondado-pilula: 999px; /* pontas totalmente redondas */
+
+  /* ===== EFEITOS ===== */
+  --sombra: 0 20px 40px -20px color-mix(in srgb, var(--cor-preto) 60%, transparent);
+  --transicao: 0.25s ease;        /* hover, cores, pequenos movimentos */
+  --transicao-lenta: 0.45s ease;  /* abrir/fechar o "Sobre mim", luzes apagando */
+  --transicao-surgir: 0.7s ease;  /* blocos surgindo ao rolar a página */
+
+  /* ===== MEDIDAS DA PÁGINA ===== */
+  --largura-site: 1180px;
+  --largura-lateral: 360px;
+  --altura-cabecalho: 72px;
 }

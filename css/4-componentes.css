@@ -1,0 +1,459 @@
+/* =====================================================================
+   COMPONENTES: peças reutilizadas em várias partes do site
+   ===================================================================== */
+
+/* ===== BOTÕES =====
+   Use sempre "botao" + uma cor: <a class="botao botao-principal"> ou "botao botao-contorno" */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: var(--arredondado-p);
+  font-weight: var(--peso-medio);
+  font-size: var(--texto-pequeno);
+  transition: transform var(--transicao), box-shadow var(--transicao);
+}
+
+/* Gradiente roxo → ciano */
+.botao-principal {
+  background: var(--gradiente-principal);
+  color: var(--cor-texto-escuro);
+}
+
+/* Só a borda */
+.botao-contorno {
+  border: 1px solid var(--cor-borda);
+  color: var(--cor-texto);
+}
+
+.botao:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra);
+}
+
+/* ===== SELO: caixinha de informação (idade, curso, "Link em breve") ===== */
+.selo {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 13.6px;
+  border-radius: var(--arredondado-p);
+  font-size: var(--texto-pequeno);
+  white-space: pre-line;
+  line-height: 1.4;
+  border: 1px solid var(--cor-borda);
+  background: var(--cor-superficie);
+  color: var(--cor-texto-suave);
+}
+
+/* ===== ETIQUETA: skills, interesses, tecnologias do TCC e abas ===== */
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  padding: 7.2px 16px;
+  border-radius: var(--arredondado-p);
+  font-size: var(--texto-pequeno);
+  font-weight: var(--peso-medio);
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  transition: border-color var(--transicao), color var(--transicao), background var(--transicao);
+}
+
+/* Só etiquetas que são link reagem ao mouse */
+a.etiqueta:hover {
+  border-color: var(--cor-roxo);
+  color: var(--cor-ciano);
+  background: var(--cor-superficie-hover);
+}
+
+/* Etiquetas que preenchem a linha inteira, todas com a mesma largura: use junto com
+   lista-etiquetas, ex.: <div class="lista-etiquetas lista-etiquetas-cheia">.
+   flex: 1 1 0 = todas partem do zero e dividem a linha em partes iguais.
+   min-width: max-content = nenhuma fica menor que o próprio texto (se a tela for estreita demais
+   para larguras iguais, a do texto mais longo fica um pouco maior, ou a linha quebra).
+   A margem interna menor (6px) faz mais etiquetas caberem na mesma linha no celular */
+.lista-etiquetas-cheia {
+  width: 100%;
+}
+
+.lista-etiquetas-cheia > .etiqueta {
+  flex: 1 1 0;
+  min-width: max-content;
+  justify-content: center;
+  padding-inline: 6px;
+}
+
+/* ===== CARD: caixa com fundo, borda e cantos arredondados =====
+   <div class="card">              → no hover, o fundo clareia e a borda fica roxa
+   <div class="card card-flutua">  → além disso, sobe 4px no hover */
+.card {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--arredondado-m);
+  padding: var(--espaco-m);
+  transition: transform var(--transicao), background var(--transicao), border-color var(--transicao);
+}
+
+.card:hover {
+  background: var(--cor-superficie-hover);
+  border-color: var(--cor-roxo-borda);
+}
+
+.card-flutua:hover {
+  transform: translateY(-4px);
+}
+
+.card h3 {
+  margin-bottom: var(--espaco-pp);
+}
+
+.card p {
+  font-size: var(--texto-pequeno);
+}
+
+/* =====================================================================
+   LUZES QUE CONVIDAM AO CLIQUE
+   Classes reutilizáveis: basta colocar no elemento, ex.: <div class="card borda-pulsante">.
+   Regras comuns a todas:
+   - Param quando o elemento ganha a classe "aberto" (o convite ao clique já funcionou).
+   - O movimento é lento (ciclo de 2,5s), sem piscar rápido.
+   - Quem pediu ao sistema para reduzir movimento vê a luz parada (ver 6-animations.css).
+   Em uso hoje (opção 1): card "Sobre mim" e botão "Como este site foi feito" do rodapé.
+   ===================================================================== */
+
+/* ===== OPÇÃO 1, VERSÃO 1: LUZ LATERAL EM FAIXAS RETAS (desativada) =====
+   Duas faixas retas roxo → ciano (::before na esquerda, ::after na direita), em cima da borda,
+   que acendem e apagam juntas. Trocada porque, sendo reta, não consegue entrar na curva dos cantos.
+   Para usar: tire este bloco do comentário e coloque a classe "luz-lateral-reta" no elemento.
+
+.luz-lateral-reta {
+  position: relative;
+}
+
+.luz-lateral-reta::before,
+.luz-lateral-reta::after {
+  content: "";
+  position: absolute;
+  top: var(--espaco-p);
+  bottom: var(--espaco-p);
+  width: 4px;
+  border-radius: 4px;
+  background: linear-gradient(var(--cor-roxo), var(--cor-ciano));
+  box-shadow: 0 0 14px 2px color-mix(in srgb, var(--cor-roxo) 70%, transparent);
+  animation: luz-respirando-reta 5s ease-in-out infinite;
+  transition: opacity var(--transicao-lenta);
+}
+
+-2.5px centraliza a faixa de 4px em cima da borda de 1px do card:
+.luz-lateral-reta::before {
+  left: -2.5px;
+}
+
+.luz-lateral-reta::after {
+  right: -2.5px;
+}
+
+.luz-lateral-reta.aberto::before,
+.luz-lateral-reta.aberto::after {
+  animation: none;
+  opacity: 0;
+}
+
+@keyframes luz-respirando-reta {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+*/
+
+/* ===== OPÇÃO 1, VERSÃO 2: LUZ LATERAL QUE "RESPIRA", ACOMPANHANDO A CURVA (em uso) =====
+   Uma camada (::before) do tamanho do card, com o mesmo arredondamento, desenha a luz com
+   sombras internas (inset) nas laterais esquerda e direita. Como a sombra segue o contorno,
+   a luz desce pela borda e entra na curva dos cantos, afinando até sumir, como um "( )".
+   Os dois lados são a mesma camada, então acendem e apagam sempre juntos.
+   Para usar em outro elemento: coloque a classe "luz-lateral" nele.
+   Ajustes: espessura da linha = 3px · brilho para dentro = 10px/12px · respiro = 5s */
+.luz-lateral {
+  position: relative;
+}
+
+.luz-lateral::before {
+  content: "";
+  position: absolute;
+  inset: -1px; /* cobre a borda de 1px do card: a luz encosta na lateral */
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    inset 3px 0 0 0 var(--cor-ciano),
+    inset -3px 0 0 0 var(--cor-ciano),
+    inset 10px 0 12px -6px color-mix(in srgb, var(--cor-roxo) 80%, transparent),
+    inset -10px 0 12px -6px color-mix(in srgb, var(--cor-roxo) 80%, transparent);
+  animation: luz-respirando 5s ease-in-out infinite;
+  transition: opacity var(--transicao-lenta), box-shadow 0.3s ease;
+}
+
+.luz-lateral.aberto::before {
+  animation: none;
+  opacity: 0;
+}
+
+/* Mouse em cima (só em aparelhos com mouse): a luz para de respirar, fica 100% acesa
+   e o brilho para dentro fica mais forte */
+@media (hover: hover) {
+  .luz-lateral:not(.aberto):hover::before {
+    animation: none;
+    opacity: 1;
+    box-shadow:
+      inset 3px 0 0 0 var(--cor-ciano),
+      inset -3px 0 0 0 var(--cor-ciano),
+      inset 18px 0 20px -6px color-mix(in srgb, var(--cor-roxo) 95%, transparent),
+      inset -18px 0 20px -6px color-mix(in srgb, var(--cor-roxo) 95%, transparent);
+  }
+}
+
+/* Acende (100%) e apaga até ficar fraquinha (25%) */
+@keyframes luz-respirando {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+
+/* ===== OPÇÃO 2: BORDA QUE BRILHA E PULSA (desativada) =====
+   O contorno inteiro ganha um brilho roxo/ciano (o mesmo da moldura da foto) que
+   aumenta e diminui devagar. --brilho-pulso é o brilho no ponto mais forte.
+   Testada no "Sobre mim". Para usar: tire este bloco do comentário e coloque a classe
+   "borda-pulsante" no elemento.
+
+.borda-pulsante {
+  --brilho-pulso: 0 0 22px -2px color-mix(in srgb, var(--cor-roxo) 60%, transparent), 0 0 14px 1px color-mix(in srgb, var(--cor-ciano) 30%, transparent);
+  animation: borda-pulsando 2.5s ease-in-out infinite;
+}
+
+.borda-pulsante.aberto {
+  animation: none;
+}
+
+Animação: fraco (borda normal, sem brilho) → forte (borda ciano + brilho) → fraco
+@keyframes borda-pulsando {
+  0%,
+  100% {
+    border-color: var(--cor-borda);
+    box-shadow: none;
+  }
+
+  50% {
+    border-color: color-mix(in srgb, var(--cor-ciano) 55%, transparent);
+    box-shadow: var(--brilho-pulso);
+  }
+}
+*/
+
+/* ===== OPÇÃO 3, VERSÃO 1: LUZ QUE PERCORRE A BORDA, COM GRADIENTE QUE GIRA (desativada) =====
+   Um anel do tamanho da borda (::before), pintado com um gradiente circular que só tem um
+   "pedaço" aceso (roxo → ciano). O gradiente gira, e a luz parece dar a volta no contorno.
+   Por que foi trocada: o gradiente gira em ÂNGULO a partir do centro. Num card largo e baixo,
+   a luz anda devagar no meio das bordas compridas e dispara perto dos cantos (parece frear).
+   Para usar: tire este bloco do comentário e coloque a classe "luz-percorre-gradiente" no elemento.
+   Ajustes: velocidade = 4s · tamanho do rastro = 220deg (quanto menor, maior a luz)
+
+Registra o ângulo como um valor animável (sem isso, o navegador não consegue girar o gradiente):
+@property --angulo-luz {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.luz-percorre-gradiente {
+  position: relative;
+}
+
+.luz-percorre-gradiente::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 2px;
+  border-radius: inherit;
+  background: conic-gradient(from var(--angulo-luz), transparent 0deg 220deg, var(--cor-roxo) 310deg, var(--cor-ciano) 360deg);
+  -webkit-mask: linear-gradient(var(--cor-preto) 0 0) content-box, linear-gradient(var(--cor-preto) 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: drop-shadow(0 0 8px var(--cor-ciano));
+  pointer-events: none;
+  animation: luz-girando 4s linear infinite;
+  transition: opacity var(--transicao-lenta);
+}
+
+.luz-percorre-gradiente.aberto::before {
+  animation: none;
+  opacity: 0;
+}
+
+Uma volta completa no contorno:
+@keyframes luz-girando {
+  to {
+    --angulo-luz: 360deg;
+  }
+}
+*/
+
+/* ===== OPÇÃO 3, VERSÃO 2: LUZ QUE PERCORRE A BORDA, EM VELOCIDADE CONSTANTE (desativada) =====
+   O js/3-animations.js coloca um contorno em SVG (.luz-percorre-svg) dentro de cada elemento
+   com a classe "luz-percorre". O contorno tem várias camadas finas e transparentes, cada uma
+   um pouco mais comprida, todas terminando na ponta: perto da ponta muitas se somam (luz forte
+   e ciano), no fim do rastro sobra uma só (fraca e roxa). Isso forma o degradê da luz.
+   pathLength="100" faz a volta inteira valer 100 em qualquer tamanho de card, então a luz
+   anda sempre a mesma distância por segundo (sem frear nos cantos).
+   Ajustes: velocidade = --luz-volta (abaixo) · tamanho do rastro e nº de camadas = no JS
+   Testada no "Sobre mim" (a versão das 3 camadas parecia 3 pedaços correndo; esta, com
+   várias camadas em degradê, foi interrompida antes de ser aprovada). Para usar: tire este
+   bloco do comentário e coloque a classe "luz-percorre" no elemento (o JS já está pronto).
+
+.luz-percorre {
+  --luz-volta: 4s;
+  position: relative;
+}
+
+.luz-percorre-svg {
+  position: absolute;
+  inset: -1px;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  overflow: visible;
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px var(--cor-ciano));
+  transition: opacity var(--transicao-lenta);
+}
+
+Cada camada: comprimento, cor, transparência e atraso vêm do JS (no atributo style).
+.luz-percorre-svg rect {
+  fill: none;
+  stroke-width: 2;
+  animation: luz-andando var(--luz-volta) linear infinite;
+}
+
+Card aberto: a luz apaga e para:
+.luz-percorre.aberto .luz-percorre-svg {
+  opacity: 0;
+}
+
+.luz-percorre.aberto .luz-percorre-svg rect {
+  animation-play-state: paused;
+}
+
+Uma volta completa: cada camada anda 100 (a volta inteira):
+@keyframes luz-andando {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+*/
+
+/* =====================================================================
+   EFEITOS DE BOTÃO (reutilizáveis: basta colocar a classe no elemento)
+   Em uso hoje: card "Sobre mim" e botão "Como este site foi feito" do rodapé
+   ===================================================================== */
+
+/* ===== APERTAR AO CLICAR =====
+   No clique/toque, o elemento encolhe um pouco e volta, como um botão sendo pressionado */
+.aperta-ao-clicar:active {
+  scale: 0.98;
+}
+
+/* ===== TOOLTIP (DICA) QUE ACOMPANHA O MOUSE =====
+   <a class="com-dica" data-dica="Clique para ler">. O texto vem do js/1-data.js, colocado no
+   atributo data-dica pelo js/2-render.js. Se o elemento tiver a classe "aberto" e o atributo
+   data-dica-aberto, mostra esse outro texto (ex.: "Clique para recolher").
+   No hover (computador), acompanha o mouse: o js/4-nav.js passa a posição em --dica-x / --dica-y.
+   Pelo teclado (Tab), aparece fixo acima do canto direito do elemento */
+.com-dica {
+  position: relative;
+}
+
+.com-dica::after {
+  content: attr(data-dica);
+  position: absolute;
+  bottom: calc(100% + var(--espaco-pp));
+  right: 0;
+  padding: 4px 12px;
+  border-radius: var(--arredondado-pilula);
+  border: 1px solid var(--cor-roxo-borda);
+  background: var(--cor-fundo-elevado);
+  box-shadow: var(--sombra);
+  color: var(--cor-texto);
+  font-size: var(--texto-mini);
+  font-weight: var(--peso-medio);
+  white-space: nowrap;
+  opacity: 0;
+  translate: 0 4px;
+  pointer-events: none;
+  transition: opacity var(--transicao), translate var(--transicao);
+}
+
+.com-dica.aberto[data-dica-aberto]::after {
+  content: attr(data-dica-aberto);
+}
+
+/* Acompanhando o mouse: um pouco acima e à esquerda do cursor (à direita, perto da borda
+   da tela, a dica sairia da tela) */
+.com-dica.dica-no-mouse::after {
+  left: var(--dica-x);
+  top: var(--dica-y);
+  bottom: auto;
+  right: auto;
+  transform: translate(calc(-100% - 8px), calc(-100% - 8px));
+}
+
+@media (hover: hover) {
+  .com-dica:hover::after {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+.com-dica:focus-visible::after,
+.com-dica:has(:focus-visible)::after {
+  opacity: 1;
+  translate: 0 0;
+}
+
+
+/* ===== TEXTO COM GRADIENTE: o gradiente fica "dentro" das letras =====
+   Padrão: branco → lilás. Para outra cor, troque só o background-image no elemento
+   (ex.: .marca usa o roxo → ciano). Use background-image, nunca "background:", senão o efeito some */
+.texto-gradiente {
+  background-image: var(--gradiente-texto);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ===== TEXTO JUSTIFICADO: alinhado dos dois lados, como o "Justificar" do Word =====
+   Vale para os parágrafos e citações dentro de quem tiver a classe (o <main> de cada página).
+   hyphens: auto quebra palavras longas com hífen no fim da linha (em português, por causa do
+   lang="pt-BR" no <html>), para não abrir buracos entre as palavras em telas estreitas */
+.texto-justificado p,
+.texto-justificado blockquote {
+  text-align: justify;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+/* ===== TEXTO CORRIDO: recuo na primeira linha de cada parágrafo, como no Word ===== */
+.texto-corrido p {
+  text-indent: 2em;
+}

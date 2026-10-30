@@ -1,0 +1,200 @@
+/* =====================================================================
+   RESPONSIVO: ajustes para telas menores.
+   Tablet: até 860px de largura · Celular: até 640px de largura
+   ===================================================================== */
+
+/* ===== TABLET (até 860px): uma coluna só, foto em cima ===== */
+@media (max-width: 860px) {
+  .pagina {
+    grid-template-columns: 1fr;
+  }
+
+  .lateral {
+    position: static;
+    align-items: center;
+    text-align: center;
+  }
+
+  .lateral-contato {
+    justify-content: center;
+  }
+
+  .rodape .container {
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* As bolinhas de navegação aparecem a partir daqui */
+  .bolinhas {
+    display: flex;
+  }
+}
+
+/* ===== CELULAR (até 640px): menu vira hambúrguer ===== */
+@media (max-width: 640px) {
+  .menu-hamburguer {
+    display: flex;
+  }
+
+  /* Menu escondido até apertar o hambúrguer (o do rodapé também some no celular) */
+  .menu-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--cor-fundo-elevado);
+    border-bottom: 1px solid var(--cor-borda);
+    padding: var(--espaco-p);
+  }
+
+  .cabecalho.menu-aberto .menu-links {
+    display: flex;
+  }
+
+  .menu-links a {
+    display: block;
+    padding: 12px var(--espaco-pp);
+  }
+
+  /* No menu em lista, o item ativo só muda de cor (sem sublinhado) */
+  .menu-links a::after {
+    display: none;
+  }
+
+  /* "Projetos" vira um item comum da lista */
+  .menu-projetos-botao {
+    width: 100%;
+    justify-content: space-between;
+    background: none;
+    color: var(--cor-texto);
+    padding: 12px var(--espaco-pp);
+  }
+
+  .menu-projetos-botao:hover,
+  .menu-projetos.aberto .menu-projetos-botao {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .menu-projetos-lista {
+    position: static;
+    display: none;
+    min-width: 0;
+    padding-left: var(--espaco-p);
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .menu-projetos.aberto .menu-projetos-lista {
+    display: flex;
+  }
+
+  .card-artigo {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .abertura-nome,
+  .lateral-nome {
+    white-space: normal;
+  }
+
+  .bolinhas {
+    right: 4px;
+  }
+
+  /* ===== ESPAÇOS: no celular, metade do espaço do computador ===== */
+  section {
+    padding-block: var(--espaco-g);
+  }
+
+  .pagina {
+    gap: var(--espaco-p);
+  }
+
+  .rodape {
+    margin-top: var(--espaco-g);
+  }
+
+  /* Cards com menos borda interna: sobra mais largura para o texto justificado */
+  .card,
+  .card-projeto,
+  .aba-descricao,
+  .aba-grade {
+    padding: var(--espaco-p);
+  }
+
+  /* A área das abas também é um .card, mas continua sem padding: o vídeo encosta nas bordas */
+  .abas-conteudo {
+    padding: 0;
+  }
+
+  /* Coluna da foto com menos borda interna: o e-mail cabe numa linha só */
+  .lateral-corpo {
+    padding: var(--espaco-m) var(--espaco-p);
+  }
+
+  /* Abas em 2 colunas iguais (2 + 2), em vez de quebrar a linha de qualquer jeito */
+  .abas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .aba {
+    justify-content: center;
+  }
+
+  /* Título menor na thumbnail, para não cobrir o vídeo pequeno */
+  .video-thumbnail-titulo {
+    padding: 12px var(--espaco-p);
+    font-size: var(--texto-pequeno);
+  }
+
+  /* Descrição do vídeo: em vez de uma caixa com rolagem própria (irritante no celular),
+     mostra só o começo, sumindo num degradê, e o botão "Ler mais" abre ela inteira */
+  .aba-descricao {
+    height: auto;
+    max-height: 180px;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(var(--cor-preto) 50%, transparent);
+    mask-image: linear-gradient(var(--cor-preto) 50%, transparent);
+  }
+
+  .aba-descricao.expandida {
+    max-height: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .aba-ler-mais {
+    display: flex;
+    justify-content: center;
+    width: calc(100% - 2 * var(--espaco-p));
+    margin: 0 var(--espaco-p) var(--espaco-p);
+  }
+
+  /* Roteiro: o tempo vai para cima da frase, e a frase usa a largura toda */
+  .roteiro-item {
+    grid-template-columns: 1fr;
+    gap: var(--espaco-pp);
+  }
+
+  .roteiro-tempo {
+    justify-self: start;
+  }
+}
+
+/* Em telas de toque não existe hover: os nomes das bolinhas ficam escondidos */
+@media (hover: none) {
+  .bolinha-rotulo {
+    display: none;
+  }
+}

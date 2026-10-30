@@ -1,0 +1,19 @@
+/* =====================================================================
+   PONTO DE ENTRADA DO CSS: só junta os arquivos abaixo, nesta ordem.
+   A ordem importa: quem vem depois ganha quando duas regras empatam.
+
+   1-tokens       cores, fontes, tamanhos e espaços (mude o visual aqui)
+   2-base         reset do navegador + estilo padrão de títulos e textos
+   3-estrutura    esqueleto da página: cabeçalho, colunas, seções, rodapé
+   4-componentes  peças reutilizáveis: botões, selos, etiquetas, cards
+   5-secoes       cada parte do site, na ordem em que aparece na página
+   6-animations   surgimento das seções ao rolar a página
+   7-responsivo   ajustes para tablet e celular
+   ===================================================================== */
+@import "./1-tokens.css";
+@import "./2-base.css";
+@import "./3-estrutura.css";
+@import "./4-componentes.css";
+@import "./5-secoes.css";
+@import "./6-animations.css";
+@import "./7-responsivo.css";

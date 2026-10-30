@@ -1,0 +1,125 @@
+/* =====================================================================
+   ESTRUTURA: o esqueleto da página (onde cada bloco fica)
+   ===================================================================== */
+
+/* Centraliza o conteúdo e limita a largura (usado no cabeçalho, rodapé e tecnologias.html) */
+.container {
+  width: 100%;
+  max-width: var(--largura-site);
+  margin-inline: auto;
+  padding-inline: var(--espaco-p);
+}
+
+/* ===== CABEÇALHO (fica preso no topo ao rolar) ===== */
+.cabecalho {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--altura-cabecalho);
+  backdrop-filter: blur(14px);
+  background: var(--cor-cabecalho);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.cabecalho .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* Sombra quando a página já rolou (classe colocada pelo js/3-animations.js) */
+.cabecalho.rolou {
+  box-shadow: var(--sombra);
+}
+
+/* ===== PÁGINA EM DUAS COLUNAS: lateral (foto) + conteúdo ===== */
+.pagina {
+  width: 100%;
+  max-width: var(--largura-site);
+  margin-inline: auto;
+  padding-inline: var(--espaco-p);
+  display: grid;
+  grid-template-columns: var(--largura-lateral) 1fr;
+  gap: var(--espaco-g);
+  align-items: start;
+}
+
+/* Coluna da foto: acompanha a rolagem (sticky), logo abaixo do cabeçalho.
+   Se for mais alta que a tela, o js/3-animations.js ajusta o "top" para ela rolar
+   junto com a página até o fim aparecer e só então grudar (assim não ganha barra de rolagem) */
+.lateral {
+  position: sticky;
+  top: calc(var(--altura-cabecalho) + var(--espaco-p));
+  display: flex;
+  flex-direction: column;
+}
+
+.conteudo {
+  min-width: 0;
+}
+
+/* ===== RODAPÉ ===== */
+.rodape {
+  border-top: 1px solid var(--cor-borda);
+  margin-top: var(--espaco-gg);
+}
+
+.rodape .container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-p);
+  padding-block: var(--espaco-g);
+}
+
+/* ===== SEÇÕES ===== */
+section {
+  padding-block: var(--espaco-gg);
+}
+
+section:first-of-type {
+  padding-top: var(--espaco-g);
+}
+
+/* "Sobre mim" é só um card recolhido: aproxima a seção Multimídia logo abaixo */
+#sobre {
+  padding-bottom: 0;
+}
+
+#multimidia {
+  padding-top: var(--espaco-g);
+}
+
+/* Título de cada seção: sobretítulo pequeno em ciano + título grande */
+.secao-titulo {
+  margin-bottom: var(--espaco-g);
+  max-width: 640px;
+}
+
+.secao-titulo .sobretitulo {
+  display: block;
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-pequeno);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cor-ciano);
+  margin-bottom: var(--espaco-pp);
+}
+
+/* ===== ORGANIZADORES ===== */
+
+/* Cards lado a lado: quantos couberem, cada um com no mínimo 240px */
+.grade-cards {
+  display: grid;
+  gap: var(--espaco-m);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+/* Etiquetas em linha, quebrando quando não couber */
+.lista-etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-pp);
+}

@@ -1,0 +1,930 @@
+/* =====================================================================
+   SEÇÕES: cada parte do site, na ordem em que aparece na página.
+   Procure pelo título em MAIÚSCULAS (Ctrl+F) para achar a parte que quer mexer:
+
+   MENU DO TOPO · BOLINHAS · LATERAL · ABERTURA · SOBRE MIM ·
+   TRABALHOS (ABAS) · DESCRIÇÃO DO VÍDEO · VÍDEO · BOTÃO PLAY ·
+   ARTIGO · PROJETO (TCC) · CONTATO · RODAPÉ · BASTIDORES
+   ===================================================================== */
+
+
+/* =====================================================================
+   MENU DO TOPO
+   ===================================================================== */
+
+/* "Início": texto com gradiente */
+.marca {
+  font-family: var(--fonte-titulo);
+  font-weight: var(--peso-negrito);
+  font-size: var(--texto-destaque);
+  background-image: var(--gradiente-principal);
+}
+
+/* Links do menu (também usados no rodapé) */
+.menu-links {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-m);
+}
+
+.menu-links a {
+  position: relative;
+  font-size: var(--texto-pequeno);
+  color: var(--cor-texto-suave);
+  transition: color var(--transicao);
+}
+
+.menu-links a:hover {
+  color: var(--cor-texto);
+}
+
+/* Seção atual (classe "ativo", colocada pelo js/4-nav.js): texto claro + sublinhado em gradiente */
+.menu-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gradiente-principal);
+  transform: scaleX(0);
+  transition: transform var(--transicao);
+}
+
+.menu-links a.ativo {
+  color: var(--cor-texto);
+}
+
+.menu-links a.ativo::after {
+  transform: scaleX(1);
+}
+
+/* Botão hambúrguer (3 barrinhas): escondido no desktop, aparece no celular (7-responsivo.css) */
+.menu-hamburguer {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+}
+
+.menu-hamburguer-barra {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--cor-texto);
+  border-radius: var(--arredondado-pilula);
+  transition: transform var(--transicao), opacity var(--transicao);
+}
+
+/* Menu aberto: as 3 barrinhas viram um X */
+.cabecalho.menu-aberto .menu-hamburguer-barra:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.cabecalho.menu-aberto .menu-hamburguer-barra:nth-child(2) {
+  opacity: 0;
+}
+
+.cabecalho.menu-aberto .menu-hamburguer-barra:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Botão "Projetos" + lista que abre embaixo dele */
+.menu-projetos {
+  position: relative;
+}
+
+.menu-projetos-botao {
+  display: inline-flex;
+  align-items: center;
+  gap: 6.4px;
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-pequeno);
+  font-weight: var(--peso-negrito);
+  color: var(--cor-fundo);
+  padding: 7.2px 14.4px;
+  border-radius: var(--arredondado-pilula);
+  background: var(--gradiente-principal);
+  transition: transform var(--transicao), box-shadow var(--transicao);
+}
+
+.menu-projetos-botao:hover,
+.menu-projetos.aberto .menu-projetos-botao {
+  transform: translateY(-1px);
+  box-shadow: var(--sombra);
+}
+
+.menu-projetos-seta {
+  width: 10px;
+  height: 8px;
+  transition: transform var(--transicao);
+}
+
+.menu-projetos.aberto .menu-projetos-seta {
+  transform: rotate(180deg);
+}
+
+.menu-projetos-lista {
+  position: absolute;
+  top: calc(100% + 9.6px);
+  left: 0;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4px;
+  background: var(--cor-fundo-elevado);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--arredondado-p);
+  box-shadow: var(--sombra);
+  padding: 6.4px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity var(--transicao), transform var(--transicao), visibility var(--transicao);
+}
+
+.menu-projetos.aberto .menu-projetos-lista {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.menu-projetos-lista a {
+  display: block;
+  padding: 8.8px 12px;
+  border-radius: var(--arredondado-p);
+  font-size: var(--texto-pequeno);
+  color: var(--cor-texto-suave);
+  transition: background var(--transicao), color var(--transicao);
+}
+
+.menu-projetos-lista a:hover {
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+}
+
+
+/* =====================================================================
+   BOLINHAS (navegação rápida na lateral direita)
+   Só aparecem no tablet/celular (ver 7-responsivo.css); no desktop o menu do topo faz esse papel
+   ===================================================================== */
+.bolinhas {
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  position: fixed;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  z-index: 40;
+}
+
+/* O link tem 22px para facilitar o toque; a bolinha visível é o ::before */
+.bolinhas a {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+}
+
+.bolinhas a::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--cor-borda);
+  border: 1px solid var(--cor-bolinha-borda);
+  transition: background var(--transicao), transform var(--transicao);
+}
+
+.bolinhas a:hover::before {
+  background: var(--cor-texto-suave);
+}
+
+/* Bolinha da seção atual */
+.bolinhas a.ativo::before {
+  background: var(--gradiente-principal);
+  border-color: transparent;
+  transform: scale(1.3);
+}
+
+/* Nome da seção que aparece ao passar o mouse */
+.bolinha-rotulo {
+  position: absolute;
+  right: calc(100% + 6px);
+  top: 50%;
+  transform: translate(6px, -50%);
+  padding: 4px 9.6px;
+  border-radius: var(--arredondado-p);
+  background: var(--cor-fundo-elevado);
+  border: 1px solid var(--cor-borda);
+  font-size: var(--texto-mini);
+  white-space: nowrap;
+  color: var(--cor-texto);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transicao), transform var(--transicao);
+}
+
+.bolinhas a:hover .bolinha-rotulo,
+.bolinhas a:focus-visible .bolinha-rotulo {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+
+/* =====================================================================
+   LATERAL (foto, nome, selos e botões)
+   ===================================================================== */
+.lateral-foto-moldura {
+  flex-shrink: 0;
+  margin: var(--espaco-p) var(--espaco-p) 0;
+  border-radius: var(--arredondado-g);
+  overflow: hidden;
+  border: 1px solid var(--cor-borda);
+  box-shadow: 0 0 20px -2px color-mix(in srgb, var(--cor-roxo) 45%, transparent), 0 0 14px 1px color-mix(in srgb, var(--cor-ciano) 25%, transparent);
+}
+
+/* Foto com zoom leve, enquadrando o rosto */
+.lateral-foto {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center 20%;
+  transform: scale(1.15);
+}
+
+.lateral-corpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-p);
+  padding: var(--espaco-m);
+}
+
+.lateral-sobretitulo {
+  font-family: var(--fonte-titulo);
+  color: var(--cor-ciano);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: var(--texto-pequeno);
+}
+
+.lateral-nome {
+  font-family: var(--fonte-titulo);
+  font-weight: var(--peso-negrito);
+  font-size: var(--texto-destaque);
+  line-height: var(--altura-linha-titulo);
+  white-space: nowrap;
+}
+
+.lateral-frase {
+  font-size: var(--texto-pequeno);
+}
+
+.lateral-selos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-pp);
+}
+
+/* Contatos na lateral: selo com ícone + e-mail/telefone/GitHub (dados da seção Contato) */
+.lateral-contato {
+  gap: var(--espaco-pp);
+  word-break: break-word;
+  transition: border-color var(--transicao), color var(--transicao), background var(--transicao);
+}
+
+/* Só os que são link (GitHub) reagem ao mouse, como as etiquetas */
+a.lateral-contato:hover {
+  border-color: var(--cor-roxo);
+  color: var(--cor-texto);
+  background: var(--cor-superficie-hover);
+}
+
+.lateral-botoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--espaco-pp);
+}
+
+/* Margem interna menor (24 → 12px) para os dois botões caberem lado a lado:
+   no computador e em celulares a partir de 360px. Em 320px vão um embaixo do outro.
+   flex: 1 1 auto faz os dois crescerem até ocupar a mesma largura dos selos acima */
+.lateral-botoes .botao {
+  flex: 1 1 auto;
+  justify-content: center;
+  padding-inline: 12px;
+}
+
+
+/* =====================================================================
+   ABERTURA ("Portfólio reflexivo" com letra capitular + nome grande)
+   ===================================================================== */
+.abertura {
+  padding-top: var(--espaco-p);
+}
+
+.abertura-titulo {
+  font-family: var(--fonte-titulo);
+  font-weight: var(--peso-medio);
+  font-size: var(--texto-h2);
+  color: var(--cor-texto);
+}
+
+/* O "P" grande e colorido: estiliza só a primeira letra */
+.abertura-titulo::first-letter {
+  font-size: 2.4em;
+  font-weight: var(--peso-negrito);
+  background: var(--gradiente-principal);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.abertura-nome {
+  margin-top: var(--espaco-m);
+  font-size: var(--texto-nome-grande);
+  white-space: nowrap;
+}
+
+
+/* =====================================================================
+   SOBRE MIM (card recolhível: clicar abre/fecha o texto)
+   O clique é tratado no js/4-nav.js (initCollapsibles)
+   ===================================================================== */
+.card-recolhivel {
+  cursor: pointer;
+}
+
+/* Efeitos de "botão" do card, todos reutilizáveis (ver 4-componentes.css):
+   luz-lateral (luz que respira) · com-dica (tooltip "Clique para ler") · aperta-ao-clicar */
+
+/* Transições do card: as da animação de surgimento (opacity/transform) + subir (translate),
+   apertar (scale), fundo e borda. "translate" e "scale" são separados do "transform" de
+   propósito: assim não brigam com a animação de surgimento, que usa transform */
+.card.card-recolhivel {
+  transition: opacity var(--transicao-surgir), transform var(--transicao-surgir), translate var(--transicao), scale 0.15s ease,
+    background var(--transicao), border-color var(--transicao);
+}
+
+/* Hover: o card fechado sobe 4px (só em aparelhos com mouse; no celular o hover "gruda") */
+@media (hover: hover) {
+  .card-recolhivel:not(.aberto):hover {
+    translate: 0 -4px;
+  }
+}
+
+.card-recolhivel .secao-titulo {
+  max-width: none;
+  margin-bottom: 0;
+}
+
+.card-recolhivel .texto-corrido {
+  padding-top: var(--espaco-m);
+}
+
+/* Mantém o tamanho de leitura do texto (o .card p reduz a fonte) */
+.card-recolhivel .texto-corrido p {
+  font-size: var(--texto-normal);
+}
+
+/* O título "Sobre mim" é um botão (para funcionar no teclado), mas sem cara de botão */
+.card-recolhivel-botao {
+  text-align: left;
+}
+
+.card-recolhivel-botao:focus-visible {
+  outline: 2px solid var(--cor-ciano);
+  outline-offset: 4px;
+  border-radius: var(--arredondado-p);
+}
+
+/* Truque do grid 0fr → 1fr: anima a altura sem precisar saber o tamanho do texto */
+.recolhivel-painel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows var(--transicao-lenta), opacity var(--transicao-lenta);
+}
+
+.recolhivel-painel.aberto {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.recolhivel-interno {
+  min-height: 0;
+  overflow: hidden;
+}
+
+
+/* =====================================================================
+   TRABALHOS (ABAS): Áudio, Vídeo IFSP, Vídeo Tema Livre, Jogos
+   A troca de aba é feita no js/4-nav.js (initTabs)
+   ===================================================================== */
+.abas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-pp);
+  margin-bottom: var(--espaco-p);
+}
+
+.aba {
+  color: var(--cor-texto-suave);
+}
+
+.aba:hover {
+  border-color: var(--cor-roxo);
+  color: var(--cor-texto);
+}
+
+/* Aba selecionada */
+.aba[aria-selected="true"] {
+  background: var(--gradiente-principal);
+  border-color: transparent;
+  color: var(--cor-branco);
+}
+
+.aba:focus-visible,
+.aba-painel:focus-visible {
+  outline: 2px solid var(--cor-ciano);
+  outline-offset: 3px;
+}
+
+/* Toda aba tem o mesmo tamanho, com ou sem conteúdo: mídia 16:9 em cima + descrição de altura
+   fixa embaixo. Se sobrar conteúdo, cada área rola por dentro. Sem padding: o vídeo encosta nas bordas */
+.abas-conteudo {
+  overflow: hidden;
+  padding: 0;
+}
+
+.aba-midia {
+  aspect-ratio: 16 / 9;
+  overflow-y: auto;
+}
+
+/* Vários itens na mesma aba viram uma grade de cards */
+.aba-grade {
+  padding: var(--espaco-m);
+}
+
+/* Card de cada item quando há vários na mesma aba */
+.item-midia {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-pp);
+}
+
+.item-midia .botao {
+  align-self: flex-start;
+}
+
+.item-midia audio {
+  width: 100%;
+}
+
+
+/* =====================================================================
+   DESCRIÇÃO DO VÍDEO (embaixo do vídeo, dentro da aba)
+   Altura fixa (igual em todas as abas); o texto rola dentro dela
+   ===================================================================== */
+.aba-descricao {
+  height: 352px;
+  overflow-y: auto;
+  padding: var(--espaco-m);
+  border-top: 1px solid var(--cor-borda);
+}
+
+/* Botão "Ler mais" da descrição: escondido no computador (aqui a descrição tem rolagem própria).
+   No celular ele aparece e a descrição fica recolhida (ver 7-responsivo.css) */
+.aba-ler-mais {
+  display: none;
+}
+
+.aba-descricao p {
+  font-size: var(--texto-pequeno);
+  margin-bottom: var(--espaco-pp);
+}
+
+/* Subtítulos: "Roteiro", "Efeitos e músicas utilizadas", "Produção" */
+.aba-descricao h4 {
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-medio);
+  color: var(--cor-ciano);
+  margin-bottom: var(--espaco-pp);
+}
+
+.aba-descricao a {
+  color: var(--cor-ciano);
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+/* Referência ABNT */
+.descricao-referencia {
+  font-style: italic;
+  opacity: 0.85;
+}
+
+.descricao-bloco {
+  margin-top: var(--espaco-m);
+}
+
+/* Roteiro: tempo clicável à esquerda (toca o vídeo dali) + bloco e frase à direita */
+.roteiro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-p);
+}
+
+.roteiro-item {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: var(--espaco-p);
+  align-items: start;
+}
+
+/* Botão "0:07 - 0:19" */
+.roteiro-tempo {
+  padding: 3.2px 8px;
+  border-radius: var(--arredondado-p);
+  border: 1px solid var(--cor-borda);
+  background: var(--cor-superficie);
+  font-size: var(--texto-mini);
+  font-variant-numeric: tabular-nums;
+  color: var(--cor-ciano);
+  transition: border-color var(--transicao), background var(--transicao);
+}
+
+.roteiro-tempo:hover {
+  border-color: var(--cor-roxo);
+  background: var(--cor-superficie-hover);
+}
+
+.roteiro-item strong {
+  font-size: var(--texto-pequeno);
+}
+
+/* Frase falada no áudio, com barra roxa ao lado */
+.roteiro-item blockquote {
+  margin-top: 4px;
+  padding-left: var(--espaco-p);
+  border-left: 2px solid var(--cor-roxo);
+  font-size: var(--texto-pequeno);
+  font-style: italic;
+  color: var(--cor-texto-suave);
+}
+
+/* Créditos em 2 colunas: Professor | Disciplina em cima, Aluno | Matrícula embaixo */
+.descricao-creditos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--espaco-p);
+  margin-top: var(--espaco-m);
+  padding-top: var(--espaco-p);
+  border-top: 1px solid var(--cor-borda);
+  font-size: var(--texto-pequeno);
+}
+
+.descricao-creditos dt {
+  color: var(--cor-texto-suave);
+  opacity: 0.8;
+}
+
+.descricao-creditos dd {
+  font-weight: var(--peso-medio);
+}
+
+
+/* =====================================================================
+   VÍDEO DO YOUTUBE: capa com a thumbnail + play; ao clicar, o player entra no mesmo lugar
+   A troca capa → player é feita no js/5-media.js
+   ===================================================================== */
+.video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--cor-preto);
+}
+
+.video-capa,
+.video-player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.video-capa {
+  overflow: hidden;
+  text-align: left;
+}
+
+.video-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.video-capa:hover .video-thumbnail {
+  transform: scale(1.03);
+  filter: brightness(0.85);
+}
+
+.video-capa:focus-visible {
+  outline: 3px solid var(--cor-ciano);
+  outline-offset: -3px;
+}
+
+/* ===== TÍTULO DA THUMBNAIL DO VÍDEO =====
+   Texto branco no topo da capa (o texto vem de "title" em js/1-data.js).
+   Sem faixa escura: a sombra no texto garante a leitura sobre qualquer imagem */
+.video-thumbnail-titulo {
+  position: absolute;
+  inset: 0 0 auto;
+  padding: var(--espaco-p) var(--espaco-m);
+  text-shadow: 0 1px 3px color-mix(in srgb, var(--cor-preto) 90%, transparent), 0 0 12px color-mix(in srgb, var(--cor-preto) 60%, transparent);
+  font-family: var(--fonte-titulo);
+  font-weight: var(--peso-medio);
+  color: var(--cor-branco);
+}
+
+
+/* =====================================================================
+   BOTÃO PLAY
+   "botao-play" só posiciona no centro da thumbnail; a aparência vem de um dos estilos abaixo.
+   Para trocar de estilo, mude a classe em js/2-render.js (função youtubePlayer)
+   ===================================================================== */
+.botao-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  transform: translate(-50%, -50%);
+  transition: transform var(--transicao), background var(--transicao);
+}
+
+.botao-play svg {
+  fill: var(--cor-branco);
+}
+
+.video-capa:hover .botao-play {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* ===== BOTÃO PLAY: ESTILO DO SITE (desativado) =====
+   Círculo com o gradiente roxo → ciano do portfólio. Para usar: tire este bloco do
+   comentário e troque a classe para "botao-play-site" em js/2-render.js
+.botao-play-site {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--gradiente-principal);
+  box-shadow: 0 10px 30px -8px color-mix(in srgb, var(--cor-roxo) 80%, transparent);
+}
+
+.botao-play-site svg {
+  width: 32px;
+  height: 32px;
+  margin-left: 4px;
+}
+*/
+
+/* ===== BOTÃO PLAY: ESTILO YOUTUBE (em uso) =====
+   Retângulo arredondado vermelho com triângulo branco, como o player do YouTube */
+.botao-play-youtube {
+  width: 68px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--cor-youtube);
+  box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--cor-preto) 60%, transparent);
+}
+
+.botao-play-youtube svg {
+  width: 26px;
+  height: 26px;
+  margin-left: 2px;
+}
+
+.video-capa:hover .botao-play-youtube {
+  background: var(--cor-youtube-hover);
+}
+
+/* ===== BOTÃO PLAY: MISTURA =====
+   Formato retangular do YouTube + gradiente roxo → ciano do site */
+.botao-play-mistura {
+  width: 68px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--gradiente-principal);
+  box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--cor-roxo) 80%, transparent);
+}
+
+.botao-play-mistura svg {
+  width: 26px;
+  height: 26px;
+  margin-left: 2px;
+}
+
+.video-capa:hover .botao-play-mistura {
+  box-shadow: 0 8px 28px -4px color-mix(in srgb, var(--cor-ciano) 70%, transparent);
+}
+
+
+/* =====================================================================
+   ARTIGO CIENTÍFICO
+   ===================================================================== */
+.card-artigo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-m);
+}
+
+
+/* =====================================================================
+   PROJETO (TCC)
+   ===================================================================== */
+.card-projeto {
+  background: var(--cor-fundo-elevado);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--arredondado-g);
+  padding: var(--espaco-g);
+}
+
+/* Nome do projeto + etiquetas das tecnologias */
+.card-projeto-topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--espaco-pp);
+  margin-bottom: var(--espaco-p);
+}
+
+.card-projeto-nome {
+  background-image: var(--gradiente-rosa);
+}
+
+.card-projeto-resumo {
+  max-width: 70ch;
+  margin-bottom: var(--espaco-m);
+}
+
+
+/* =====================================================================
+   CONTATO
+   ===================================================================== */
+.contatos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-m);
+}
+
+.contato {
+  display: flex;
+  flex: 1 1 200px;
+  max-width: 100%; /* nunca mais largo que a tela: o e-mail quebra em vez de vazar no celular */
+  flex-direction: column;
+  gap: 5.6px;
+  padding: var(--espaco-p) var(--espaco-m);
+  border-radius: var(--arredondado-m);
+  border: 1px solid var(--cor-borda);
+  background: var(--cor-superficie);
+  transition: transform var(--transicao), border-color var(--transicao), background var(--transicao), box-shadow var(--transicao);
+}
+
+.contato:hover {
+  transform: translateY(-4px);
+  background: var(--cor-superficie-hover);
+  border-color: var(--cor-roxo-borda-forte);
+  box-shadow: var(--sombra);
+}
+
+.contato span {
+  font-size: var(--texto-pequeno);
+  color: var(--cor-texto-suave);
+}
+
+/* Ícone + "WhatsApp" / "GitHub" */
+.contato-rotulo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6.4px;
+}
+
+.contato-icone {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  fill: currentColor;
+  transition: color var(--transicao), transform var(--transicao);
+}
+
+/* No hover, cada ícone ganha a cor da própria marca (na seção Contato e na lateral) */
+.contato:hover .contato-icone-whatsapp {
+  color: var(--cor-whatsapp);
+  transform: scale(1.15);
+}
+
+.contato:hover .contato-icone-github,
+a.lateral-contato:hover .contato-icone-github {
+  color: var(--cor-branco);
+  transform: scale(1.15);
+}
+
+.contato a,
+.contato strong {
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-medio);
+  overflow-wrap: break-word; /* só quebra a palavra se ela não couber (e-mail em telas pequenas) */
+}
+
+
+/* =====================================================================
+   RODAPÉ (logo do IFSP)
+   ===================================================================== */
+.rodape-instituicao {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-pp);
+  font-size: var(--texto-pequeno);
+  color: var(--cor-texto-suave);
+  transition: color var(--transicao);
+}
+
+.rodape-instituicao:hover {
+  color: var(--cor-texto);
+}
+
+/* Fundo branco atrás do logo */
+.rodape-logo {
+  display: inline-flex;
+  align-items: center;
+  padding: 4.8px 8px;
+  background: var(--cor-branco);
+  border-radius: var(--arredondado-p);
+}
+
+.rodape-logo img {
+  height: 26px;
+  width: auto;
+}
+
+
+/* =====================================================================
+   BASTIDORES (página tecnologias.html: "Como este site foi feito")
+   ===================================================================== */
+.passo-tutorial {
+  margin-bottom: var(--espaco-g);
+}
+
+.passo-tutorial h3 {
+  margin-bottom: var(--espaco-pp);
+}
+
+.passo-tutorial > p {
+  max-width: 70ch;
+  margin-bottom: var(--espaco-p);
+}
+
+/* Bloco de código com o nome do arquivo em cima */
+.bloco-codigo {
+  background: var(--cor-fundo-elevado);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--arredondado-m);
+  overflow-x: auto;
+  margin-bottom: var(--espaco-p);
+}
+
+.bloco-codigo-arquivo {
+  display: block;
+  padding: 9.6px var(--espaco-m);
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-pequeno);
+  color: var(--cor-ciano);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.bloco-codigo pre {
+  padding: var(--espaco-m);
+  overflow-x: auto;
+}
+
+.bloco-codigo code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--texto-codigo);
+  line-height: 1.6;
+  color: var(--cor-texto);
+  white-space: pre;
+}

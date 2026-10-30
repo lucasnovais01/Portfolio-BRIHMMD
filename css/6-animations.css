@@ -1,0 +1,72 @@
+/* =====================================================================
+   ANIMAÇÕES: blocos com data-reveal surgem de baixo para cima ao entrar na tela.
+   A classe "visivel" é colocada pelo js/3-animations.js
+   ===================================================================== */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--transicao-surgir), transform var(--transicao-surgir);
+}
+
+[data-reveal].visivel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Quem configurou o sistema para "reduzir movimento" vê tudo direto, sem animação */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .recolhivel-painel {
+    transition: none;
+  }
+
+  /* Card "Sobre mim": sobe e encolhe sem deslizar */
+  .card.card-recolhivel {
+    transition: none;
+  }
+
+  /* Luzes que convidam ao clique (4-componentes.css): ficam paradas, sem se mover.
+     Opção 1, versão 2 (em uso): a luz das laterais fica acesa, sem respirar */
+  .luz-lateral::before {
+    animation: none;
+  }
+
+  /* Opção 1, versão 1 (desativada): se voltar a usar a luz-lateral-reta, tire do comentário
+  .luz-lateral-reta::before,
+  .luz-lateral-reta::after {
+    animation: none;
+  }
+  */
+
+  /* Opção 3, versão 2 (desativada): se voltar a usar a luz-percorre, tire do comentário
+  .luz-percorre-svg rect {
+    animation-play-state: paused;
+  }
+  */
+
+  /* Opção 3, versão 1 (desativada): se voltar a usar a luz-percorre-gradiente, tire do comentário
+  .luz-percorre-gradiente::before {
+    animation: none;
+  }
+  */
+
+  /* Opção 2 (desativada): se voltar a usar a borda-pulsante, tire do comentário
+  .borda-pulsante {
+    animation: none;
+  }
+
+  .borda-pulsante:not(.aberto) {
+    border-color: color-mix(in srgb, var(--cor-ciano) 55%, transparent);
+    box-shadow: var(--brilho-pulso);
+  }
+  */
+}
