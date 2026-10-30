@@ -395,7 +395,8 @@ function renderDescription(description, labels) {
   if (!description) return "";
   if (typeof description === "string") return `<p>${linkify(description)}</p>`;
 
-  const { heading, reference, fields = [], timelineTitle, timeline = [], sections = [], credits = [] } = description;
+  const { heading, reference, fields = [], timelineTitle, timeline = [], sections = [], credits = [], team } = description;
+  const creditList = (items) => items.map((item) => `<div><dt>${item.label}</dt><dd>${item.value}</dd></div>`).join("");
 
   const timelineHTML = timeline.length
     ? `
@@ -421,7 +422,7 @@ function renderDescription(description, labels) {
     : "";
 
   return `
-    ${heading ? `<h3>${heading}</h3>` : ""}
+    ${heading ? `<h3 class="texto-gradiente">${heading}</h3>` : ""}
     ${reference ? `<p class="descricao-referencia">${linkify(reference)}</p>` : ""}
     ${fields.map((field) => `<p><strong>${field.label}:</strong> ${linkify(field.text)}</p>`).join("")}
     ${timelineHTML}
@@ -434,11 +435,11 @@ function renderDescription(description, labels) {
       </div>`
       )
       .join("")}
+    ${credits.length ? `<dl class="descricao-creditos">${creditList(credits)}</dl>` : ""}
     ${
-      credits.length
-        ? `<dl class="descricao-creditos">
-            ${credits.map((credit) => `<div><dt>${credit.label}</dt><dd>${credit.value}</dd></div>`).join("")}
-          </dl>`
+      team
+        ? `<p class="descricao-equipe">${team.title}</p>
+          <dl class="descricao-creditos descricao-creditos-equipe">${creditList(team.members)}</dl>`
         : ""
     }
   `;

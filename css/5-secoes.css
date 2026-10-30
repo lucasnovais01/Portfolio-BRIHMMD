@@ -512,6 +512,12 @@ a.lateral-contato:hover {
   margin-bottom: var(--espaco-pp);
 }
 
+/* Título da descrição (nome do trabalho), em destaque: negrito com o gradiente roxo → ciano */
+.aba-descricao > h3 {
+  font-weight: var(--peso-negrito);
+  background-image: var(--gradiente-principal);
+}
+
 /* Subtítulos: "Roteiro", "Efeitos e músicas utilizadas", "Produção" */
 .aba-descricao h4 {
   font-family: var(--fonte-titulo);
@@ -590,6 +596,20 @@ a.lateral-contato:hover {
   padding-top: var(--espaco-p);
   border-top: 1px solid var(--cor-borda);
   font-size: var(--texto-pequeno);
+}
+
+/* Trabalho em grupo: título "Equipe" e os integrantes logo abaixo dos créditos */
+.descricao-equipe {
+  margin-top: var(--espaco-p);
+  margin-bottom: 0;
+  color: var(--cor-ciano);
+  font-weight: var(--peso-medio);
+}
+
+.descricao-creditos-equipe {
+  margin-top: var(--espaco-pp);
+  padding-top: 0;
+  border-top: none;
 }
 
 .descricao-creditos dt {

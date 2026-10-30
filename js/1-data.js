@@ -224,6 +224,39 @@ export const PORTFOLIO_DATA = {
           {
             title: "Trabalho vídeo IFSP - BRIHMMD - IFSP Campus Birigui",
             youtube: "https://www.youtube.com/watch?v=YL1yWVcCnt8",
+            description: {
+              heading: "Cursos do IFSP",
+              sections: [
+                {
+                  title: "Cursos apresentados",
+                  paragraphs: [
+                    "Técnico em Administração: Ana Claudia Bansi (ana_bansi@ifsp.edu.br).",
+                    "Técnico em Comércio Integrado ao Ensino Médio na Modalidade de Educação de Jovens e Adultos (EJA): Prof. Ma. Joyce Helena Ferreira dos Santos (joyce.helena@ifsp.edu.br).",
+                  ],
+                },
+                {
+                  title: "Produção",
+                  paragraphs: [
+                    "O vídeo foi feito em grupo, por mim e pela Alexia Eduarda. A principal ferramenta utilizada foi o CapCut, com fotos do IFSP e fotos que nós mesmos tiramos com nossos celulares, com a permissão dos professores. Conforme solicitado pela atividade, foram usados IA (inteligência artificial), tanto para gerar imagens quanto para dar movimento/animá-las.",
+                    "As fotos principais do campus foram retiradas do Tour Virtual do IFSP Campus Birigui: https://bri.ifsp.edu.br/index.php/informativos/3896-tour-virtual-ifsp-campus-birigui.",
+                  ],
+                },
+              ],
+              credits: [
+                { label: "Professor", value: "Renato Correia de Barros" },
+                { label: "Disciplina", value: "Hipermídia e Multimídia" },
+              ],
+              // Trabalho em grupo: integrantes listados abaixo dos créditos
+              team: {
+                title: "Equipe",
+                members: [
+                  { label: "Aluno", value: "Lucas Novais de Oliveira" },
+                  { label: "Matrícula", value: "BI303268X" },
+                  { label: "Aluna", value: "Alexia Eduarda Celice Ferreira" },
+                  { label: "Matrícula", value: "BI3032272" },
+                ],
+              },
+            },
           },
         ],
       },
@@ -234,6 +267,38 @@ export const PORTFOLIO_DATA = {
           {
             title: "Entre Páginas & Pixels",
             youtube: "https://www.youtube.com/watch?v=y8txYWmMFXo",
+            description: {
+              heading: "Entre Páginas & Pixels",
+              fields: [{ label: "Tema", text: "Livre." }],
+              sections: [
+                {
+                  title: "Enredo / Sinopse",
+                  paragraphs: [
+                    "EDITAR: blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
+                  ],
+                },
+                {
+                  title: "Produção",
+                  paragraphs: [
+                    "O vídeo foi feito em grupo, por mim e pela Alexia Eduarda. A principal ferramenta de edição utilizada foi o DaVinci Resolve.",
+                    "As cenas foram gravadas com Chroma Key (fundo verde), na sala de Multimídia do IFSP, usando a câmera da própria sala, com o auxílio do professor Renato.",
+                  ],
+                },
+              ],
+              credits: [
+                { label: "Professor", value: "Renato Correia de Barros" },
+                { label: "Disciplina", value: "Hipermídia e Multimídia" },
+              ],
+              team: {
+                title: "Equipe",
+                members: [
+                  { label: "Aluno", value: "Lucas Novais de Oliveira" },
+                  { label: "Matrícula", value: "BI303268X" },
+                  { label: "Aluna", value: "Alexia Eduarda Celice Ferreira" },
+                  { label: "Matrícula", value: "BI3032272" },
+                ],
+              },
+            },
           },
         ],
       },
