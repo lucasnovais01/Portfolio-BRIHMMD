@@ -52,7 +52,7 @@ function renderFocusArea(multimedia) {
 
   page.insertAdjacentHTML(
     "afterend",
-    `<section class="modo-foco" id="modo-foco" hidden>
+    `<section class="container modo-foco" id="modo-foco" hidden>
       <a class="botao botao-contorno modo-foco-voltar" href="${multimedia.focusMode.backHref}">${multimedia.focusMode.backLabel}</a>
       ${panels}
     </section>`

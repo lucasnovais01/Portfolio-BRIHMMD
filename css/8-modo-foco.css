@@ -9,10 +9,9 @@
   display: none;
 }
 
+/* A largura e a centralização vêm do .container */
 .modo-foco {
-  max-width: var(--largura-site);
-  margin-inline: auto;
-  padding: var(--espaco-g) var(--espaco-p) 0;
+  padding-block: var(--espaco-g) 0;
 }
 
 .modo-foco-voltar {

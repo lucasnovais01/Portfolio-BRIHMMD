@@ -23,7 +23,7 @@
 
 /* Só a borda */
 .botao-contorno {
-  border: 1px solid var(--cor-borda);
+  border: var(--borda);
   color: var(--cor-texto);
 }
 
@@ -41,7 +41,7 @@
   font-size: var(--texto-pequeno);
   white-space: pre-line;
   line-height: 1.4;
-  border: 1px solid var(--cor-borda);
+  border: var(--borda);
   background: var(--cor-superficie);
   color: var(--cor-texto-suave);
 }
@@ -55,7 +55,7 @@
   font-size: var(--texto-pequeno);
   font-weight: var(--peso-medio);
   background: var(--cor-superficie);
-  border: 1px solid var(--cor-borda);
+  border: var(--borda);
   transition: border-color var(--transicao), color var(--transicao), background var(--transicao);
 }
 
@@ -88,7 +88,7 @@ a.etiqueta:hover {
    <div class="card card-flutua">  → além disso, sobe 4px no hover */
 .card {
   background: var(--cor-superficie);
-  border: 1px solid var(--cor-borda);
+  border: var(--borda);
   border-radius: var(--arredondado-m);
   padding: var(--espaco-m);
   transition: transform var(--transicao), background var(--transicao), border-color var(--transicao);
@@ -435,7 +435,9 @@ Uma volta completa: cada camada anda 100 (a volta inteira):
 /* ===== TEXTO COM GRADIENTE: o gradiente fica "dentro" das letras =====
    Padrão: branco → lilás. Para outra cor, troque só o background-image no elemento
    (ex.: .marca usa o roxo → ciano). Use background-image, nunca "background:", senão o efeito some */
-.texto-gradiente {
+/* O "P" capitular da abertura (5-secoes.css) usa a mesma regra: pseudo-elemento não recebe classe */
+.texto-gradiente,
+.abertura-titulo::first-letter {
   background-image: var(--gradiente-texto);
   -webkit-background-clip: text;
   background-clip: text;

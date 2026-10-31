@@ -2,7 +2,7 @@
    ESTRUTURA: o esqueleto da página (onde cada bloco fica)
    ===================================================================== */
 
-/* Centraliza o conteúdo e limita a largura (usado no cabeçalho, rodapé e tecnologias.html) */
+/* Centraliza o conteúdo e limita a largura (cabeçalho, rodapé, página, modo foco e tecnologias.html) */
 .container {
   width: 100%;
   max-width: var(--largura-site);
@@ -18,7 +18,7 @@
   height: var(--altura-cabecalho);
   backdrop-filter: blur(14px);
   background: var(--cor-cabecalho);
-  border-bottom: 1px solid var(--cor-borda);
+  border-bottom: var(--borda);
 }
 
 .cabecalho .container {
@@ -33,12 +33,9 @@
   box-shadow: var(--sombra);
 }
 
-/* ===== PÁGINA EM DUAS COLUNAS: lateral (foto) + conteúdo ===== */
+/* ===== PÁGINA EM DUAS COLUNAS: lateral (foto) + conteúdo =====
+   No HTML: class="container pagina" (a largura e a centralização vêm do .container) */
 .pagina {
-  width: 100%;
-  max-width: var(--largura-site);
-  margin-inline: auto;
-  padding-inline: var(--espaco-p);
   display: grid;
   grid-template-columns: var(--largura-lateral) 1fr;
   gap: var(--espaco-g);
@@ -61,7 +58,7 @@
 
 /* ===== RODAPÉ ===== */
 .rodape {
-  border-top: 1px solid var(--cor-borda);
+  border-top: var(--borda);
   margin-top: var(--espaco-gg);
 }
 

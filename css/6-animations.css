@@ -25,11 +25,8 @@
     transition: none;
   }
 
-  .recolhivel-painel {
-    transition: none;
-  }
-
-  /* Card "Sobre mim": sobe e encolhe sem deslizar */
+  /* Painel do "Sobre mim" abre, e o card sobe e encolhe, sem deslizar */
+  .recolhivel-painel,
   .card.card-recolhivel {
     transition: none;
   }

@@ -26,14 +26,25 @@ export function homePrefix() {
   return document.getElementById("lateral") ? "" : "./index.html";
 }
 
+// Coloca o HTML dentro do elemento com esse id (se ele existir nesta página)
+function setHTML(id, html) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = html;
+}
+
+// Monta uma lista de HTML: um pedaço para cada item
+const list = (items, template) => items.map(template).join("");
+
 // Título de seção: sobretítulo pequeno + título grande (+ parágrafo de introdução, se houver)
-function sectionHead(el, { eyebrow, heading, intro }) {
-  if (!el) return;
-  el.innerHTML = `
+function sectionHead(id, { eyebrow, heading, intro }) {
+  setHTML(
+    id,
+    `
     <span class="sobretitulo">${eyebrow}</span>
     <h2>${heading}</h2>
     ${intro ? `<p>${intro}</p>` : ""}
-  `;
+  `
+  );
 }
 
 function renderMeta({ meta, makingOf }) {
@@ -52,16 +63,17 @@ function renderNav({ nav }) {
     brand.textContent = nav.brand.label;
     brand.setAttribute("href", `${prefix}${nav.brand.href}`);
   }
+  document.getElementById("menu-hamburguer")?.setAttribute("aria-label", nav.menuButtonLabel);
 
-  const baseLinksHTML = nav.links
-    .map((link) => `<li><a href="${prefix}${link.href}">${link.label}</a></li>`)
-    .join("");
+  const baseLinksHTML = list(nav.links, (link) => `<li><a href="${prefix}${link.href}">${link.label}</a></li>`);
+  const dropdownLinksHTML = list(
+    nav.projectsMenu.links,
+    (link) => `<li><a href="${link.href}" target="_blank" rel="noopener">${link.label}</a></li>`
+  );
 
-  const dropdownLinksHTML = nav.projectsMenu.links
-    .map((link) => `<li><a href="${link.href}" target="_blank" rel="noopener">${link.label}</a></li>`)
-    .join("");
-
-  const dropdownHTML = `
+  setHTML(
+    "menu-links",
+    `
     <li class="menu-projetos" id="menu-projetos">
       <button class="menu-projetos-botao" id="menu-projetos-botao" type="button" aria-expanded="false">
         ${nav.projectsMenu.label}
@@ -71,49 +83,39 @@ function renderNav({ nav }) {
       </button>
       <ul class="menu-projetos-lista" id="menu-projetos-lista">${dropdownLinksHTML}</ul>
     </li>
-  `;
-
-  document.getElementById("menu-hamburguer")?.setAttribute("aria-label", nav.menuButtonLabel);
-
-  const navLinks = document.getElementById("menu-links");
-  if (navLinks) navLinks.innerHTML = dropdownHTML + baseLinksHTML;
-
-  const footerLinks = document.getElementById("rodape-links");
-  if (footerLinks) footerLinks.innerHTML = baseLinksHTML;
+    ${baseLinksHTML}
+  `
+  );
+  setHTML("rodape-links", baseLinksHTML);
 }
 
 function renderIntro({ sidebar }) {
-  const el = document.getElementById("abertura");
-  if (!el) return;
-
-  el.innerHTML = `
+  setHTML(
+    "abertura",
+    `
     <p class="abertura-titulo">${sidebar.eyebrow}</p>
     <h1 class="abertura-nome texto-gradiente">${sidebar.name}</h1>
-  `;
+  `
+  );
 }
 
 function renderSidebar({ sidebar, contact }) {
-  const el = document.getElementById("lateral");
-  if (!el) return;
-
   // Contatos vêm da seção "Contato" do js/1-data.js (mudou lá, muda aqui também)
-  const contacts = contact.items
-    .map((item) => {
-      const content = `${brandIcon(item.sidebarIcon ?? item.icon)}<span>${item.value}</span>`;
-      return item.href
-        ? `<a class="selo lateral-contato" href="${item.href}" target="_blank" rel="noopener">${content}</a>`
-        : `<span class="selo lateral-contato">${content}</span>`;
-    })
-    .join("");
-  const badges = sidebar.badges.map((badge) => `<span class="selo">${badge}</span>`).join("");
-  const actions = sidebar.actions
-    .map(
-      (action) =>
-        `<a class="botao botao-${action.variant}" href="${action.href}">${action.label}</a>`
-    )
-    .join("");
+  const contacts = list(contact.items, (item) => {
+    const content = `${brandIcon(item.sidebarIcon ?? item.icon)}<span>${item.value}</span>`;
+    return item.href
+      ? `<a class="selo lateral-contato" href="${item.href}" target="_blank" rel="noopener">${content}</a>`
+      : `<span class="selo lateral-contato">${content}</span>`;
+  });
+  const badges = list(sidebar.badges, (badge) => `<span class="selo">${badge}</span>`);
+  const actions = list(
+    sidebar.actions,
+    (action) => `<a class="botao botao-${action.variant}" href="${action.href}">${action.label}</a>`
+  );
 
-  el.innerHTML = `
+  setHTML(
+    "lateral",
+    `
     <div class="lateral-foto-moldura">
       <img class="lateral-foto" src="${sidebar.photo.src}" alt="${sidebar.photo.alt}" />
     </div>
@@ -124,120 +126,103 @@ function renderSidebar({ sidebar, contact }) {
       <div class="lateral-selos">${contacts}${badges}</div>
       <div class="lateral-botoes">${actions}</div>
     </div>
-  `;
+  `
+  );
 }
 
 // "Sobre mim": o título é um botão que abre/fecha o texto (o painel #sobre-painel fica no index.html)
 function renderAbout({ about }) {
-  const head = document.getElementById("sobre-titulo");
-  if (head) {
-    head.innerHTML = `
-      <span class="sobretitulo">${about.eyebrow}</span>
-      <h2>
-        <button class="card-recolhivel-botao" type="button" aria-expanded="false" aria-controls="sobre-painel">
-          ${about.heading}
-        </button>
-      </h2>
-    `;
+  setHTML(
+    "sobre-titulo",
+    `
+    <span class="sobretitulo">${about.eyebrow}</span>
+    <h2>
+      <button class="card-recolhivel-botao" type="button" aria-expanded="false" aria-controls="sobre-painel">
+        ${about.heading}
+      </button>
+    </h2>
+  `
+  );
+  setHTML("sobre-texto", list(about.paragraphs, (paragraph) => `<p>${paragraph}</p>`));
 
-    // Textos do tooltip (classe com-dica): um para o card fechado, outro para o aberto
-    const card = head.closest(".card-recolhivel");
-    card?.setAttribute("data-dica", about.tooltip.closed);
-    card?.setAttribute("data-dica-aberto", about.tooltip.open);
-  }
-
-  const body = document.getElementById("sobre-texto");
-  if (body) {
-    body.innerHTML = about.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("");
-  }
+  // Textos do tooltip (classe com-dica): um para o card fechado, outro para o aberto
+  const card = document.querySelector(".card-recolhivel");
+  card?.setAttribute("data-dica", about.tooltip.closed);
+  card?.setAttribute("data-dica-aberto", about.tooltip.open);
 }
 
 function renderProject({ project }) {
-  sectionHead(document.getElementById("projeto-titulo"), project);
+  sectionHead("projeto-titulo", project);
 
-  const body = document.getElementById("projeto-card");
-  if (!body) return;
-
-  const stack = project.stack.map((item) => `<span class="etiqueta">${item}</span>`).join("");
-  const highlights = project.highlights
-    .map(
-      (item) => `
+  const stack = list(project.stack, (item) => `<span class="etiqueta">${item}</span>`);
+  const highlights = list(
+    project.highlights,
+    (item) => `
       <div class="card card-flutua">
         <h3>${item.title}</h3>
         <p>${item.description}</p>
       </div>`
-    )
-    .join("");
+  );
 
-  body.innerHTML = `
+  setHTML(
+    "projeto-card",
+    `
     <div class="card-projeto-topo">
       <h3 class="card-projeto-nome texto-gradiente">${project.name}</h3>
       <div class="lista-etiquetas lista-etiquetas-cheia">${stack}</div>
     </div>
     <p class="card-projeto-resumo">${project.summary}</p>
     <div class="grade-cards">${highlights}</div>
-  `;
+  `
+  );
 }
 
 function renderArticle({ article }) {
-  sectionHead(document.getElementById("artigo-titulo"), article);
-
-  const body = document.getElementById("artigo-card");
-  if (!body) return;
+  sectionHead("artigo-titulo", article);
 
   const link = article.href
     ? `<a class="botao botao-principal" href="${article.href}" target="_blank" rel="noopener">${article.linkLabel}</a>`
     : `<span class="selo">${article.pendingLabel}</span>`;
 
-  body.innerHTML = `
+  setHTML(
+    "artigo-card",
+    `
     <div>
       <h3>${article.title}</h3>
       <p>${article.description}</p>
     </div>
     ${link}
-  `;
+  `
+  );
 }
 
 function renderSkills({ skills }) {
-  sectionHead(document.getElementById("skills-titulo"), skills);
-
-  const body = document.getElementById("skills-cards");
-  if (!body) return;
-
-  body.innerHTML = skills.categories
-    .map(
+  sectionHead("skills-titulo", skills);
+  setHTML(
+    "skills-cards",
+    list(
+      skills.categories,
       (category) => `
       <div class="card card-flutua">
         <h3>${category.name}</h3>
         <div class="lista-etiquetas lista-etiquetas-cheia">
-          ${category.items
-            .map((item) => `<a class="etiqueta" href="${item.href}" target="_blank" rel="noopener">${item.label}</a>`)
-            .join("")}
+          ${list(category.items, (item) => `<a class="etiqueta" href="${item.href}" target="_blank" rel="noopener">${item.label}</a>`)}
         </div>
       </div>`
     )
-    .join("");
+  );
 }
 
 function renderInterests({ interests }) {
-  sectionHead(document.getElementById("interesses-titulo"), interests);
-
-  const body = document.getElementById("interesses-etiquetas");
-  if (!body) return;
-
-  body.innerHTML = interests.items
-    .map((item) => `<span class="etiqueta">${item.icon} ${item.label}</span>`)
-    .join("");
+  sectionHead("interesses-titulo", interests);
+  setHTML("interesses-etiquetas", list(interests.items, (item) => `<span class="etiqueta">${item.icon} ${item.label}</span>`));
 }
 
 function renderContact({ contact }) {
-  sectionHead(document.getElementById("contato-titulo"), contact);
-
-  const body = document.getElementById("contato-itens");
-  if (!body) return;
-
-  body.innerHTML = contact.items
-    .map((item) => {
+  sectionHead("contato-titulo", contact);
+  setHTML(
+    "contato-itens",
+    list(contact.items, (item) => {
       const value = item.href
         ? `<a href="${item.href}" target="_blank" rel="noopener">${item.value}</a>`
         : `<strong>${item.value}</strong>`;
@@ -247,18 +232,18 @@ function renderContact({ contact }) {
         ${value}
       </div>`;
     })
-    .join("");
+  );
 }
 
 function renderFooter({ footer }) {
-  const org = document.getElementById("rodape-instituicao");
-  if (org) {
-    org.setAttribute("href", footer.org.href);
-    org.innerHTML = `
-      <span class="rodape-logo"><img src="${footer.org.logo.src}" alt="${footer.org.logo.alt}" /></span>
-      <span>${footer.org.name}</span>
-    `;
-  }
+  setHTML(
+    "rodape-instituicao",
+    `
+    <span class="rodape-logo"><img src="${footer.org.logo.src}" alt="${footer.org.logo.alt}" /></span>
+    <span>${footer.org.name}</span>
+  `
+  );
+  document.getElementById("rodape-instituicao")?.setAttribute("href", footer.org.href);
 
   const cta = document.getElementById("rodape-botao");
   if (cta) {
@@ -272,62 +257,55 @@ function renderMakingOf({ makingOf }) {
   const back = document.getElementById("voltar-botao");
   if (back) back.textContent = makingOf.backLabel;
 
-  sectionHead(document.getElementById("bastidores-titulo"), makingOf);
-
-  const body = document.getElementById("bastidores-cards");
-  if (!body) return;
-
-  body.innerHTML = makingOf.categories
-    .map(
+  sectionHead("bastidores-titulo", makingOf);
+  setHTML(
+    "bastidores-cards",
+    list(
+      makingOf.categories,
       (category) => `
       <div class="card card-flutua">
         <h3>${category.name}</h3>
-        ${category.items.map((item) => `<p><strong>${item.label}:</strong> ${item.description}</p>`).join("")}
+        ${list(category.items, (item) => `<p><strong>${item.label}:</strong> ${item.description}</p>`)}
       </div>`
     )
-    .join("");
+  );
 
-  sectionHead(document.getElementById("tutorial-titulo"), {
+  sectionHead("tutorial-titulo", {
     eyebrow: makingOf.tutorialEyebrow,
     heading: makingOf.tutorialHeading,
     intro: makingOf.tutorialIntro,
   });
-
-  const tutorialBody = document.getElementById("tutorial-passos");
-  if (!tutorialBody) return;
-
-  tutorialBody.innerHTML = makingOf.steps
-    .map(
+  setHTML(
+    "tutorial-passos",
+    list(
+      makingOf.steps,
       (step) => `
       <article class="passo-tutorial" data-reveal>
         <h3>${step.title}</h3>
         <p>${step.description}</p>
-        ${step.files
-          .map(
-            (file) => `
+        ${list(
+          step.files,
+          (file) => `
           <div class="bloco-codigo">
             <span class="bloco-codigo-arquivo">${file.path}</span>
             <pre><code>${escapeHtml(file.code)}</code></pre>
           </div>`
-          )
-          .join("")}
+        )}
       </article>`
     )
-    .join("");
+  );
 }
 
 function renderDotNav({ nav }) {
-  const el = document.getElementById("bolinhas");
-  if (!el) return;
-
-  el.setAttribute("aria-label", nav.quickLinksLabel);
   const prefix = homePrefix();
-  el.innerHTML = nav.quickLinks
-    .map(
-      (link) =>
-        `<a href="${prefix}${link.href}" aria-label="${link.label}"><span class="bolinha-rotulo">${link.label}</span></a>`
+  document.getElementById("bolinhas")?.setAttribute("aria-label", nav.quickLinksLabel);
+  setHTML(
+    "bolinhas",
+    list(
+      nav.quickLinks,
+      (link) => `<a href="${prefix}${link.href}" aria-label="${link.label}"><span class="bolinha-rotulo">${link.label}</span></a>`
     )
-    .join("");
+  );
 }
 
 // Extrai o ID e o tempo inicial (&t=1s) de links watch?v=..., youtu.be/... ou /embed/...
@@ -396,16 +374,16 @@ function renderDescription(description, labels) {
   if (typeof description === "string") return `<p>${linkify(description)}</p>`;
 
   const { heading, reference, fields = [], timelineTitle, timeline = [], sections = [], credits = [], team } = description;
-  const creditList = (items) => items.map((item) => `<div><dt>${item.label}</dt><dd>${item.value}</dd></div>`).join("");
+  const creditList = (items) => list(items, (item) => `<div><dt>${item.label}</dt><dd>${item.value}</dd></div>`);
 
   const timelineHTML = timeline.length
     ? `
       <div class="descricao-bloco">
         ${timelineTitle ? `<h4>${timelineTitle}</h4>` : ""}
         <ol class="roteiro">
-          ${timeline
-            .map(
-              (step) => `
+          ${list(
+            timeline,
+            (step) => `
             <li class="roteiro-item">
               <button class="roteiro-tempo" type="button" data-seek="${toSeconds(step.start)}"
                 aria-label="${labels.seekLabel} ${step.start}">${step.start}${step.end ? ` - ${step.end}` : ""}</button>
@@ -415,8 +393,7 @@ function renderDescription(description, labels) {
                 ${step.text ? `<p>${step.text}</p>` : ""}
               </div>
             </li>`
-            )
-            .join("")}
+          )}
         </ol>
       </div>`
     : "";
@@ -424,17 +401,16 @@ function renderDescription(description, labels) {
   return `
     ${heading ? `<h3 class="texto-gradiente">${heading}</h3>` : ""}
     ${reference ? `<p class="descricao-referencia">${linkify(reference)}</p>` : ""}
-    ${fields.map((field) => `<p><strong>${field.label}:</strong> ${linkify(field.text)}</p>`).join("")}
+    ${list(fields, (field) => `<p><strong>${field.label}:</strong> ${linkify(field.text)}</p>`)}
     ${timelineHTML}
-    ${sections
-      .map(
-        (section) => `
+    ${list(
+      sections,
+      (section) => `
       <div class="descricao-bloco">
         <h4>${section.title}</h4>
-        ${section.paragraphs.map((paragraph) => `<p>${linkify(paragraph)}</p>`).join("")}
+        ${list(section.paragraphs, (paragraph) => `<p>${linkify(paragraph)}</p>`)}
       </div>`
-      )
-      .join("")}
+    )}
     ${credits.length ? `<dl class="descricao-creditos">${creditList(credits)}</dl>` : ""}
     ${
       team
@@ -454,7 +430,7 @@ export function panelContent(items, labels) {
   const media = single
     ? youtubePlayer(single, labels)
     : items.length
-      ? `<div class="grade-cards aba-grade">${items.map((item) => mediaItem(item, labels)).join("")}</div>`
+      ? `<div class="grade-cards aba-grade">${list(items, (item) => mediaItem(item, labels))}</div>`
       : "";
 
   const hasDescription = Boolean(single?.description);
@@ -473,34 +449,32 @@ export function panelContent(items, labels) {
 // Abas: cada categoria tem um botão e um painel; só o painel selecionado fica visível
 // (a troca é feita por initTabs em js/4-nav.js). A primeira aba começa selecionada
 function renderMultimedia({ multimedia }) {
-  sectionHead(document.getElementById("trabalhos-titulo"), multimedia);
+  sectionHead("trabalhos-titulo", multimedia);
 
-  const tabs = document.getElementById("trabalhos-abas");
-  if (tabs) {
-    tabs.setAttribute("aria-label", multimedia.intro);
-    tabs.innerHTML = multimedia.categories
-      .map(
-        (category, index) => `
+  document.getElementById("trabalhos-abas")?.setAttribute("aria-label", multimedia.intro);
+  setHTML(
+    "trabalhos-abas",
+    list(
+      multimedia.categories,
+      (category, index) => `
         <button class="etiqueta aba" type="button" role="tab" id="aba-${category.id}"
           aria-controls="painel-${category.id}" aria-selected="${index === 0}" tabindex="${index === 0 ? 0 : -1}">
           ${category.name}
         </button>`
-      )
-      .join("");
-  }
+    )
+  );
 
-  const panels = document.getElementById("trabalhos-conteudo");
-  if (!panels) return;
-
-  panels.innerHTML = multimedia.categories
-    .map(
+  setHTML(
+    "trabalhos-conteudo",
+    list(
+      multimedia.categories,
       (category, index) => `
       <div class="aba-painel" role="tabpanel" id="painel-${category.id}" aria-labelledby="aba-${category.id}"
         tabindex="0" ${index === 0 ? "" : "hidden"}>
         ${panelContent(category.items, multimedia)}
       </div>`
     )
-    .join("");
+  );
 }
 
 export function renderAll(data) {

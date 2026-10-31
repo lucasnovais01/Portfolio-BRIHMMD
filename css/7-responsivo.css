@@ -47,7 +47,7 @@
     align-items: stretch;
     gap: 0;
     background: var(--cor-fundo-elevado);
-    border-bottom: 1px solid var(--cor-borda);
+    border-bottom: var(--borda);
     padding: var(--espaco-p);
   }
 

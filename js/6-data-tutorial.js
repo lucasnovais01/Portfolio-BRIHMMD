@@ -110,7 +110,7 @@ export const TUTORIAL_DATA = {
         },
         {
           path: "js/2-render.js",
-          code: "function renderSkills({ skills }) {\n  sectionHead(document.getElementById(\"skills-titulo\"), skills);\n\n  const body = document.getElementById(\"skills-cards\");\n  if (!body) return;\n\n  body.innerHTML = skills.categories\n    .map(\n      (category) => `\n      <div class=\"card card-flutua\">\n        <h3>${category.name}</h3>\n        <div class=\"lista-etiquetas lista-etiquetas-cheia\">\n          ${category.items\n            .map((item) => `<a class=\"etiqueta\" href=\"${item.href}\" target=\"_blank\" rel=\"noopener\">${item.label}</a>`)\n            .join(\"\")}\n        </div>\n      </div>`\n    )\n    .join(\"\");\n}",
+          code: "function setHTML(id, html) {\n  const el = document.getElementById(id);\n  if (el) el.innerHTML = html;\n}\n\n// Monta uma lista de HTML: um pedaço para cada item\nconst list = (items, template) => items.map(template).join(\"\");\n\nfunction renderSkills({ skills }) {\n  sectionHead(\"skills-titulo\", skills);\n  setHTML(\n    \"skills-cards\",\n    list(\n      skills.categories,\n      (category) => `\n      <div class=\"card card-flutua\">\n        <h3>${category.name}</h3>\n        <div class=\"lista-etiquetas lista-etiquetas-cheia\">\n          ${list(category.items, (item) => `<a class=\"etiqueta\" href=\"${item.href}\" target=\"_blank\" rel=\"noopener\">${item.label}</a>`)}\n        </div>\n      </div>`\n    )\n  );\n}",
         },
       ],
     },
@@ -120,7 +120,7 @@ export const TUTORIAL_DATA = {
       files: [
         {
           path: "css/3-estrutura.css",
-          code: ".pagina {\n  width: 100%;\n  max-width: var(--largura-site);\n  margin-inline: auto;\n  padding-inline: var(--espaco-p);\n  display: grid;\n  grid-template-columns: var(--largura-lateral) 1fr;\n  gap: var(--espaco-g);\n  align-items: start;\n}\n\n.lateral {\n  position: sticky;\n  top: calc(var(--altura-cabecalho) + var(--espaco-p));\n  display: flex;\n  flex-direction: column;\n}",
+          code: ".pagina {\n  display: grid;\n  grid-template-columns: var(--largura-lateral) 1fr;\n  gap: var(--espaco-g);\n  align-items: start;\n}\n\n.lateral {\n  position: sticky;\n  top: calc(var(--altura-cabecalho) + var(--espaco-p));\n  display: flex;\n  flex-direction: column;\n}",
         },
         {
           path: "js/3-animations.js",
@@ -163,12 +163,12 @@ export const TUTORIAL_DATA = {
       ],
     },
     {
-      title: "Menu do celular acessível",
-      description: "O botão hambúrguer não é só visual: ele atualiza aria-expanded para leitores de tela, e o menu fecha sozinho ao clicar fora dele, num link, ou apertando Esc.",
+      title: "Menus acessíveis, com uma função só",
+      description: "O menu Projetos e o menu do celular (botão hambúrguer) usam a mesma função: ela abre e fecha o menu, atualiza aria-expanded para leitores de tela e fecha sozinha ao clicar fora ou apertar Esc. No celular, o menu também fecha ao tocar num link.",
       files: [
         {
           path: "js/4-nav.js",
-          code: "toggle.addEventListener(\"click\", (event) => {\n  event.stopPropagation();\n  const isOpen = header.classList.toggle(\"menu-aberto\");\n  toggle.setAttribute(\"aria-expanded\", String(isOpen));\n});\n\nnavLinks.addEventListener(\"click\", (event) => {\n  if (event.target.tagName === \"A\") close();\n});\n\ndocument.addEventListener(\"click\", (event) => {\n  if (!header.contains(event.target)) close();\n});\n\ndocument.addEventListener(\"keydown\", (event) => {\n  if (event.key === \"Escape\") close();\n});",
+          code: "function initToggleMenu(box, button, openClass) {\n  if (!box || !button) return null;\n\n  const close = () => {\n    box.classList.remove(openClass);\n    button.setAttribute(\"aria-expanded\", \"false\");\n  };\n\n  button.addEventListener(\"click\", (event) => {\n    event.stopPropagation();\n    const isOpen = box.classList.toggle(openClass);\n    button.setAttribute(\"aria-expanded\", String(isOpen));\n  });\n\n  document.addEventListener(\"click\", (event) => {\n    if (!box.contains(event.target)) close();\n  });\n\n  document.addEventListener(\"keydown\", (event) => {\n    if (event.key === \"Escape\") close();\n  });\n\n  return close;\n}",
         },
       ],
     },
@@ -178,11 +178,11 @@ export const TUTORIAL_DATA = {
       files: [
         {
           path: "css/5-secoes.css",
-          code: ".abertura-titulo::first-letter {\n  font-size: 2.4em;\n  font-weight: var(--peso-negrito);\n  background: var(--gradiente-principal);\n  -webkit-background-clip: text;\n  background-clip: text;\n  color: transparent;\n}",
+          code: ".abertura-titulo::first-letter {\n  font-size: 2.4em;\n  font-weight: var(--peso-negrito);\n  background-image: var(--gradiente-principal); /* o efeito vem do .texto-gradiente (4-componentes.css) */\n}",
         },
         {
           path: "css/4-componentes.css",
-          code: ".texto-gradiente {\n  background-image: var(--gradiente-texto);\n  -webkit-background-clip: text;\n  background-clip: text;\n  color: transparent;\n}",
+          code: ".texto-gradiente,\n.abertura-titulo::first-letter {\n  background-image: var(--gradiente-texto);\n  -webkit-background-clip: text;\n  background-clip: text;\n  color: transparent;\n}",
         },
       ],
     },

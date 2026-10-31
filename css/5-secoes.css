@@ -137,7 +137,7 @@
   flex-direction: column;
   gap: 2.4px;
   background: var(--cor-fundo-elevado);
-  border: 1px solid var(--cor-borda);
+  border: var(--borda);
   border-radius: var(--arredondado-p);
   box-shadow: var(--sombra);
   padding: 6.4px;
@@ -222,7 +222,7 @@
   padding: 4px 9.6px;
   border-radius: var(--arredondado-p);
   background: var(--cor-fundo-elevado);
-  border: 1px solid var(--cor-borda);
+  border: var(--borda);
   font-size: var(--texto-mini);
   white-space: nowrap;
   color: var(--cor-texto);
@@ -246,7 +246,7 @@
   margin: var(--espaco-p) var(--espaco-p) 0;
   border-radius: var(--arredondado-g);
   overflow: hidden;
-  border: 1px solid var(--cor-borda);
+  border: var(--borda);
   box-shadow: 0 0 20px -2px color-mix(in srgb, var(--cor-roxo) 45%, transparent), 0 0 14px 1px color-mix(in srgb, var(--cor-ciano) 25%, transparent);
 }
 
@@ -341,10 +341,7 @@ a.lateral-contato:hover {
 .abertura-titulo::first-letter {
   font-size: 2.4em;
   font-weight: var(--peso-negrito);
-  background: var(--gradiente-principal);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  background-image: var(--gradiente-principal); /* o efeito vem do .texto-gradiente (4-componentes.css) */
 }
 
 .abertura-nome {
@@ -498,7 +495,7 @@ a.lateral-contato:hover {
   height: 352px;
   overflow-y: auto;
   padding: var(--espaco-m);
-  border-top: 1px solid var(--cor-borda);
+  border-top: var(--borda);
 }
 
 /* Botão "Ler mais" da descrição: escondido no computador (aqui a descrição tem rolagem própria).
@@ -560,7 +557,7 @@ a.lateral-contato:hover {
 .roteiro-tempo {
   padding: 3.2px var(--espaco-pp);
   border-radius: var(--arredondado-p);
-  border: 1px solid var(--cor-borda);
+  border: var(--borda);
   background: var(--cor-superficie);
   font-size: var(--texto-mini);
   font-variant-numeric: tabular-nums;
@@ -594,7 +591,7 @@ a.lateral-contato:hover {
   gap: var(--espaco-p);
   margin-top: var(--espaco-m);
   padding-top: var(--espaco-p);
-  border-top: 1px solid var(--cor-borda);
+  border-top: var(--borda);
   font-size: var(--texto-pequeno);
 }
 
@@ -774,7 +771,7 @@ a.lateral-contato:hover {
    ===================================================================== */
 .card-projeto {
   background: var(--cor-fundo-elevado);
-  border: 1px solid var(--cor-borda);
+  border: var(--borda);
   border-radius: var(--arredondado-g);
   padding: var(--espaco-g);
 }
@@ -816,7 +813,7 @@ a.lateral-contato:hover {
   gap: 5.6px;
   padding: var(--espaco-p) var(--espaco-m);
   border-radius: var(--arredondado-m);
-  border: 1px solid var(--cor-borda);
+  border: var(--borda);
   background: var(--cor-superficie);
   transition: transform var(--transicao), border-color var(--transicao), background var(--transicao), box-shadow var(--transicao);
 }
@@ -918,7 +915,7 @@ a.lateral-contato:hover .contato-icone-github {
 /* Bloco de código com o nome do arquivo em cima */
 .bloco-codigo {
   background: var(--cor-fundo-elevado);
-  border: 1px solid var(--cor-borda);
+  border: var(--borda);
   border-radius: var(--arredondado-m);
   overflow-x: auto;
   margin-bottom: var(--espaco-p);
@@ -930,7 +927,7 @@ a.lateral-contato:hover .contato-icone-github {
   font-family: var(--fonte-titulo);
   font-size: var(--texto-pequeno);
   color: var(--cor-ciano);
-  border-bottom: 1px solid var(--cor-borda);
+  border-bottom: var(--borda);
 }
 
 .bloco-codigo pre {

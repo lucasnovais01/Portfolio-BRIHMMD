@@ -77,6 +77,7 @@
   --arredondado-pilula: 999px; /* pontas totalmente redondas */
 
   /* ===== EFEITOS ===== */
+  --borda: 1px solid var(--cor-borda); /* borda padrão de cards, menus e caixas */
   --sombra: 0 20px 40px -20px color-mix(in srgb, var(--cor-preto) 60%, transparent);
   --transicao-rapida: 0.15s ease; /* efeito de "apertar" no clique */
   --transicao: 0.25s ease;        /* hover, cores, pequenos movimentos */

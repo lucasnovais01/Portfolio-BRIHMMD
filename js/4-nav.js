@@ -1,59 +1,41 @@
 import { stopVideos } from "./5-media.js";
 
-// Comportamento do menu dropdown "Projetos" no cabeçalho
-function initProjectsDropdown() {
-  const dropdown = document.getElementById("menu-projetos");
-  const button = document.getElementById("menu-projetos-botao");
-  if (!dropdown || !button) return;
+// Abre/fecha um menu: o botão alterna a classe no "box" e atualiza aria-expanded (para leitores
+// de tela); o menu fecha sozinho ao clicar fora dele ou apertar Esc. Devolve a função que fecha
+function initToggleMenu(box, button, openClass) {
+  if (!box || !button) return null;
 
   const close = () => {
-    dropdown.classList.remove("aberto");
+    box.classList.remove(openClass);
     button.setAttribute("aria-expanded", "false");
   };
 
   button.addEventListener("click", (event) => {
     event.stopPropagation();
-    const isOpen = dropdown.classList.toggle("aberto");
+    const isOpen = box.classList.toggle(openClass);
     button.setAttribute("aria-expanded", String(isOpen));
   });
 
   document.addEventListener("click", (event) => {
-    if (!dropdown.contains(event.target)) close();
+    if (!box.contains(event.target)) close();
   });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") close();
   });
+
+  return close;
 }
 
-// Botão hambúrguer: abre/fecha o menu completo no mobile
-function initMobileMenu() {
-  const header = document.getElementById("cabecalho");
-  const toggle = document.getElementById("menu-hamburguer");
-  const navLinks = document.getElementById("menu-links");
-  if (!header || !toggle || !navLinks) return;
+// Menu "Projetos" (lista que abre embaixo do botão) e menu do celular (botão hambúrguer).
+// No celular, o menu também fecha ao tocar num link
+function initMenus() {
+  const byId = (id) => document.getElementById(id);
+  initToggleMenu(byId("menu-projetos"), byId("menu-projetos-botao"), "aberto");
 
-  const close = () => {
-    header.classList.remove("menu-aberto");
-    toggle.setAttribute("aria-expanded", "false");
-  };
-
-  toggle.addEventListener("click", (event) => {
-    event.stopPropagation();
-    const isOpen = header.classList.toggle("menu-aberto");
-    toggle.setAttribute("aria-expanded", String(isOpen));
-  });
-
-  navLinks.addEventListener("click", (event) => {
-    if (event.target.tagName === "A") close();
-  });
-
-  document.addEventListener("click", (event) => {
-    if (!header.contains(event.target)) close();
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") close();
+  const closeMobileMenu = initToggleMenu(byId("cabecalho"), byId("menu-hamburguer"), "menu-aberto");
+  byId("menu-links")?.addEventListener("click", (event) => {
+    if (event.target.tagName === "A") closeMobileMenu?.();
   });
 }
 
@@ -185,7 +167,6 @@ export function initNav() {
   initReadMore();
   initTooltips();
   initCollapsibles();
-  initProjectsDropdown();
-  initMobileMenu();
+  initMenus();
   initSectionHighlight();
 }
