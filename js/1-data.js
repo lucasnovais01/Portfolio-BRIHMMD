@@ -276,7 +276,7 @@ export const PORTFOLIO_DATA = {
                 {
                   title: "Enredo / Sinopse",
                   paragraphs: [
-                    "EDITAR: blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá blá.",
+                    "Alexia, universitária que acumula fracassos em concursos, e Lucas, agente de saúde sufocado por metas e pela rotina da faculdade, encontram refúgio em mundos opostos. Ela nos mangás, ele nos jogos. Quando seus universos se cruzam, os dois dividem missões e conversas leves, até que o mundo ao redor perde cor e o tempo lhes escapa. Ao voltar à realidade, nada mudou, mas eles decidem continuar, e as notificações que antes pesavam passam a soar como convite..",
                   ],
                 },
                 {
