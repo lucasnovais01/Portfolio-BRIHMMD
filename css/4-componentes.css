@@ -7,12 +7,12 @@
 .botao {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--espaco-pp);
   padding: 12px 24px;
   border-radius: var(--arredondado-p);
   font-weight: var(--peso-medio);
   font-size: var(--texto-pequeno);
-  transition: transform var(--transicao), box-shadow var(--transicao);
+  transition: transform var(--transicao), box-shadow var(--transicao), scale var(--transicao-rapida);
 }
 
 /* Gradiente roxo → ciano */
@@ -36,7 +36,7 @@
 .selo {
   display: inline-flex;
   align-items: center;
-  padding: 8px 13.6px;
+  padding: var(--espaco-pp) 13.6px;
   border-radius: var(--arredondado-p);
   font-size: var(--texto-pequeno);
   white-space: pre-line;
@@ -50,7 +50,7 @@
 .etiqueta {
   display: inline-flex;
   align-items: center;
-  padding: 7.2px 16px;
+  padding: 7.2px var(--espaco-p);
   border-radius: var(--arredondado-p);
   font-size: var(--texto-pequeno);
   font-weight: var(--peso-medio);
@@ -194,7 +194,7 @@ a.etiqueta:hover {
     inset 10px 0 12px -6px color-mix(in srgb, var(--cor-roxo) 80%, transparent),
     inset -10px 0 12px -6px color-mix(in srgb, var(--cor-roxo) 80%, transparent);
   animation: luz-respirando 5s ease-in-out infinite;
-  transition: opacity var(--transicao-lenta), box-shadow 0.3s ease;
+  transition: opacity var(--transicao-lenta), box-shadow var(--transicao);
 }
 
 .luz-lateral.aberto::before {
@@ -415,7 +415,7 @@ Uma volta completa: cada camada anda 100 (a volta inteira):
   top: var(--dica-y);
   bottom: auto;
   right: auto;
-  transform: translate(calc(-100% - 8px), calc(-100% - 8px));
+  transform: translate(calc(-100% - var(--espaco-pp)), calc(-100% - var(--espaco-pp)));
 }
 
 @media (hover: hover) {

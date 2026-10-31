@@ -20,9 +20,9 @@ function escapeHtml(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-// A sidebar só existe na página inicial: usamos isso para saber se os links
+// A coluna da foto (#lateral) só existe na página inicial: usamos isso para saber se os links
 // de âncora (#sobre, #projeto...) precisam apontar de volta pra index.html
-function homePrefix() {
+export function homePrefix() {
   return document.getElementById("lateral") ? "" : "./index.html";
 }
 
@@ -449,7 +449,7 @@ function renderDescription(description, labels) {
 // Um único vídeo ocupa a área de mídia inteira e a descrição dele vai embaixo;
 // vários itens viram uma grade de cards (cada um com a própria descrição curta)
 // labels = textos da seção (multimedia no js/1-data.js): botões, "Ler mais" e textos para leitor de tela
-function panelContent(items, labels) {
+export function panelContent(items, labels) {
   const single = items.length === 1 && items[0].youtube ? items[0] : null;
   const media = single
     ? youtubePlayer(single, labels)

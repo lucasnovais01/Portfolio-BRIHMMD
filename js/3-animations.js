@@ -24,6 +24,10 @@ function initStickySidebar() {
   new ResizeObserver(adjust).observe(sidebar);
 }
 
+/* DESATIVADO (opção 3 das luzes, ver OPÇÃO 3, VERSÃO 2 em 4-componentes.css). Para usar:
+   tire este bloco do comentário, tire do comentário a chamada initTravelingLight() abaixo
+   e o CSS da opção 3.
+
 // Luz que percorre a borda (classe "luz-percorre", ver 4-componentes.css): coloca dentro do
 // elemento um contorno em SVG com várias camadas que, somadas, formam uma luz em degradê.
 // A volta inteira vale 100. Ajustes:
@@ -61,11 +65,12 @@ function initTravelingLight() {
     el.insertAdjacentHTML("beforeend", `<svg class="luz-percorre-svg" aria-hidden="true">${trail.join("")}${tip}</svg>`);
   });
 }
+*/
 
 // Revelação suave das seções ao rolar a página + sombra no header fixo
 export function initAnimations() {
   initStickySidebar();
-  initTravelingLight();
+  // initTravelingLight(); // desativado: ver o bloco comentado acima
 
   const revealTargets = document.querySelectorAll("[data-reveal]");
 

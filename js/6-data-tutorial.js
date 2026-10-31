@@ -78,11 +78,11 @@ export const TUTORIAL_DATA = {
       files: [
         {
           path: "css/0-estilo.css",
-          code: "@import \"./1-tokens.css\";\n@import \"./2-base.css\";\n@import \"./3-estrutura.css\";\n@import \"./4-componentes.css\";\n@import \"./5-secoes.css\";\n@import \"./6-animations.css\";\n@import \"./7-responsivo.css\";",
+          code: "@import \"./1-tokens.css\";\n@import \"./2-base.css\";\n@import \"./3-estrutura.css\";\n@import \"./4-componentes.css\";\n@import \"./5-secoes.css\";\n@import \"./6-animations.css\";\n@import \"./7-responsivo.css\";\n@import \"./8-modo-foco.css\";",
         },
         {
           path: "js/0-script.js",
-          code: "import { PORTFOLIO_DATA } from \"./1-data.js\";\nimport { renderAll } from \"./2-render.js\";\nimport { initAnimations } from \"./3-animations.js\";\nimport { initNav } from \"./4-nav.js\";\nimport { initMedia } from \"./5-media.js\";\nimport { TUTORIAL_DATA } from \"./6-data-tutorial.js\";\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  renderAll({ ...PORTFOLIO_DATA, makingOf: TUTORIAL_DATA });",
+          code: "import { PORTFOLIO_DATA } from \"./1-data.js\";\nimport { renderAll } from \"./2-render.js\";\nimport { initAnimations } from \"./3-animations.js\";\nimport { initNav } from \"./4-nav.js\";\nimport { initMedia } from \"./5-media.js\";\nimport { TUTORIAL_DATA } from \"./6-data-tutorial.js\";\nimport { initFocusMode } from \"./7-modo-foco.js\";\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  renderAll({ ...PORTFOLIO_DATA, makingOf: TUTORIAL_DATA });\n  initFocusMode(PORTFOLIO_DATA);\n  initAnimations();\n  initNav();\n  initMedia();\n});",
         },
       ],
     },
@@ -158,7 +158,7 @@ export const TUTORIAL_DATA = {
       files: [
         {
           path: "js/4-nav.js",
-          code: "const update = () => {\n  const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;\n  const line = window.innerHeight * 0.4;\n  const passed = targets.filter((target) => target.section.getBoundingClientRect().top <= line);\n  const active = atBottom ? targets[targets.length - 1] : passed[passed.length - 1];\n  targets.forEach((target) => target.link.classList.toggle(\"ativo\", target === active));\n};\n\nlet ticking = false;\nwindow.addEventListener(\"scroll\", () => {\n  if (ticking) return;\n  ticking = true;\n  requestAnimationFrame(() => {\n    update();",
+          code: "const update = () => {\n  const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;\n  const line = window.innerHeight * 0.4;\n  // Só seções visíveis (no modo foco, as seções da página ficam escondidas)\n  const visible = targets.filter((target) => target.section.getClientRects().length);\n  const passed = visible.filter((target) => target.section.getBoundingClientRect().top <= line);\n  const active = atBottom ? visible[visible.length - 1] : passed[passed.length - 1];\n  targets.forEach((target) => target.link.classList.toggle(\"ativo\", target === active));\n};\n\nlet ticking = false;\nwindow.addEventListener(\"scroll\", () => {\n  if (ticking) return;\n  ticking = true;\n  requestAnimationFrame(() => {\n    update();",
         },
       ],
     },
@@ -206,7 +206,7 @@ export const TUTORIAL_DATA = {
       files: [
         {
           path: "css/4-componentes.css",
-          code: ".luz-lateral::before {\n  content: \"\";\n  position: absolute;\n  inset: -1px; /* cobre a borda de 1px do card: a luz encosta na lateral */\n  border-radius: inherit;\n  pointer-events: none;\n  box-shadow:\n    inset 3px 0 0 0 var(--cor-ciano),\n    inset -3px 0 0 0 var(--cor-ciano),\n    inset 10px 0 12px -6px color-mix(in srgb, var(--cor-roxo) 80%, transparent),\n    inset -10px 0 12px -6px color-mix(in srgb, var(--cor-roxo) 80%, transparent);\n  animation: luz-respirando 5s ease-in-out infinite;\n  transition: opacity var(--transicao-lenta), box-shadow 0.3s ease;\n}\n\n@keyframes luz-respirando {\n  0%,\n  100% {\n    opacity: 0.25;\n  }\n\n  50% {\n    opacity: 1;\n  }\n}",
+          code: ".luz-lateral::before {\n  content: \"\";\n  position: absolute;\n  inset: -1px; /* cobre a borda de 1px do card: a luz encosta na lateral */\n  border-radius: inherit;\n  pointer-events: none;\n  box-shadow:\n    inset 3px 0 0 0 var(--cor-ciano),\n    inset -3px 0 0 0 var(--cor-ciano),\n    inset 10px 0 12px -6px color-mix(in srgb, var(--cor-roxo) 80%, transparent),\n    inset -10px 0 12px -6px color-mix(in srgb, var(--cor-roxo) 80%, transparent);\n  animation: luz-respirando 5s ease-in-out infinite;\n  transition: opacity var(--transicao-lenta), box-shadow var(--transicao);\n}\n\n@keyframes luz-respirando {\n  0%,\n  100% {\n    opacity: 0.25;\n  }\n\n  50% {\n    opacity: 1;\n  }\n}",
         },
       ],
     },
@@ -220,7 +220,7 @@ export const TUTORIAL_DATA = {
         },
         {
           path: "css/4-componentes.css",
-          code: ".com-dica.dica-no-mouse::after {\n  left: var(--dica-x);\n  top: var(--dica-y);\n  bottom: auto;\n  right: auto;\n  transform: translate(calc(-100% - 8px), calc(-100% - 8px));\n}",
+          code: ".com-dica.dica-no-mouse::after {\n  left: var(--dica-x);\n  top: var(--dica-y);\n  bottom: auto;\n  right: auto;\n  transform: translate(calc(-100% - var(--espaco-pp)), calc(-100% - var(--espaco-pp)));\n}",
         },
       ],
     },
@@ -231,6 +231,20 @@ export const TUTORIAL_DATA = {
         {
           path: "js/4-nav.js",
           code: "const select = (tab) => {\n  tabs.forEach((other) => {\n    const isSelected = other === tab;\n    other.setAttribute(\"aria-selected\", String(isSelected));\n    other.tabIndex = isSelected ? 0 : -1;\n    const panel = document.getElementById(other.getAttribute(\"aria-controls\"));\n    if (!panel) return;\n    panel.hidden = !isSelected;\n    if (!isSelected) stopVideos(panel);\n  });\n};",
+        },
+      ],
+    },
+    {
+      title: "Modo foco: uma página própria sem sair da página única",
+      description: "Pelo menu Projetos > Atividades, cada trabalho abre sozinho na tela, com o vídeo grande, como se fosse uma página própria. Quem decide o que aparece é o endereço: #atividade/audio mostra o Áudio. Por isso o botão Voltar do navegador funciona e dá para mandar o link direto de um trabalho. Ao entrar, uma classe no <body> esconde o resto da página; o vídeo e a descrição são os mesmos das abas, reaproveitados sem copiar código. Tudo fica em arquivos próprios (js/7-modo-foco.js e css/8-modo-foco.css).",
+      files: [
+        {
+          path: "js/7-modo-foco.js",
+          code: "const ROUTE = \"#atividade/\";\n\nconst id = location.hash.startsWith(ROUTE) ? location.hash.slice(ROUTE.length) : null;\nconst panel = id && area.querySelector(`[data-atividade=\"${id}\"]`);\nconst wasFocused = document.body.classList.contains(\"em-modo-foco\");\n\ndocument.body.classList.toggle(\"em-modo-foco\", Boolean(panel));\narea.hidden = !panel;\n\nwindow.addEventListener(\"hashchange\", show);",
+        },
+        {
+          path: "css/8-modo-foco.css",
+          code: ".em-modo-foco .pagina,\n.em-modo-foco .bolinhas {\n  display: none;\n}",
         },
       ],
     },

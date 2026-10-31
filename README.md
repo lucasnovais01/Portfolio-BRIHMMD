@@ -36,3 +36,4 @@ Publicado no GitHub Pages, ele funciona normalmente.
 | Botões, selos, etiquetas e cards | `css/4-componentes.css` |
 | Uma parte específica do site (menu, abas, vídeo, contato...) | `css/5-secoes.css` (procure o título em MAIÚSCULAS com Ctrl+F) |
 | Ajustes de tablet e celular | `css/7-responsivo.css` |
+| Modo foco (menu Projetos > Atividades) | `js/7-modo-foco.js` e `css/8-modo-foco.css` |

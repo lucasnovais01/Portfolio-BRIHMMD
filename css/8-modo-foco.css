@@ -1,0 +1,67 @@
+/* =====================================================================
+   MODO FOCO: um trabalho sozinho na tela, com o vídeo grande no centro.
+   O js/7-modo-foco.js coloca a classe "em-modo-foco" no <body> e mostra a área #modo-foco
+   ===================================================================== */
+
+/* Enquanto o modo foco está aberto, o resto da página some */
+.em-modo-foco .pagina,
+.em-modo-foco .bolinhas {
+  display: none;
+}
+
+.modo-foco {
+  max-width: var(--largura-site);
+  margin-inline: auto;
+  padding: var(--espaco-g) var(--espaco-p) 0;
+}
+
+.modo-foco-voltar {
+  margin-bottom: var(--espaco-g);
+}
+
+/* A descrição aparece inteira, sem rolagem própria e sem o "Ler mais" do celular */
+.modo-foco .aba-descricao {
+  height: auto;
+  max-height: none;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.modo-foco .aba-ler-mais {
+  display: none;
+}
+
+/* ===== SUBMENU "ATIVIDADES" (dentro do menu Projetos) ===== */
+.menu-atividades-botao {
+  width: 100%;
+  padding: 8.8px 12px;
+  border-radius: var(--arredondado-p);
+  font-size: var(--texto-pequeno);
+  color: var(--cor-texto-suave);
+  text-align: left;
+  transition: background var(--transicao), color var(--transicao);
+}
+
+.menu-atividades-botao::after {
+  content: " ▸";
+}
+
+.menu-atividades-botao[aria-expanded="true"]::after {
+  content: " ▾";
+}
+
+.menu-atividades-botao:hover {
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+}
+
+.menu-atividades-lista {
+  padding-left: var(--espaco-p);
+}
+
+/* No celular, alinhado com os outros itens do menu */
+@media (max-width: 640px) {
+  .menu-atividades-botao {
+    padding: 12px var(--espaco-pp);
+  }
+}

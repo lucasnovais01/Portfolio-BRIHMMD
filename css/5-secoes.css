@@ -369,7 +369,7 @@ a.lateral-contato:hover {
    apertar (scale), fundo e borda. "translate" e "scale" são separados do "transform" de
    propósito: assim não brigam com a animação de surgimento, que usa transform */
 .card.card-recolhivel {
-  transition: opacity var(--transicao-surgir), transform var(--transicao-surgir), translate var(--transicao), scale 0.15s ease,
+  transition: opacity var(--transicao-surgir), transform var(--transicao-surgir), translate var(--transicao), scale var(--transicao-rapida),
     background var(--transicao), border-color var(--transicao);
 }
 
@@ -558,7 +558,7 @@ a.lateral-contato:hover {
 
 /* Botão "0:07 - 0:19" */
 .roteiro-tempo {
-  padding: 3.2px 8px;
+  padding: 3.2px var(--espaco-pp);
   border-radius: var(--arredondado-p);
   border: 1px solid var(--cor-borda);
   background: var(--cor-superficie);
@@ -651,7 +651,7 @@ a.lateral-contato:hover {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease, filter 0.4s ease;
+  transition: transform var(--transicao-lenta), filter var(--transicao-lenta);
 }
 
 .video-capa:hover .video-thumbnail {
@@ -719,20 +719,26 @@ a.lateral-contato:hover {
 }
 */
 
-/* ===== BOTÃO PLAY: ESTILO YOUTUBE (em uso) =====
-   Retângulo arredondado vermelho com triângulo branco, como o player do YouTube */
-.botao-play-youtube {
+/* Formato retangular do YouTube, usado pelos estilos YouTube e Mistura abaixo */
+.botao-play-youtube,
+.botao-play-mistura {
   width: 68px;
   height: 48px;
   border-radius: 14px;
-  background: var(--cor-youtube);
-  box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--cor-preto) 60%, transparent);
 }
 
-.botao-play-youtube svg {
+.botao-play-youtube svg,
+.botao-play-mistura svg {
   width: 26px;
   height: 26px;
   margin-left: 2px;
+}
+
+/* ===== BOTÃO PLAY: ESTILO YOUTUBE (em uso) =====
+   Retângulo arredondado vermelho com triângulo branco, como o player do YouTube */
+.botao-play-youtube {
+  background: var(--cor-youtube);
+  box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--cor-preto) 60%, transparent);
 }
 
 .video-capa:hover .botao-play-youtube {
@@ -742,17 +748,8 @@ a.lateral-contato:hover {
 /* ===== BOTÃO PLAY: MISTURA =====
    Formato retangular do YouTube + gradiente roxo → ciano do site */
 .botao-play-mistura {
-  width: 68px;
-  height: 48px;
-  border-radius: 14px;
   background: var(--gradiente-principal);
   box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--cor-roxo) 80%, transparent);
-}
-
-.botao-play-mistura svg {
-  width: 26px;
-  height: 26px;
-  margin-left: 2px;
 }
 
 .video-capa:hover .botao-play-mistura {
@@ -891,7 +888,7 @@ a.lateral-contato:hover .contato-icone-github {
 .rodape-logo {
   display: inline-flex;
   align-items: center;
-  padding: 4.8px 8px;
+  padding: 4.8px var(--espaco-pp);
   background: var(--cor-branco);
   border-radius: var(--arredondado-p);
 }

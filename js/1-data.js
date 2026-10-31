@@ -118,6 +118,8 @@ export const PORTFOLIO_DATA = {
     eyebrow: "Trabalhos Desenvolvidos",
     heading: "Hipermídia E Multimídia (BRIHMMD)",
     intro: "Provas e trabalhos",
+    // Modo foco: item "Atividades" no menu Projetos, que abre cada trabalho sozinho na tela (js/7-modo-foco.js)
+    focusMode: { menuLabel: "Atividades", backLabel: "← Voltar ao portfólio", backHref: "#multimidia" },
     // Botão que abre/fecha a descrição do vídeo (só aparece no celular)
     readMore: { closed: "Ler mais", open: "Ler menos" },
     // Botão dos itens que abrem em outra aba (ex.: jogos)

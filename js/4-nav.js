@@ -68,8 +68,10 @@ function initScrollSpy(links) {
   const update = () => {
     const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
     const line = window.innerHeight * 0.4;
-    const passed = targets.filter((target) => target.section.getBoundingClientRect().top <= line);
-    const active = atBottom ? targets[targets.length - 1] : passed[passed.length - 1];
+    // Só seções visíveis (no modo foco, as seções da página ficam escondidas)
+    const visible = targets.filter((target) => target.section.getClientRects().length);
+    const passed = visible.filter((target) => target.section.getBoundingClientRect().top <= line);
+    const active = atBottom ? visible[visible.length - 1] : passed[passed.length - 1];
     targets.forEach((target) => target.link.classList.toggle("ativo", target === active));
   };
 

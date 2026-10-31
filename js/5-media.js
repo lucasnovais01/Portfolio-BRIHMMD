@@ -37,7 +37,7 @@ function initSeekButtons() {
   });
 }
 
-// Volta para a capa: usado ao trocar de aba, senão o vídeo escondido continua tocando
+// Volta para a capa: usado ao trocar de aba e ao entrar/sair do modo foco, senão o vídeo escondido continua tocando
 export function stopVideos(container) {
   container.querySelectorAll(".video").forEach((video) => {
     video.querySelector(".video-player")?.remove();

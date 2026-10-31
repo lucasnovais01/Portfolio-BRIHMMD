@@ -78,6 +78,7 @@
 
   /* ===== EFEITOS ===== */
   --sombra: 0 20px 40px -20px color-mix(in srgb, var(--cor-preto) 60%, transparent);
+  --transicao-rapida: 0.15s ease; /* efeito de "apertar" no clique */
   --transicao: 0.25s ease;        /* hover, cores, pequenos movimentos */
   --transicao-lenta: 0.45s ease;  /* abrir/fechar o "Sobre mim", luzes apagando */
   --transicao-surgir: 0.7s ease;  /* blocos surgindo ao rolar a página */

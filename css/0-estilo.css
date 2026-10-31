@@ -9,6 +9,7 @@
    5-secoes       cada parte do site, na ordem em que aparece na página
    6-animations   surgimento das seções ao rolar a página
    7-responsivo   ajustes para tablet e celular
+   8-modo-foco    um trabalho sozinho na tela (menu Projetos > Atividades)
    ===================================================================== */
 @import "./1-tokens.css";
 @import "./2-base.css";
@@ -17,3 +18,4 @@
 @import "./5-secoes.css";
 @import "./6-animations.css";
 @import "./7-responsivo.css";
+@import "./8-modo-foco.css";
