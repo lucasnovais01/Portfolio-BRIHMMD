@@ -294,6 +294,29 @@ function renderMakingOf({ makingOf }) {
       </article>`
     )
   );
+
+  // Possíveis problemas e como resolver: imagem do problema + causa + lista de soluções
+  sectionHead("problemas-titulo", {
+    eyebrow: makingOf.troubleshootingEyebrow,
+    heading: makingOf.troubleshootingHeading,
+    intro: makingOf.troubleshootingIntro,
+  });
+  setHTML(
+    "problemas-lista",
+    list(
+      makingOf.problems,
+      (problem) => `
+      <article class="card problema" data-reveal>
+        ${problem.image ? `<img class="problema-imagem" src="${problem.image.src}" alt="${problem.image.alt}" loading="lazy" />` : ""}
+        <div>
+          <h3>${problem.title}</h3>
+          <p><strong>${makingOf.troubleshootingCauseLabel}:</strong> ${problem.cause}</p>
+          <p><strong>${makingOf.troubleshootingSolutionLabel}:</strong></p>
+          <ul class="problema-solucoes">${list(problem.solutions, (solution) => `<li>${solution}</li>`)}</ul>
+        </div>
+      </article>`
+    )
+  );
 }
 
 function renderDotNav({ nav }) {
@@ -433,6 +456,12 @@ export function panelContent(items, labels) {
       ? `<div class="grade-cards aba-grade">${list(items, (item) => mediaItem(item, labels))}</div>`
       : "";
 
+  // Link para assistir no próprio YouTube + o endereço por extenso, sem link, para copiar e colar.
+  // O endereço é o mesmo do campo "youtube" do vídeo
+  const youtubeLink = single
+    ? `<a class="aba-link-youtube" href="${single.youtube}" target="_blank" rel="noopener">${labels.youtubeLinkLabel}</a>
+      <p class="aba-endereco-youtube">${single.youtube}</p>`
+    : "";
   const hasDescription = Boolean(single?.description);
   const readMoreButton = hasDescription
     ? `<button class="botao botao-contorno aba-ler-mais" type="button" aria-expanded="false"
@@ -441,7 +470,7 @@ export function panelContent(items, labels) {
 
   return `
     <div class="aba-midia">${media}</div>
-    <div class="aba-descricao">${hasDescription ? renderDescription(single.description, labels) : ""}</div>
+    <div class="aba-descricao">${youtubeLink}${hasDescription ? renderDescription(single.description, labels) : ""}</div>
     ${readMoreButton}
   `;
 }

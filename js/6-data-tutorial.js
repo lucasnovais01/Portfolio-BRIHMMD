@@ -292,5 +292,27 @@ export const TUTORIAL_DATA = {
         },
       ],
     },
-  ]
+  ],
+  // Possíveis problemas e como resolver: cada item tem título, imagem (opcional), causa e soluções
+  troubleshootingEyebrow: "Possíveis problemas",
+  troubleshootingHeading: "Problemas e como resolver",
+  troubleshootingIntro: "Situações que podem acontecer ao abrir o portfólio e o que fazer em cada uma.",
+  troubleshootingCauseLabel: "Causa",
+  troubleshootingSolutionLabel: "Como resolver",
+  problems: [
+    {
+      title: "O vídeo não toca e aparece \"Faça login para confirmar que você não é um bot\"",
+      image: {
+        src: "./assets/img/youtube-bloqueio-bot.webp",
+        alt: "Aviso do YouTube: Faça login para confirmar que você não é um bot",
+      },
+      cause: "O aviso é do YouTube, não do portfólio nem do vídeo. Ele costuma aparecer em redes compartilhadas, como a rede da escola (IFSP): muitos computadores saem para a internet pelo mesmo endereço, e o YouTube passa a desconfiar desses acessos. Em casa, numa rede só sua, o vídeo toca normalmente.",
+      solutions: [
+        "Clique em \"Assistir no YouTube ↗\", logo abaixo do vídeo, para abrir o vídeo direto no YouTube, em outra aba.",
+        "Ou copie o endereço do vídeo, que aparece por extenso embaixo desse link, e cole em outro navegador.",
+        "Se o YouTube pedir login também, entre com uma conta Google: depois disso o vídeo toca, inclusive aqui no portfólio.",
+        "Outra saída é usar outra rede, como os dados móveis do celular.",
+      ],
+    },
+  ],
 };

@@ -43,7 +43,7 @@ export const PORTFOLIO_DATA = {
     name: "Lucas Novais de Oliveira",
     tagline: "Programador full-stack em formação",
     photo: {
-      src: "./assets/img/lucas-novais.png",
+      src: "./assets/img/lucas-novais.webp",
       alt: "Foto de Lucas Novais de Oliveira",
     },
     badges: [
@@ -124,6 +124,8 @@ export const PORTFOLIO_DATA = {
     readMore: { closed: "Ler mais", open: "Ler menos" },
     // Botão dos itens que abrem em outra aba (ex.: jogos)
     openLabel: "Abrir",
+    // Link que abre o vídeo direto no YouTube, em outra aba (útil quando o vídeo não toca no site)
+    youtubeLinkLabel: "Assistir no YouTube ↗",
     // Textos lidos por leitor de tela: "Reproduzir: <título do vídeo>" e "Tocar a partir de 0:07"
     playLabel: "Reproduzir",
     seekLabel: "Tocar a partir de",
@@ -268,7 +270,7 @@ export const PORTFOLIO_DATA = {
         items: [
           {
             title: "Entre Páginas & Pixels",
-            youtube: "https://www.youtube.com/watch?v=y8txYWmMFXo",
+            youtube: "https://www.youtube.com/watch?v=dGId5rga7U4",
             description: {
               heading: "Entre Páginas & Pixels",
               fields: [{ label: "Tema", text: "Livre." }],

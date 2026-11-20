@@ -529,6 +529,20 @@ a.lateral-contato:hover {
   word-break: break-all;
 }
 
+/* "Assistir no YouTube ↗": no topo da descrição, abre o vídeo em outra aba */
+.aba-link-youtube {
+  display: inline-block;
+  margin-bottom: var(--espaco-pp);
+  font-size: var(--texto-pequeno);
+}
+
+/* O endereço do vídeo por extenso, sem link, para copiar e colar */
+.aba-descricao .aba-endereco-youtube {
+  margin-bottom: var(--espaco-p);
+  word-break: break-all;
+  user-select: all;
+}
+
 /* Referência ABNT */
 .descricao-referencia {
   font-style: italic;
@@ -910,6 +924,26 @@ a.lateral-contato:hover .contato-icone-github {
 .passo-tutorial > p {
   max-width: 70ch;
   margin-bottom: var(--espaco-p);
+}
+
+/* Possíveis problemas e como resolver: imagem do problema em cima, texto embaixo */
+.problema {
+  display: grid;
+  gap: var(--espaco-m);
+}
+
+/* Imagem centralizada no card (o texto continua alinhado como no resto do site) */
+.problema-imagem {
+  justify-self: center;
+  border-radius: var(--arredondado-p);
+  border: var(--borda);
+}
+
+.problema-solucoes {
+  list-style: disc;
+  padding-left: var(--espaco-m);
+  font-size: var(--texto-pequeno);
+  color: var(--cor-texto-suave);
 }
 
 /* Bloco de código com o nome do arquivo em cima */
