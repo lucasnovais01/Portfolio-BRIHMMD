@@ -306,7 +306,38 @@ export const PORTFOLIO_DATA = {
           },
         ],
       },
-      { id: "jogos", name: "Jogos", items: [] },
+      {
+        id: "jogos",
+        name: "Jogos",
+        items: [
+          {
+            title: "NOT a running dinosaur",
+            image: {
+              src: "./assets/img/not-a-running-dinosaur-capa.svg",
+              alt: "Tela inicial do jogo NOT a running dinosaur, com opções para jogar e sair e uma lista de recordes.",
+            },
+            href: "https://drive.google.com/drive/folders/1heRBm4sKQcl6hZCO5oXkbOs_xO21xaa4?hl=pt-br",
+            linkLabel: "Abrir pasta para baixar",
+            description: {
+              heading: "NOT a running dinosaur",
+              fields: [
+                {
+                  label: "Arquivo do jogo",
+                  text: 'A pasta do Google Drive contém dois arquivos ZIP. O jogo mostrado aqui está em "Build 02 Treino - Runner.zip".',
+                },
+                {
+                  label: "Outro projeto",
+                  text: '"Build 01 Treino.zip" é um projeto de treino: um jogo de coleta de moedas feito na Unity enquanto eu aprendia a mexer no Unity.',
+                },
+              ],
+              paragraphs: [
+                "Jogo 2D de corrida infinita desenvolvido na Unity com C#. Inspirado no clássico dinossauro do Chrome que aparece quando a internet cai, o projeto transforma a ideia em um desafio próprio: desvie dos obstáculos com saltos enquanto o cenário acelera gradualmente.",
+                "A partida começa com obstáculos simples e introduz novos formatos conforme a pontuação aumenta. O jogo também conta com menu, pausa, tela de Game Over e placar local com as cinco melhores pontuações. Para dar vida ao protótipo, implementei animações e efeitos visuais, cenário com movimento em parallax e sons e música gerados pelo código.",
+              ],
+            },
+          },
+        ],
+      },
     ],
   },
 

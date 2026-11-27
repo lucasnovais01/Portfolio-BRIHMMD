@@ -466,6 +466,47 @@ a.lateral-contato:hover {
   overflow-y: auto;
 }
 
+/* Capa estática de um jogo, apresentada no mesmo espaço 16:9 dos vídeos */
+.media-imagem {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--cor-preto);
+}
+
+.media-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-imagem-acao {
+  position: absolute;
+  left: 50%;
+  bottom: var(--espaco-m);
+  transform: translateX(-50%);
+  padding: 12px var(--espaco-m);
+  border-radius: var(--arredondado-p);
+  background: var(--cor-amarelo, #edac16);
+  color: #111820;
+  font-family: var(--fonte-titulo);
+  font-weight: var(--peso-negrito);
+  text-align: center;
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--cor-preto) 45%, transparent);
+  transition: filter var(--transicao), transform var(--transicao);
+}
+
+.media-imagem-acao:hover {
+  filter: brightness(1.08);
+  transform: translateX(-50%) translateY(-2px);
+}
+
+.media-imagem-acao:focus-visible {
+  outline: 3px solid var(--cor-ciano);
+  outline-offset: 3px;
+}
+
 /* Vários itens na mesma aba viram uma grade de cards */
 .aba-grade {
   padding: var(--espaco-m);

@@ -357,6 +357,15 @@ function youtubePlayer(item, labels) {
     </div>`;
 }
 
+// Capa de jogo com link para download; o ZIP permanece hospedado fora do repositório.
+function imageMedia(item, labels) {
+  return `
+    <div class="media-imagem">
+      <img src="${item.image.src}" alt="${item.image.alt}" loading="lazy" />
+      ${item.href ? `<a class="media-imagem-acao" href="${item.href}" target="_blank" rel="noopener">${item.linkLabel ?? labels.openLabel}</a>` : ""}
+    </div>`;
+}
+
 // Mídia de cada item: player na própria página quando há youtube/src, senão botão de link.
 // preload="none" evita baixar o áudio antes de o visitante dar play
 function mediaItem(item, labels) {
@@ -396,7 +405,7 @@ function renderDescription(description, labels) {
   if (!description) return "";
   if (typeof description === "string") return `<p>${linkify(description)}</p>`;
 
-  const { heading, reference, fields = [], timelineTitle, timeline = [], sections = [], credits = [], team } = description;
+  const { heading, reference, fields = [], paragraphs = [], timelineTitle, timeline = [], sections = [], credits = [], team } = description;
   const creditList = (items) => list(items, (item) => `<div><dt>${item.label}</dt><dd>${item.value}</dd></div>`);
 
   const timelineHTML = timeline.length
@@ -425,6 +434,7 @@ function renderDescription(description, labels) {
     ${heading ? `<h3 class="texto-gradiente">${heading}</h3>` : ""}
     ${reference ? `<p class="descricao-referencia">${linkify(reference)}</p>` : ""}
     ${list(fields, (field) => `<p><strong>${field.label}:</strong> ${linkify(field.text)}</p>`)}
+    ${list(paragraphs, (paragraph) => `<p>${linkify(paragraph)}</p>`)}
     ${timelineHTML}
     ${list(
       sections,
@@ -449,16 +459,18 @@ function renderDescription(description, labels) {
 // vários itens viram uma grade de cards (cada um com a própria descrição curta)
 // labels = textos da seção (multimedia no js/1-data.js): botões, "Ler mais" e textos para leitor de tela
 export function panelContent(items, labels) {
-  const single = items.length === 1 && items[0].youtube ? items[0] : null;
+  const single = items.length === 1 && (items[0].youtube || items[0].image) ? items[0] : null;
   const media = single
-    ? youtubePlayer(single, labels)
+    ? single.youtube
+      ? youtubePlayer(single, labels)
+      : imageMedia(single, labels)
     : items.length
       ? `<div class="grade-cards aba-grade">${list(items, (item) => mediaItem(item, labels))}</div>`
       : "";
 
   // Link para assistir no próprio YouTube + o endereço por extenso, sem link, para copiar e colar.
   // O endereço é o mesmo do campo "youtube" do vídeo
-  const youtubeLink = single
+  const youtubeLink = single?.youtube
     ? `<a class="aba-link-youtube" href="${single.youtube}" target="_blank" rel="noopener">${labels.youtubeLinkLabel}</a>
       <p class="aba-endereco-youtube">${single.youtube}</p>`
     : "";

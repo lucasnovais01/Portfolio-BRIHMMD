@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 735 388" role="img" aria-labelledby="titulo descricao">
+  <title id="titulo">NOT a running dinosaur</title>
+  <desc id="descricao">Tela inicial de um jogo de dinossauro, com os botões Jogar e Sair e uma tabela de recordes.</desc>
+  <rect width="735" height="388" fill="#111c26"/>
+  <g fill="#526168">
+    <path d="M52 92h6V82h27V78h24v5h4v10h-4v10H52z"/>
+    <path d="M668 79h7V71h32v-4h28v6h4v30h-71z"/>
+    <path d="M393 124h8v-6h25v-3h9v5h6v14h-48z"/>
+  </g>
+  <text x="367.5" y="91" fill="#f4f4f3" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="700" letter-spacing="1.2">NOT a running dinosaur</text>
+  <text x="367.5" y="118" fill="#c4c8ca" text-anchor="middle" font-family="Arial, sans-serif" font-size="10">Espaço ou Seta para cima: pular  ·  Esc: pausar</text>
+  <rect x="271" y="148" width="201" height="34" rx="1" fill="#f0b018"/>
+  <text x="371.5" y="171" fill="#101820" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="1">JOGAR</text>
+  <rect x="271" y="191" width="201" height="34" rx="1" fill="#454d56"/>
+  <text x="371.5" y="214" fill="#f4f4f3" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="1">SAIR</text>
+  <g fill="#e4e7e8" font-family="monospace" font-size="12">
+    <text x="335" y="262" font-family="Arial, sans-serif" font-size="10" letter-spacing="3">RECORDES</text>
+    <text x="337" y="277">1.</text><text x="367" y="277">00301</text>
+    <text x="337" y="291">2.</text><text x="367" y="291">00299</text>
+    <text x="337" y="305">3.</text><text x="367" y="305">00179</text>
+    <text x="337" y="319">4.</text><text x="367" y="319">00063</text>
+    <text x="337" y="333">5.</text><text x="367" y="333">00050</text>
+  </g>
+  <rect y="345" width="735" height="43" fill="#183a35"/>
+  <rect y="345" width="735" height="5" fill="#527957"/>
+  <g fill="#1e5140">
+    <path d="M103 320h7v-8h14v-14h8v-6h14v5h-5v11h9v6h-15v17h-20v-7h-9z"/>
+    <path d="M127 299h8v-17h16v7h-7v7h-9v5h-8z"/>
+  </g>
+  <g fill="#263b39">
+    <rect x="29" y="361" width="9" height="3"/><rect x="104" y="372" width="6" height="3"/>
+    <rect x="197" y="361" width="10" height="3"/><rect x="316" y="373" width="7" height="3"/>
+    <rect x="488" y="360" width="8" height="3"/><rect x="620" y="371" width="10" height="3"/>
+  </g>
+</svg>
